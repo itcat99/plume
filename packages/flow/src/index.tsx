@@ -3,38 +3,38 @@ import * as React from "react";
 import { ReactElement } from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import handleAction, { actions } from "./handleAction";
+import handleAction from "./handleAction";
 import { isEmptyObject } from "./helpers";
 import createStore from "./createStore";
 
-import CreateContainer from "./createContainer";
+import createContainer from "./createContainer";
 import IModel from "./model";
 import handleEffect from "./handleEffect";
 import { Middleware } from "redux";
 
 interface IOption {
   target?: string;
-  app?: ReactElement;
+  entry?: ReactElement;
   middlewares?: Middleware[];
   models?: IModel[];
 }
 
 const DEFAULT: IOption = {
   target: "root",
-  app: <div>Hello Plume!</div>,
+  entry: <div>Hello Flow!</div>,
   models: [],
   middlewares: [],
 };
 
 const DEFAULT_MODEL: IModel = {
-  namespace: "*PLUMECORE*",
+  namespace: "*DEFAULT_MODEL*",
   state: 0,
   reducer: {
     plus: state => state + 1,
   },
 };
 
-class Plume {
+class Flow {
   opts: IOption;
   private _models: any;
 
@@ -92,19 +92,19 @@ class Plume {
     });
   }
   run(): void {
-    const { models, target, middlewares, app } = this.opts;
+    const { models, target, middlewares, entry } = this.opts;
     const store = createStore(models, middlewares || []);
 
     handleAction(this._models);
     handleEffect(this._models);
 
     ReactDOM.render(
-      <Provider store={store}>{app}</Provider>,
+      <Provider store={store}>{entry}</Provider>,
       document.getElementById(target || "root")
     );
   }
 }
 
-export const plume = Plume;
-export { CreateContainer };
-export default Plume;
+export const flow = Flow;
+export { createContainer };
+export default Flow;

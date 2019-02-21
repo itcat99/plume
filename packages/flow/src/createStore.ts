@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers, Middleware } from "redux
 import asyncMiddleware from "./asyncMiddleware";
 import handleReducer from "./handleReducer";
 import IModel from "./model";
+import { isEmptyObject } from "./helpers";
 
 export default (models: IModel[] | undefined, middleware: Middleware[]) => {
   let resultReducers: any = {};
@@ -19,6 +20,11 @@ export default (models: IModel[] | undefined, middleware: Middleware[]) => {
       });
     });
 
+  if (!resultReducers || isEmptyObject(resultReducers)) {
+    resultReducers = {
+      "*DEFAULT_REDUCER*": (state: any = 0) => state,
+    };
+  }
   const reducer = combineReducers(resultReducers);
   return createStore(reducer, applyMiddleware(asyncMiddleware(), ...middleware));
 };
