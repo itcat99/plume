@@ -3,6 +3,6 @@
   "plugins": [
     "@babel/plugin-transform-runtime",
     "@babel/proposal-class-properties",
-    "@babel/plugin-syntax-object-rest-spread"
+    "@babel/proposal-object-rest-spread"
   ]
 }
