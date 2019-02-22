@@ -11,6 +11,7 @@
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
+    "example": "example",
     "test": "__tests__"
   },
   "files": [

@@ -19,7 +19,7 @@ import React from "react";
 
 const Main = () => <div>Main module.</div>;
 const app = new Flow({
-  app: <Main />,
+  entry: <Main />,
 });
 
 app.run();
