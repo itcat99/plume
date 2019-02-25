@@ -1,11 +1,18 @@
 {
   "name": "plume",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^3.10.6"
   },
   "publishConfig": {
     "registry": "http://193.187.118.183:4873/",
     "access": "public"
+  },
+  "scripts": {
+    "clean": "lerna clean",
+    "bootstrap": "lerna bootstrap"
   }
 }

@@ -1,34 +1,31 @@
 {
-  "name": "@plume/flow",
+  "name": "@plume/core",
   "version": "0.0.1",
-  "description": "plume flow",
+  "description": "create react app frame",
   "keywords": [
-    "flow"
+    "react"
   ],
   "author": "FreMaNgo <boping2010@gmail.com>",
   "homepage": "https://github.com/itcat99/plume#readme",
   "license": "GPL-3.0",
-  "main": "lib/index.js",
+  "main": "bin/index.js",
   "directories": {
-    "lib": "lib",
+    "bin": "bin",
     "example": "example",
     "test": "__tests__"
   },
   "files": [
-    "lib",
     "src"
   ],
-  "scripts": {
-    "build": "gulp build",
-    "dev": "gulp dev",
-    "example": "webpack-dev-server --config='example/webpack.config.js'"
-  },
   "publishConfig": {
     "registry": "http://193.187.118.183:4873/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itcat99/plume.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"
@@ -37,29 +34,27 @@
     "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-for-of": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.3.1",
-    "@types/react": "^16.8.3",
-    "@types/react-dom": "^16.8.2",
-    "@types/react-redux": "^7.0.1",
+    "@plume/flow": "^0.0.1",
     "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^4.0.0",
-    "gulp-cached": "^1.1.1",
-    "gulp-cli": "^2.0.1",
-    "gulp-typescript": "^5.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "typescript": "^3.3.3",
+    "handlebars-loader": "^1.7.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.29.5",
+    "webpack-bundle-analyzer": "^3.0.4",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.0"
   },
   "dependencies": {
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
-    "react-redux": "^6.0.0",
-    "redux": "^4.0.1"
+    "@babel/runtime": "^7.3.1",
+    "commander": "^2.19.0"
   }
 }
