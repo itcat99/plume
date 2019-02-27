@@ -4,6 +4,7 @@ const root = process.cwd();
 const src = path.join(root, "src");
 const pages = path.join(src, "pages");
 const output = path.join(root, "dist");
+const plume = path.join(root, ".plume");
 
 module.exports = {
   paths: {
@@ -11,9 +12,11 @@ module.exports = {
     src,
     pages,
     output,
+    plume,
   },
   options: {
-    model: false,
+    target: "root",
+    flow: false,
     gzip: true,
     dll: true,
     dllName: "vendor",

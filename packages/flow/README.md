@@ -191,12 +191,12 @@ new Flow([options])
 
 ### options
 
-| name  | optional | type  | default          | desc |
-| ----- | -------- | ------------ | -------------------- | ----- |
-| root  | true     | String       | "root"                   | 目标html节点的id属性 |
-| entry | true     | ReactElement | <div> Hello Flow! </div> | 入口组件 |
+| name        | optional | type         | default                  | desc                 |
+| ----------- | -------- | ------------ | ------------------------ | -------------------- |
+| root        | true     | String       | "root"                   | 目标html节点的id属性 |
+| entry       | true     | ReactElement | <div> Hello Flow! </div> | 入口组件             |
 | models      | true     | Array        | [DEFALUT_MODEL]          | 模型的数组           |
-| middlewares | true     | Array        | []                       | redux中间件的数组 |
+| middlewares | true     | Array        | []                       | redux中间件的数组    |
 
 **\*DEFALUT_MODEL**:
 
@@ -224,13 +224,13 @@ createContainer(<ReactElement>, [options]): ReactElement
 
 ### Options
 
-| name       | optional | type     | defalut | desc                                                         |
-| ---------- | -------- | -------- | ------- | ------------------------------------------------------------ |
+| name       | optional | type     | defalut | desc                                                                                                                                |
+| ---------- | -------- | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | namespace  | true     | String   | null    | 模型的命名空间，如果为空，则`state`或`actions`为所有模型的`state`或`actions`的对象。如果有，则只包含此命名空间下的`state`或`action` |
-| state      | true     | Function | null    | state过滤方法，返回过滤后的state                             |
-| actions    | true     | Function | null    | actions过滤方法，返回过滤后的actions                         |
-| mergeProps | true     | Function | null    | 同react-redux中connect函数的mergeProps                       |
-| options    | true     | Function | null    | 同react-redux中connect函数的options                          |
+| state      | true     | Function | null    | state过滤方法，返回过滤后的state                                                                                                    |
+| actions    | true     | Function | null    | actions过滤方法，返回过滤后的actions                                                                                                |
+| mergeProps | true     | Function | null    | 同react-redux中connect函数的mergeProps                                                                                              |
+| options    | true     | Function | null    | 同react-redux中connect函数的options                                                                                                 |
 
 
 
