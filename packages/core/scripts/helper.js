@@ -2,6 +2,11 @@ const fse = require("fs-extra");
 const path = require("path");
 const DEFAULT_CONFIG = require("../config/plume.config");
 
+/**
+ * 获取配置文件信息
+ * @param {string} configFilePath 手动指定的配置文件路径
+ * @param {object} 输出配置对象
+ */
 const getConfig = configFilePath => {
   let config;
   configFile = configFilePath
@@ -19,9 +24,14 @@ const getConfig = configFilePath => {
   return config;
 };
 
-const checkDir = dirPath => {
+/**
+ * 检查文件/文件夹是否存在
+ * @param {string} targetPath 目标文件路径
+ * @param {boolean} 返回true or false
+ */
+const hasBeing = targetPath => {
   try {
-    fse.statSync(dirPath);
+    fse.statSync(targetPath);
     return true;
   } catch (error) {
     return false;
@@ -57,5 +67,5 @@ const relativePostion = (a, b) => {
 };
 
 exports.getConfig = getConfig;
-exports.checkDir = checkDir;
+exports.hasBeing = hasBeing;
 exports.relativePostion = relativePostion;

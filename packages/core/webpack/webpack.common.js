@@ -1,11 +1,11 @@
 const path = require("path");
+
 module.exports = config => {
-  const { options, paths } = config;
-  const { output, src } = paths;
-  const { model } = options;
+  const { paths } = config;
+  const { plume, output } = paths;
 
   const entry = {
-    main: path.resolve(__dirname, "..", "src", model ? "index.model.jsx" : "index.jsx"),
+    main: path.join(plume, "index.jsx"),
   };
   const outputPath = path.resolve(output);
 
@@ -44,7 +44,7 @@ module.exports = config => {
     },
     resolve: {
       extensions: [".js", ".jsx", ".json"],
-      modules: [path.join(src, "node_modules")],
+      modules: ["node_modules"],
     },
     optimization: {
       runtimeChunk: "single",

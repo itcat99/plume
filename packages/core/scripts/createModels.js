@@ -1,6 +1,11 @@
 const path = require("path");
 const fse = require("fs-extra");
 
+/**
+ * 收集model并生成models.js文件
+ * @param {string} dirPath 存放model的目录路径
+ * @param {string} plumePath 输出的plume目录路径
+ */
 module.exports = (dirPath, outPath) => {
   const models = fse.readdirSync(dirPath);
   let modelsImport = "";

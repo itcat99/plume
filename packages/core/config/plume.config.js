@@ -19,6 +19,7 @@ module.exports = {
     flow: false,
     gzip: true,
     dll: true,
+    port: 8080,
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-redux", "redux"],
   },

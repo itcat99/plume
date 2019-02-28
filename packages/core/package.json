@@ -7,8 +7,8 @@
   ],
   "author": "FreMaNgo <boping2010@gmail.com>",
   "homepage": "https://github.com/itcat99/plume#readme",
+  "bin": "bin/index.js",
   "license": "GPL-3.0",
-  "main": "bin/index.js",
   "directories": {
     "bin": "bin",
     "example": "example",
