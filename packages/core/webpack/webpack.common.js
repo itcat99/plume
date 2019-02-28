@@ -1,10 +1,15 @@
 const path = require("path");
 
-module.exports = config => {
-  const { paths } = config;
-  const { plume, output } = paths;
+module.exports = (config, isDev) => {
+  const {
+    paths
+  } = config;
+  const {
+    plume,
+    output
+  } = paths;
 
-  const entry = {
+  const entry = isDev ? [path.join(plume, "index.jsx")] : {
     main: path.join(plume, "index.jsx"),
   };
   const outputPath = path.resolve(output);
@@ -18,8 +23,7 @@ module.exports = config => {
       publicPath: "/",
     },
     module: {
-      rules: [
-        {
+      rules: [{
           test: /\.(js|jsx)?$/,
           loader: "babel-loader?cacheDirectory",
           exclude: /node_modules/,

@@ -1,20 +1,25 @@
 const common = require("./webpack.common");
 
-module.exports = (config, mode) => {
-  const { paths, options } = config;
-  const { output } = paths;
-  const { port } = options;
+module.exports = (config, isDev) => {
+  const {
+    paths,
+    options
+  } = config;
+  const {
+    output
+  } = paths;
+  const {
+    port
+  } = options;
 
-  console.log("mode: ", mode);
-  const isDev = mode === "development";
+  console.log("isDev: ", isDev);
+
   const plugins = require("./config.plugins")(config, isDev);
   const rules = require("./config.rules")(isDev);
   const optimization = require("./config.optimization")(isDev);
 
-  return Object.assign(
-    {},
-    common,
-    {
+  return Object.assign({},
+    common(config, isDev), {
       mode: "production",
       module: {
         rules,

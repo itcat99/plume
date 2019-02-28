@@ -12,13 +12,23 @@ const fse = require("fs-extra");
 const plugins = [];
 
 module.exports = (config, isDev) => {
-  const { paths, options } = config;
-  const { root, plume } = paths;
-  const { dll, dllName, output } = options;
+  const {
+    paths,
+    options
+  } = config;
+  const {
+    root,
+    plume
+  } = paths;
+  const {
+    dll,
+    dllName,
+    output
+  } = options;
 
   if (isDev) {
     plugins.push(
-      new webpack.HotModuleReplacementPlugin(),
+      // new webpack.HotModuleReplacementPlugin(),
       new htmlPlugin({
         template: path.resolve(__dirname, "./index.hbs"),
         title: "development mode",

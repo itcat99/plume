@@ -1,7 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = isDev => [
-  {
+module.exports = isDev => [{
     test: /\.(js|jsx)?$/,
     loader: isDev ? "babel-loader?cacheDirectory" : "happypack/loader",
     exclude: /node_modules/,
@@ -20,6 +19,6 @@ module.exports = isDev => [
   },
   {
     test: /\.hbs$/,
-    use: ["handlebars-loader"],
+    use: [require.resolve("handlebars-loader")],
   },
 ];
