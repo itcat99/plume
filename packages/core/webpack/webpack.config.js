@@ -5,8 +5,6 @@ module.exports = (config, isDev) => {
   const { output } = paths;
   const { port } = options;
 
-  console.log("isDev: ", isDev);
-
   const plugins = require("./config.plugins")(config, isDev);
   const rules = require("./config.rules")(isDev);
   const optimization = require("./config.optimization")(isDev);

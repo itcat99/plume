@@ -2,12 +2,14 @@ const path = require("path");
 const htmlPlugin = require("html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const optimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const fse = require("fs-extra");
+const DashboardPlugin = require("webpack-dashboard/plugin");
+const Dashboard = require("webpack-dashboard");
 
 const plugins = [];
 
@@ -17,12 +19,15 @@ module.exports = (config, isDev) => {
   const { dll, dllName, output } = options;
 
   if (isDev) {
+    const dashboard = new Dashboard();
+
     plugins.push(
-      // new webpack.HotModuleReplacementPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
       new htmlPlugin({
         template: path.resolve(__dirname, "./index.hbs"),
         title: "development mode",
       }),
+      new DashboardPlugin(dashboard.setData),
     );
 
     return plugins;
@@ -58,7 +63,7 @@ module.exports = (config, isDev) => {
     new CleanPlugin(output, {
       exclude: [dllVendorName, `${dllVendorName}.gz`],
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   );
 
   config.gzip &&
