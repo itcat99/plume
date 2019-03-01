@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["prettier", "react"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

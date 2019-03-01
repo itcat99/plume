@@ -1,16 +1,9 @@
 const common = require("./webpack.common");
 
 module.exports = (config, isDev) => {
-  const {
-    paths,
-    options
-  } = config;
-  const {
-    output
-  } = paths;
-  const {
-    port
-  } = options;
+  const { paths, options } = config;
+  const { output } = paths;
+  const { port } = options;
 
   console.log("isDev: ", isDev);
 
@@ -18,8 +11,10 @@ module.exports = (config, isDev) => {
   const rules = require("./config.rules")(isDev);
   const optimization = require("./config.optimization")(isDev);
 
-  return Object.assign({},
-    common(config, isDev), {
+  return Object.assign(
+    {},
+    common(config, isDev),
+    {
       mode: "production",
       module: {
         rules,
@@ -37,6 +32,6 @@ module.exports = (config, isDev) => {
         port,
         host: "0.0.0.0",
       },
-    }
+    },
   );
 };

@@ -9,7 +9,7 @@ const DEFAULT_CONFIG = require("../config/plume.config");
  */
 const getConfig = configFilePath => {
   let config;
-  configFile = configFilePath
+  const configFile = configFilePath
     ? path.isAbsolute(configFilePath)
       ? configFilePath
       : path.resolve(process.cwd(), configFilePath)

@@ -1,33 +1,31 @@
 import React from "react";
-import {HashRouter, Route, Switch} from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Loadable from "react-loadable";
 import pagesInfo from "./pagesInfo.json";
 
-export default props => {
-  const {pagePath} = props;
-
+const Router = () => {
   return (
     <HashRouter>
       <Switch>
         {pagesInfo.map((route, index) => {
-          const {title, path: url} = route;
+          const { title, path: url } = route;
 
-          return (<Route
-            exact={url === "/"
-            ? true
-            : false}
-            path={url}
-            key={`${url}_${index}`}
-            component={Loadable({
-            loader: () => import (`{{relativePath}}/${title}`),
-            loading: () => {
-              if (url === "/") 
-                return null;
-              return <div>Loading...</div>;
-            },
-            delay: 1000
-          })}/>);
+          return (
+            <Route
+              exact={url === "/" ? true : false}
+              path={url}
+              key={`${url}_${index}`}
+              component={Loadable({
+                loader: () => import(`{{relativePath}}/${title}`),
+                loading() {
+                  if (url === "/") return null;
+                  return <div>Loading...</div>;
+                },
+                delay: 1000,
+              })}
+            />
+          );
         })}
         {/* <Route
           component={Loadable({
@@ -40,3 +38,5 @@ export default props => {
     </HashRouter>
   );
 };
+
+export default Router;

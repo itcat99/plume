@@ -100,7 +100,7 @@ class Flow {
 
     ReactDOM.render(
       <Provider store={store}>{entry}</Provider>,
-      document.getElementById(target || "root")
+      document.getElementById(target || "root"),
     );
   }
 }

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const core = require('..');
+const core = require("..");
 
-describe('@plume/core', () => {
-    it('needs tests');
+describe("@plume/core", () => {
+  it("needs tests");
 });

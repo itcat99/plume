@@ -12,19 +12,9 @@ const fse = require("fs-extra");
 const plugins = [];
 
 module.exports = (config, isDev) => {
-  const {
-    paths,
-    options
-  } = config;
-  const {
-    root,
-    plume
-  } = paths;
-  const {
-    dll,
-    dllName,
-    output
-  } = options;
+  const { paths, options } = config;
+  const { plume } = paths;
+  const { dll, dllName, output } = options;
 
   if (isDev) {
     plugins.push(
@@ -32,7 +22,7 @@ module.exports = (config, isDev) => {
       new htmlPlugin({
         template: path.resolve(__dirname, "./index.hbs"),
         title: "development mode",
-      })
+      }),
     );
 
     return plugins;
@@ -41,7 +31,7 @@ module.exports = (config, isDev) => {
   let dllVendorName = null;
   if (dll)
     dllVendorName = (() => {
-      const reg = new RegExp(`^${dllName}\.dll\..*\.js$`);
+      const reg = new RegExp(`^${dllName}.dll..*.js$`);
       const dllVendorName = fse
         .readdirSync(plume)
         .toLocaleString()
@@ -68,7 +58,7 @@ module.exports = (config, isDev) => {
     new CleanPlugin(output, {
       exclude: [dllVendorName, `${dllVendorName}.gz`],
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
   );
 
   config.gzip &&
@@ -76,7 +66,7 @@ module.exports = (config, isDev) => {
       new CompressionPlugin({
         test: /\.(js|jsx|css|scss|less)?$/,
         threshold: 1024 * 10, // gzip 10kb+ modules
-      })
+      }),
     );
 
   config.dll &&
@@ -84,7 +74,7 @@ module.exports = (config, isDev) => {
       new webpack.DllReferencePlugin({
         // context: process.cwd(), // 跟dll.config里面DllPlugin的context一致
         manifest: require(path.join(plume, "vendor-manifest.json")),
-      })
+      }),
     );
 
   return plugins;

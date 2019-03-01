@@ -25,7 +25,6 @@ module.exports = isDev =>
         new UglifyJsPlugin({
           cache: true,
           parallel: true,
-          parallel: 4,
           exclude: /node_modules/,
           uglifyOptions: {
             output: {
@@ -40,5 +39,5 @@ module.exports = isDev =>
           },
         }),
       ],
-    }
+    },
   );

@@ -1,5 +1,6 @@
 const fse = require("fs-extra");
 const path = require("path");
+/* eslint no-console:0 */
 
 /**
  * 生成页面文件信息
@@ -16,7 +17,10 @@ module.exports = (pagesPath, plumePath) => {
       const pagePath = path.join(pagesPath, page);
       const stat = fse.statSync(pagePath);
       if (stat.isDirectory()) {
-        pagesInfo.push({ path: page === "Home" ? "/" : `/${page}`, title: page });
+        pagesInfo.push({
+          path: page === "Home" ? "/" : `/${page}`,
+          title: page,
+        });
       }
     });
 

@@ -1,3 +1,6 @@
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+
 import React, { PureComponent } from "react";
 import Routers from "./Router";
 

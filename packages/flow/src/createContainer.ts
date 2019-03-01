@@ -83,6 +83,6 @@ export default function createContainer(component: ComponentType, opts: ICreateC
     mapStateToProps,
     mapDispatchToProps,
     mergeProps,
-    options
+    options,
   )(component);
 }

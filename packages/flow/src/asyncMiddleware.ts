@@ -7,7 +7,7 @@ import { IEffect } from "./model";
 function warning(): void {
   throw new Error(
     'You are calling "dispatch" or "getState" without applying PlumeMiddleware! ' +
-      "Please create your store with PlumeMiddleware first!"
+      "Please create your store with PlumeMiddleware first!",
   );
 }
 

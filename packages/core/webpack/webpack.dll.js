@@ -5,7 +5,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = config => {
   const { options, paths } = config;
-  const { root, plume, output } = paths;
+  const { plume, output } = paths;
   const { dllVendor: vendor, dllName, gzip } = options;
 
   const plugins = [
@@ -21,7 +21,7 @@ module.exports = config => {
       new CompressionPlugin({
         test: /\.(js|jsx)?$/,
         threshold: 1024 * 10, // gzip 10kb+ modules
-      })
+      }),
     );
 
   return {

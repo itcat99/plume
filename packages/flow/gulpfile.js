@@ -4,7 +4,7 @@ const gulp = require("gulp");
 const ts = require("gulp-typescript");
 const cache = require("gulp-cached");
 
-const { series, lastRun, watch, dest } = gulp;
+const { series, watch, dest } = gulp;
 const deskDir = path.resolve(__dirname, "lib");
 const srcDir = path.resolve(__dirname, "src");
 const tsProject = ts.createProject("tsconfig.json");

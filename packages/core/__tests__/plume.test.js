@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const plume = require('..');
+const plume = require("..");
 
-describe('plume', () => {
-    it('needs tests');
+describe("plume", () => {
+  it("needs tests");
 });

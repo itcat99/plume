@@ -1,22 +1,24 @@
+const path = require("path");
+
 const dev = async config => {
-  const Koa = require('koa');
-  const koaWebpack = require('koa-webpack');
+  const Koa = require("koa");
+  const koaWebpack = require("koa-webpack");
 
   const app = new Koa();
   const middleware = await koaWebpack({
     config,
     hotClient: {
-      port: config.devServer.port
-    }
+      port: config.devServer.port,
+    },
   });
 
   app.use(middleware);
-  app.use(async (ctx) => {
-    const filename = path.resolve(webpackConfig.output.path, 'index.html')
-    ctx.response.type = 'html'
-    ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename)
+  app.use(async ctx => {
+    const filename = path.resolve(config.output.path, "index.html");
+    ctx.response.type = "html";
+    ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename);
   });
-}
+};
 
 module.exports = (config, mode) => {
   const isDev = mode === "development";
