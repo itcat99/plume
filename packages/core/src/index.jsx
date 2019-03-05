@@ -1,5 +1,4 @@
 /*eslint no-undef: "error"*/
-/*eslint-env browser*/
 
 import React from "react";
 import ReactDOM from "react-dom";

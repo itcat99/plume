@@ -5,7 +5,7 @@ module.exports = (config, isDev) => {
   const { plume, output } = paths;
 
   const entry = isDev
-    ? [path.join(plume, "index.jsx")]
+    ? path.join(plume, "index.jsx")
     : {
         main: path.join(plume, "index.jsx"),
       };

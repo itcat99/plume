@@ -1,33 +1,77 @@
 /* eslint no-console:0 */
 
-const dev = async config => {
+const webpack = require("webpack");
+
+const dev = async (config, output, port) => {
   const WebpackDevServer = require("webpack-dev-server");
-  const webpack = require("webpack");
+  const devOptions = {
+    hot: true,
+    compress: true,
+    contentBase: output,
+    host: "0.0.0.0",
+  };
 
+  WebpackDevServer.addDevServerEntrypoints(config, devOptions);
   const compiler = webpack(config);
-  const devServerOptions = Object.assign({}, config.devServer, {
-    quiet: true,
-  });
+  const server = new WebpackDevServer(compiler, devOptions);
 
-  const server = new WebpackDevServer(compiler, devServerOptions);
-  server.listen(8080, "localhost", () => {
-    console.log("Starting server on http://localhost:8080");
+  server.listen(port, "localhost", () => {
+    console.log(`Starting server on http://localhost:${port}`);
+  });
+};
+
+const run = compiler => {
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err.stack || err);
+        if (err.details) {
+          reject(err.details);
+        }
+      }
+
+      const info = stats.toJson();
+
+      if (stats.hasErrors()) {
+        reject(info.errors);
+      }
+
+      if (stats.hasWarnings()) {
+        reject(info.warnings);
+      }
+
+      resolve();
+    });
   });
 };
 
 module.exports = (config, mode) => {
   const isDev = mode === "development";
-  const options = require("../webpack/webpack.config")(config, isDev);
+  const { dll, port } = config.options;
+  const { output } = config.paths;
 
-  if (isDev) {
-    dev(options)
-      .then(() => console.log("> SUCCESSED!"))
-      .catch(err => console.error("> FAILD: ", err));
+  if (dll && !isDev) {
+    const dllOptions = require("../webpack/webpack.dll")(config);
+    const compiler = webpack(dllOptions);
+    run(compiler)
+      .then(() => {
+        const options = require("../webpack/webpack.config")(config, isDev);
+        const compiler = webpack(options);
+        return run(compiler);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   } else {
-    const webpack = require("webpack");
-    const compiler = webpack(options);
-    compiler.run(err => {
-      if (err) throw new Error(err);
-    });
+    const options = require("../webpack/webpack.config")(config, isDev);
+
+    if (isDev) {
+      dev(options, output, port)
+        .then(() => console.log("> SUCCESSED!"))
+        .catch(err => console.error("> FAILD: ", err));
+    } else {
+      const compiler = webpack(options);
+      run(compiler).catch(err => console.error(err));
+    }
   }
 };

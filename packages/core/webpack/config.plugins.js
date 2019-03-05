@@ -8,18 +8,19 @@ const HappyPack = require("happypack");
 const optimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const fse = require("fs-extra");
-const DashboardPlugin = require("webpack-dashboard/plugin");
-const Dashboard = require("webpack-dashboard");
+// const DashboardPlugin = require("webpack-dashboard/plugin");
+// const Dashboard = require("webpack-dashboard");
+const { getCleanPluginOpts } = require("../scripts/helper");
 
 const plugins = [];
 
 module.exports = (config, isDev) => {
   const { paths, options } = config;
-  const { plume } = paths;
-  const { dll, dllName, output } = options;
+  const { plume, output } = paths;
+  const { dll, gzip } = options;
 
   if (isDev) {
-    const dashboard = new Dashboard();
+    // const dashboard = new Dashboard();
 
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
@@ -27,7 +28,7 @@ module.exports = (config, isDev) => {
         template: path.resolve(__dirname, "./index.hbs"),
         title: "development mode",
       }),
-      new DashboardPlugin(dashboard.setData),
+      // new DashboardPlugin(dashboard.setData),
     );
 
     return plugins;
@@ -36,15 +37,16 @@ module.exports = (config, isDev) => {
   let dllVendorName = null;
   if (dll)
     dllVendorName = (() => {
-      const reg = new RegExp(`^${dllName}.dll..*.js$`);
       const dllVendorName = fse
-        .readdirSync(plume)
+        .readdirSync(output)
         .toLocaleString()
         .split(",")
-        .filter(item => item.match(reg))[0];
+        .filter(item => item.match(/.+.dll\..+\.js+?/))[0];
 
       return dllVendorName;
     })();
+
+  const { dir, root } = getCleanPluginOpts(output);
 
   plugins.push(
     new htmlPlugin({
@@ -60,13 +62,9 @@ module.exports = (config, isDev) => {
     new HappyPack({
       loaders: ["babel-loader?cacheDirectory"],
     }),
-    new CleanPlugin(output, {
-      exclude: [dllVendorName, `${dllVendorName}.gz`],
-    }),
-    // new BundleAnalyzerPlugin(),
   );
 
-  config.gzip &&
+  gzip &&
     plugins.push(
       new CompressionPlugin({
         test: /\.(js|jsx|css|scss|less)?$/,
@@ -74,13 +72,18 @@ module.exports = (config, isDev) => {
       }),
     );
 
-  config.dll &&
-    plugins.push(
-      new webpack.DllReferencePlugin({
-        // context: process.cwd(), // 跟dll.config里面DllPlugin的context一致
-        manifest: require(path.join(plume, "vendor-manifest.json")),
-      }),
-    );
+  dll
+    ? plugins.push(
+        new webpack.DllReferencePlugin({
+          // context: process.cwd(), // 跟dll.config里面DllPlugin的context一致
+          manifest: require(path.join(plume, "vendor-manifest.json")),
+        }),
+      )
+    : plugins.push(
+        new CleanPlugin([`${dir}/*.*`], {
+          root,
+        }),
+      );
 
   return plugins;
 };

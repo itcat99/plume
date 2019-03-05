@@ -2,14 +2,19 @@ const path = require("path");
 const webpack = require("webpack");
 const CleanPlugin = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const { getCleanPluginOpts } = require("../scripts/helper");
 
 module.exports = config => {
   const { options, paths } = config;
   const { plume, output } = paths;
   const { dllVendor: vendor, dllName, gzip } = options;
 
+  const { dir, root } = getCleanPluginOpts(output);
+
   const plugins = [
-    new CleanPlugin(output),
+    new CleanPlugin([`${dir}/*.*`], {
+      root,
+    }),
     new webpack.DllPlugin({
       path: path.join(plume, "vendor-manifest.json"),
       name: "[name]_[hash]",

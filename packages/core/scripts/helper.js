@@ -66,6 +66,15 @@ const relativePostion = (a, b) => {
   return `${result}${p2.slice(tempIndex + 1).join("/")}`;
 };
 
+const getCleanPluginOpts = outPath => {
+  const pathArr = outPath.trim().split("/");
+  const dir = pathArr[pathArr.length - 1];
+  const root = pathArr.slice(0, pathArr.length - 1).join("/");
+
+  return { dir, root };
+};
+
+exports.getCleanPluginOpts = getCleanPluginOpts;
 exports.getConfig = getConfig;
 exports.hasBeing = hasBeing;
 exports.relativePostion = relativePostion;

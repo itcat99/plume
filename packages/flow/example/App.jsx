@@ -3,7 +3,6 @@ import { CreateContainer } from "../lib";
 
 class App extends React.Component {
   render() {
-    console.log("> App props: ", this.props);
     const { actions, state } = this.props;
     const { plus, minus, asyncPlus, asyncMinus } = actions;
 
