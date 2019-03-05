@@ -2,7 +2,7 @@ const path = require("path");
 const htmlPlugin = require("html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
-// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const optimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -17,7 +17,7 @@ const plugins = [];
 module.exports = (config, isDev) => {
   const { paths, options } = config;
   const { plume, output } = paths;
-  const { dll, gzip } = options;
+  const { dll, gzip, analyzer } = options;
 
   if (isDev) {
     // const dashboard = new Dashboard();
@@ -35,7 +35,7 @@ module.exports = (config, isDev) => {
   }
 
   let dllVendorName = null;
-  if (dll)
+  if (dll) {
     dllVendorName = (() => {
       const dllVendorName = fse
         .readdirSync(output)
@@ -45,6 +45,20 @@ module.exports = (config, isDev) => {
 
       return dllVendorName;
     })();
+
+    plugins.push(
+      new webpack.DllReferencePlugin({
+        // context: process.cwd(), // 跟dll.config里面DllPlugin的context一致
+        manifest: require(path.join(plume, "vendor-manifest.json")),
+      }),
+    );
+  } else {
+    plugins.push(
+      new CleanPlugin([`${dir}/*.*`], {
+        root,
+      }),
+    );
+  }
 
   const { dir, root } = getCleanPluginOpts(output);
 
@@ -72,18 +86,7 @@ module.exports = (config, isDev) => {
       }),
     );
 
-  dll
-    ? plugins.push(
-        new webpack.DllReferencePlugin({
-          // context: process.cwd(), // 跟dll.config里面DllPlugin的context一致
-          manifest: require(path.join(plume, "vendor-manifest.json")),
-        }),
-      )
-    : plugins.push(
-        new CleanPlugin([`${dir}/*.*`], {
-          root,
-        }),
-      );
+  analyzer && plugins.push(new BundleAnalyzerPlugin());
 
   return plugins;
 };

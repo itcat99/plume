@@ -16,6 +16,7 @@ module.exports = {
   },
   options: {
     target: "root",
+    analyzer: false,
     flow: false,
     gzip: true,
     dll: true,

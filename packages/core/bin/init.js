@@ -14,7 +14,7 @@ const template = require("../scripts/template");
  */
 const mkEntry = (flow, target, plumePath) => {
   const entryAppPath = flow
-    ? path.relative(__dirname, "../src", "index.flow.jsx")
+    ? path.resolve(__dirname, "../src", "index.flow.jsx")
     : path.resolve(__dirname, "../src", "index.jsx");
 
   const data = template(entryAppPath, {
@@ -56,17 +56,20 @@ const mkBabelrc = rootPath => {
 module.exports = configFilePath => {
   const config = getConfig(configFilePath);
   const { paths, options } = config;
-  const { plume, src, pages, root } = paths;
+  const { plume, pages, root } = paths;
   const { flow, target } = options;
 
   /* 创建.plume目录 */
+  if (hasBeing(plume)) {
+    fse.removeSync(plume);
+  }
   fse.mkdirSync(plume);
   /* 创建入口文件 index.jsx */
   mkEntry(flow, target, plume);
   /* 创建页面目录的信息文件 pagesInfo.json */
   createpagesInfo(pages, plume);
   /* 如果开启flow模式，则根据配置创建models.js文件 */
-  if (flow) createModels(path.join(src, "models"), plume);
+  if (flow) createModels(root, plume);
   /* 创建Router.js文件 */
   mkRouter(plume, pages);
   /* 创建主应用 App.jsx文件 */

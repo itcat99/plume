@@ -3,22 +3,48 @@ const path = require("path");
 const DEFAULT_CONFIG = require("../config/plume.config");
 
 /**
+ * 是否为Object
+ * @param {object} obj
+ * @return {boolean}
+ */
+const isObject = obj => Object.prototype.toString.call(obj).indexOf("Object") >= 0;
+
+/**
+ * 深合并对象
+ * @param {object} origin 目标对象
+ * @param {object} target 要合并进去的对象
+ * @return {object}
+ */
+const deepAssign = (origin, target) => {
+  const tempObj = origin;
+
+  for (const key in target) {
+    if (isObject(origin[key]) && target[key]) {
+      tempObj[key] = deepAssign(origin[key], target[key]);
+    } else {
+      tempObj[key] = target[key];
+    }
+  }
+
+  return tempObj;
+};
+
+/**
  * 获取配置文件信息
  * @param {string} configFilePath 手动指定的配置文件路径
  * @param {object} 输出配置对象
  */
 const getConfig = configFilePath => {
-  let config;
+  let config = DEFAULT_CONFIG;
+
   const configFile = configFilePath
     ? path.isAbsolute(configFilePath)
       ? configFilePath
       : path.resolve(process.cwd(), configFilePath)
     : path.resolve(process.cwd(), "plume.config.js");
 
-  try {
-    config = require(configFile);
-  } catch (error) {
-    config = DEFAULT_CONFIG;
+  if (hasBeing(configFile)) {
+    config = deepAssign(config, require(configFile));
   }
 
   return config;
@@ -34,6 +60,20 @@ const hasBeing = targetPath => {
     fse.statSync(targetPath);
     return true;
   } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * 判断是否为目录
+ * @param {string} dirPath
+ */
+const isDir = dirPath => {
+  try {
+    const stat = fse.statSync(dirPath);
+    if (stat.isDirectory()) return true;
+    return false;
+  } catch (err) {
     return false;
   }
 };
@@ -66,6 +106,10 @@ const relativePostion = (a, b) => {
   return `${result}${p2.slice(tempIndex + 1).join("/")}`;
 };
 
+/**
+ * 获取webpack clean plugin的options
+ * @param {*} outPath 输出目录
+ */
 const getCleanPluginOpts = outPath => {
   const pathArr = outPath.trim().split("/");
   const dir = pathArr[pathArr.length - 1];
@@ -74,6 +118,9 @@ const getCleanPluginOpts = outPath => {
   return { dir, root };
 };
 
+exports.isDir = isDir;
+exports.deepAssign = deepAssign;
+exports.isObject = isObject;
 exports.getCleanPluginOpts = getCleanPluginOpts;
 exports.getConfig = getConfig;
 exports.hasBeing = hasBeing;
