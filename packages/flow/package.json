@@ -24,7 +24,7 @@
     "example": "webpack-dev-server --config='example/webpack.config.js'"
   },
   "publishConfig": {
-    "registry": "http://193.187.118.183:4873/"
+    "access": "public"
   },
   "repository": {
     "type": "git",

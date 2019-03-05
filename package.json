@@ -1,6 +1,5 @@
 {
-  "name": "plume",
-  "private": true,
+  "private": false,
   "workspaces": [
     "packages/*"
   ],
@@ -17,7 +16,6 @@
     "prettier": "1.16.4"
   },
   "publishConfig": {
-    "registry": "http://193.187.118.183:4873/",
     "access": "public"
   },
   "scripts": {
@@ -25,6 +23,8 @@
     "bootstrap": "lerna bootstrap",
     "prettier": "prettier --write 'packages/**' ",
     "precise-commits": "precise-commits",
-    "precommit": "yarn precise-commits"
-  }
+    "precommit": "yarn precise-commits",
+    "publish": "lerna publish"
+  },
+  "version": "0.0.1"
 }
