@@ -30,12 +30,4 @@ program
     require("./init")(arg.config);
   });
 
-/* 对bundle进行分析 */
-program
-  .command("analyze")
-  .description("对bundle进行分析")
-  .action(() => {
-    require("./analyze");
-  });
-
 program.parse(process.argv);
