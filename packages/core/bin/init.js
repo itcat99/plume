@@ -53,6 +53,10 @@ const mkBabelrc = rootPath => {
   }
 };
 
+/**
+ * 初始化plume目录
+ * @param {string} configFilePath 手动指定的配置文件路径
+ */
 module.exports = configFilePath => {
   const config = getConfig(configFilePath);
   const { paths, options } = config;
