@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const program = require("commander");
 const inquirer = require("inquirer");
+const path = require("path");
 
 program.version("0.0.1");
 
@@ -8,7 +9,7 @@ program.version("0.0.1");
 program
   .command("create <name> [path]")
   .description("创建新项目，<name>指定项目名称，[path]指定新建项目地址，默认在当前目录下。")
-  .action((name, path) => {
+  .action((name, targetPath) => {
     inquirer
       .prompt([
         {
@@ -19,7 +20,10 @@ program
       ])
       .then(answers => {
         const { flow } = answers;
-        require("./create")(name, path || process.cwd(), flow);
+        if (!path.isAbsolute(targetPath)) {
+          targetPath = path.join(process.cwd(), targetPath);
+        }
+        require("./create")(name, targetPath || process.cwd(), flow);
       });
   });
 
