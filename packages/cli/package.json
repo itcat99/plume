@@ -9,7 +9,7 @@
   "homepage": "https://github.com/itcat99/plume#readme",
   "license": "GPL-3.0",
   "bin": {
-    "plume-cli": "bin/index"
+    "plume-cli": "bin/index.js"
   },
   "directories": {
     "bin": "bin",
