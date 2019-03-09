@@ -16,7 +16,8 @@
     "test": "__tests__"
   },
   "files": [
-    "bin"
+    "bin",
+    "templates"
   ],
   "publishConfig": {
     "access": "public"
