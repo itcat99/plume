@@ -35,6 +35,8 @@ plume-core build # 打包
 
 config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象
 
+config 还可以是名为`plume.config.json`的json文件
+
 config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
 
 | name    | type   | desc               |

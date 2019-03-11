@@ -36,12 +36,16 @@ const deepAssign = (origin, target) => {
  */
 const getConfig = configFilePath => {
   let config = DEFAULT_CONFIG;
+  let configFile = "";
 
-  const configFile = configFilePath
-    ? path.isAbsolute(configFilePath)
+  if (configFilePath) {
+    configFile = path.isAbsolute(configFilePath)
       ? configFilePath
-      : path.resolve(process.cwd(), configFilePath)
-    : path.resolve(process.cwd(), "plume.config.js");
+      : path.resolve(process.cwd(), configFilePath);
+  } else {
+    const tempFile = path.resolve(process.cwd(), "plume.config.json");
+    configFile = hasBeing(tempFile) ? tempFile : path.resolve(process.cwd(), "plume.config.js");
+  }
 
   if (hasBeing(configFile)) {
     config = deepAssign(config, require(configFile));

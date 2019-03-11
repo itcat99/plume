@@ -68,6 +68,8 @@ module.exports = configFilePath => {
     fse.removeSync(plume);
   }
   fse.mkdirSync(plume);
+  /* 创建配置文件 */
+  fse.writeFileSync(path.join(plume, "config.json"), JSON.stringify(config, null, 2));
   /* 创建入口文件 index.jsx */
   mkEntry(flow, target, plume);
   /* 创建页面目录的信息文件 pagesInfo.json */
