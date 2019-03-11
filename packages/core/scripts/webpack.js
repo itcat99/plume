@@ -45,33 +45,40 @@ const run = compiler => {
   });
 };
 
-module.exports = (config, mode) => {
+module.exports = async (config, mode) => {
   const isDev = mode === "development";
   const { dll, port } = config.options;
   const { output } = config.paths;
 
   if (dll && !isDev) {
     const dllOptions = require("../webpack/webpack.dll")(config);
-    const compiler = webpack(dllOptions);
-    run(compiler)
-      .then(() => {
-        const options = require("../webpack/webpack.config")(config, isDev);
-        const compiler = webpack(options);
-        return run(compiler);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    const dllCompiler = webpack(dllOptions);
+
+    try {
+      await run(dllCompiler);
+      const options = require("../webpack/webpack.config")(config, isDev);
+      const compiler = webpack(options);
+      await run(compiler);
+    } catch (error) {
+      throw new Error(error);
+    }
   } else {
     const options = require("../webpack/webpack.config")(config, isDev);
 
     if (isDev) {
-      dev(options, output, port)
-        .then(() => console.log("> SUCCESSED!"))
-        .catch(err => console.error("> FAILD: ", err));
+      try {
+        await dev(options, output, port);
+        console.log("> SUCCESSED!");
+      } catch (error) {
+        throw new Error(error);
+      }
     } else {
-      const compiler = webpack(options);
-      run(compiler).catch(err => console.error(err));
+      try {
+        const compiler = webpack(options);
+        await run(compiler);
+      } catch (error) {
+        throw new Error(error);
+      }
     }
   }
 };

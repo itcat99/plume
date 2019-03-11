@@ -45,10 +45,13 @@ module.exports = (rootPath, outPath) => {
 
     models.forEach(model => {
       const modelPath = path.join(dirPath, `${model}`);
-      const name = fse
+      const namespace = fse
         .readFileSync(modelPath)
         .toString()
-        .match(/namespace.*("|')/)[0]
+        .match(/namespace.*("|')/);
+      if (!namespace) return true;
+
+      const name = namespace[0]
         .match(/("|').*("|')/)[0]
         .replace(/("|')/g, "")
         .trim();
