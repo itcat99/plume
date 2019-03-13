@@ -9,15 +9,14 @@ const Router = () => {
     <HashRouter>
       <Switch>
         {pagesInfo.map((route, index) => {
-          const { title, path: url } = route;
-
+          const { exact, path: url, component } = route;
           return (
             <Route
-              exact={url === "/" ? true : false}
+              exact={exact}
               path={url}
               key={`${url}_${index}`}
               component={Loadable({
-                loader: () => import(`{{relativePath}}/${title}`),
+                loader: () => import(`{{relativePath}}${component}`),
                 loading() {
                   if (url === "/") return null;
                   return <div>Loading...</div>;

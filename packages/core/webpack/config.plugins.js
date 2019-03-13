@@ -35,6 +35,8 @@ module.exports = (config, isDev) => {
   }
 
   let dllVendorName = null;
+  const { dir, root } = getCleanPluginOpts(output);
+
   if (dll) {
     dllVendorName = (() => {
       const dllVendorName = fse
@@ -59,8 +61,6 @@ module.exports = (config, isDev) => {
       }),
     );
   }
-
-  const { dir, root } = getCleanPluginOpts(output);
 
   plugins.push(
     new htmlPlugin({
