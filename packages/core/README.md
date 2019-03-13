@@ -128,6 +128,25 @@ src
 ```
 打包时，为每一个页面单独打包需要的资源文件。
 
+### dynamic router
+
+在文件或目录名称前加上`$`表示动态路由
+
+例如：
+```
+|- pages
+   |- Dynamic
+      |- index.jsx
+      |- $id.jsx
+
+```
+则会生成
+```
+/dynamic
+/dynamic/:id
+```
+这样的动态路由
+
 ## @plume/flow && models 
 
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
@@ -139,4 +158,4 @@ src
 - [x] 支持dev&&flow下，当新建model时，更新models.js文件
 - [x] 支持多层路由
 - [ ] 支持嵌套路由
-- [ ] 支持动态路由
+- [x] 支持动态路由

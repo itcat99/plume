@@ -8,7 +8,11 @@ const getUrlPath = (parentPath, dirName, title) => {
     return "/";
   }
 
-  return `${parentPath || ""}/${dirName}${title === "index" ? "" : "/" + title}`;
+  let name = title.indexOf("$") >= 0 ? `:${title.slice(1)}` : title;
+  name = title === "index" ? "" : `/${name}`;
+  dirName = dirName.indexOf("$") >= 0 ? `:${dirName.slice(1)}` : dirName;
+
+  return `${parentPath || ""}/${dirName}${name}`;
 };
 const getCompPath = (parentPath, dirName, file) => `${parentPath || ""}/${dirName}/${file}`;
 const getUrlTitle = title => {
@@ -26,7 +30,9 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
-      const nextParent = `${parent || ""}/${dirName}`;
+      const nextParent = `${parent || ""}/${
+        dirName.indexOf("$") >= 0 ? ":" + dirName.slice(1) : dirName
+      }`;
       info = getPageInfo(filePath, nextParent, info);
     } else {
       const urlTitle = getUrlTitle(file);
