@@ -3,7 +3,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.5");
+program.version("0.0.7");
 
 /* 创建新项目 */
 program
@@ -17,13 +17,18 @@ program
           name: "flow",
           message: "do you want to use @plume/flow?",
         },
+        {
+          type: "confirm",
+          name: "eslint",
+          message: "do you want to use eslint?",
+        },
       ])
       .then(answers => {
-        const { flow } = answers;
-        if (!path.isAbsolute(targetPath)) {
+        const { flow, eslint } = answers;
+        if (targetPath && !path.isAbsolute(targetPath)) {
           targetPath = path.join(process.cwd(), targetPath);
         }
-        require("./create")(name, targetPath || process.cwd(), flow);
+        require("./create")(name, targetPath || process.cwd(), flow, eslint);
       });
   });
 

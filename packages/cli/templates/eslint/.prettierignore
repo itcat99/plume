@@ -1,0 +1,10 @@
+# Dir
+node_modules
+lib
+__tests__
+example
+
+# file
+*.lock
+*.html
+*.hbs
