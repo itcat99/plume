@@ -19,9 +19,12 @@
     "clean": "lerna clean",
     "bootstrap": "lerna bootstrap",
     "prettier": "prettier --write 'packages/**' ",
-    "precise-commits": "precise-commits",
-    "precommit": "yarn precise-commits",
     "publish": "lerna publish"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "precise-commits"
+    }
   },
   "version": "0.0.1"
 }
