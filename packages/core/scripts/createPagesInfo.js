@@ -8,13 +8,25 @@ const getUrlPath = (parentPath, dirName, title) => {
     return "/";
   }
 
-  let name = title.indexOf("$") >= 0 ? `:${title.slice(1)}` : title;
+  let name = getDynamicName(title);
   name = title === "index" ? "" : `/${name}`;
-  dirName = dirName.indexOf("$") >= 0 ? `:${dirName.slice(1)}` : dirName;
+  dirName = getDynamicName(dirName);
 
   return `${parentPath || ""}/${dirName}${name}`;
 };
+/**
+ * 获取组件的路由地址
+ * @param {string} parentPath 父级路由地址
+ * @param {string} dirName 目录名称
+ * @param {string} file 文件名
+ * @return {string}
+ */
 const getCompPath = (parentPath, dirName, file) => `${parentPath || ""}/${dirName}/${file}`;
+/**
+ * 获取文件名
+ * @param {string} title
+ * @return {string}
+ */
 const getUrlTitle = title => {
   const result = title.match(/\.(js|jsx)?$/);
   if (result) return title.split(result[0])[0];
@@ -22,6 +34,13 @@ const getUrlTitle = title => {
   return title;
 };
 
+/**
+ * 获取目录下的文件的url映射
+ * @param {string} dirPath 目录地址
+ * @param {string} parent 父级路由
+ * @param {object[]} info url映射数组
+ * @param {object[]}
+ */
 const getPageInfo = (dirPath, parent = null, info = []) => {
   const dirName = dirPath.split("/").reverse()[0];
   const files = fse.readdirSync(dirPath);
@@ -30,9 +49,7 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
-      const nextParent = `${parent || ""}/${
-        dirName.indexOf("$") >= 0 ? ":" + dirName.slice(1) : dirName
-      }`;
+      const nextParent = `${parent || ""}/${getDynamicName(dirName)}`;
       info = getPageInfo(filePath, nextParent, info);
     } else {
       const urlTitle = getUrlTitle(file);
@@ -46,6 +63,22 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
   });
 
   return info;
+};
+
+/**
+ * 获取动态路由的url路径名称
+ * $id --> :id
+ * id$ --> :id?
+ *
+ * @param {string} name 文件名称
+ * @return {string}
+ */
+const getDynamicName = name => {
+  return name.match(/^\$.*[^$]$/)
+    ? `:${name.slice(1)}`
+    : name.match(/^[^$].*\$$/)
+    ? `:${name.slice(0, -1)}?`
+    : name;
 };
 /**
  * 生成页面文件信息
