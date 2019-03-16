@@ -24,8 +24,6 @@ const mkPackage = (name, projectPath, eslint) => {
     };
   }
 
-  console.log("package json data: ", data);
-
   fse.writeFileSync(path.join(projectPath, `package.json`), JSON.stringify(data, null, 2));
 };
 

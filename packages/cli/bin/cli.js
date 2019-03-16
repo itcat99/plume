@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+
 const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.7");
+program.version("0.0.8");
 
 /* 创建新项目 */
 program
@@ -13,18 +14,17 @@ program
     inquirer
       .prompt([
         {
-          type: "confirm",
-          name: "flow",
-          message: "do you want to use @plume/flow?",
-        },
-        {
-          type: "confirm",
-          name: "eslint",
-          message: "do you want to use eslint?",
+          type: "checkbox",
+          name: "options",
+          choices: ["@plume/flow", "eslint"],
+          message: "please select the option you need",
         },
       ])
       .then(answers => {
-        const { flow, eslint } = answers;
+        const { options } = answers;
+        const flow = options.indexOf("@plume/flow") >= 0;
+        const eslint = options.indexOf("eslint") >= 0;
+
         if (targetPath && !path.isAbsolute(targetPath)) {
           targetPath = path.join(process.cwd(), targetPath);
         }
@@ -44,6 +44,10 @@ program
   .action((name, path, args) => {
     const { container, page, model } = args;
 
-    require("./add")(name, path, { container, page, model });
+    require("./add")(name, path, {
+      container,
+      page,
+      model,
+    });
   });
 program.parse(process.argv);

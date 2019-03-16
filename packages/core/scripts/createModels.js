@@ -45,6 +45,9 @@ module.exports = (rootPath, outPath) => {
 
     models.forEach(model => {
       const modelPath = path.join(dirPath, `${model}`);
+      if (isDir(modelPath)) {
+        return true;
+      }
       const namespace = fse
         .readFileSync(modelPath)
         .toString()

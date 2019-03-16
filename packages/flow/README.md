@@ -1,14 +1,6 @@
-# `@plume/core`
-
-> TODO: description
+# `@plume/flow`
 
 ## Usage
-
-```
-const core = require('@plume/core');
-
-// TODO: DEMONSTRATE API
-```
 
 ```
 model

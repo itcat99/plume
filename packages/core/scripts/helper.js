@@ -119,9 +119,22 @@ const getCleanPluginOpts = outPath => {
   const dir = pathArr[pathArr.length - 1];
   const root = pathArr.slice(0, pathArr.length - 1).join("/");
 
-  return { dir, root };
+  return {
+    dir,
+    root,
+  };
 };
 
+const debounce = (cb, time) => {
+  let timer = null;
+
+  return (() => {
+    clearTimeout(timer);
+    timer = setTimeout(() => cb(), time);
+  })();
+};
+
+exports.debounce = debounce;
 exports.isDir = isDir;
 exports.deepAssign = deepAssign;
 exports.isObject = isObject;

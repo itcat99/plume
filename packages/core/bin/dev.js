@@ -1,4 +1,4 @@
-const { getConfig, hasBeing } = require("../scripts/helper");
+const { getConfig, hasBeing, debounce } = require("../scripts/helper");
 const webpack = require("../scripts/webpack");
 const chokidar = require("chokidar");
 const path = require("path");
@@ -42,32 +42,31 @@ module.exports = configFilePath => {
 
   webpack(config, "development").then(() => {
     /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
-    const pageWatcher = chokidar.watch(pages, {
-      ignored: path.join(root, "node_modules"),
-    });
+    const pageWatcher = chokidar.watch(
+      [`${pages}/**/*.js`, `${pages}/**/*.jsx`, `${pages}/**/*.json`],
+      {
+        ignored: path.join(root, "node_modules"),
+      },
+    );
 
-    pageWatcher
-      .on("addDir", () => {
+    pageWatcher.on("all", () => {
+      debounce(() => {
         createPagesInfo(pages, plume);
-      })
-      .on("unlinkDir", () => {
-        createPagesInfo(pages, plume);
-      });
+      }, 500);
+    });
 
     if (flow) {
       /* 当启用flow后，检测model文件的变更并更新 */
-      const modelWatcher = chokidar.watch(`**/*`, {
+      const modelWatcher = chokidar.watch(`**/models/**/*.js`, {
         ignored: path.join(root, "node_modules"),
         cwd: root,
       });
 
-      modelWatcher
-        .on("change", filePath => {
-          updateModel(filePath, root, plume);
-        })
-        .on("unlink", filePath => {
-          updateModel(filePath, root, plume);
-        });
+      modelWatcher.on("all", () => {
+        debounce(() => {
+          createModels(root, plume);
+        }, 500);
+      });
     }
   });
 };

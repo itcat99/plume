@@ -35,7 +35,7 @@ plume-core build # 打包
 
 config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象
 
-config 还可以是名为`plume.config.json`的json文件
+config 还可以是名为`plume.config.json`的 json 文件
 
 config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
 
@@ -51,25 +51,24 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | root   | string | process.cwd() | 项目根目录   |
 | src    | string | {root}/src    | 开发目录     |
 | pages  | string | {src}/pages   | 页面目录     |
-| plume  | string | {root}/.plume | plume目录    |
+| plume  | string | {root}/.plume | plume 目录   |
 | output | string | {root}/dist   | 打包输出目录 |
 
 ### options
 
-| name      | type     | default                                                      | desc                                       |
-| --------- | -------- | ------------------------------------------------------------ | ------------------------------------------ |
-| target    | string   | "root"                                                       | 目标element的ID                            |
-| flow      | boolean  | false                                                        | 是否使用 @plume/flow                       |
-| gzip      | boolean  | true                                                         | 是否启用gzip压缩                           |
-| port      | number   | 8080                                                         | 开发模式下，webpack-dev-server服务器端口号 |
-| dll       | boolean  | true                                                         | 是否启用dll拆分                            |
-| dllName   | string   | "vendor"                                                     | 拆分的dll文件名                            |
-| dllVendor | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成dll的模块名称数组                    |
-
+| name      | type     | default                                                      | desc                                        |
+| --------- | -------- | ------------------------------------------------------------ | ------------------------------------------- |
+| target    | string   | "root"                                                       | 目标 element 的 ID                          |
+| flow      | boolean  | false                                                        | 是否使用 @plume/flow                        |
+| gzip      | boolean  | true                                                         | 是否启用 gzip 压缩                          |
+| port      | number   | 8080                                                         | 开发模式下，webpack-dev-server 服务器端口号 |
+| dll       | boolean  | true                                                         | 是否启用 dll 拆分                           |
+| dllName   | string   | "vendor"                                                     | 拆分的 dll 文件名                           |
+| dllVendor | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                   |
 
 ## router
 
-- plume根据`pages`目录下的文件夹划分页面，pages目录下的每一个文件夹当作一个页面来看待，需要`index.jsx`作为页面入口。
+- plume 根据`pages`目录下的文件夹划分页面，pages 目录下的每一个文件夹当作一个页面来看待，需要`index.jsx`作为页面入口。
 - 子文件夹和文件夹下`.js|.jsx`文件也会作为一个页面来看待，路由为此文件或文件夹在`pages`目录的相对位置。
 - 默认`Home`页为入口也，路由体现为`/`
 - 其他页面的路由为其页面文件夹的名称的英文小写，例如`About`页面的路由为`/about`
@@ -90,7 +89,7 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 
 ```
 
-plume的典型的目录结构为：
+plume 的典型的目录结构为：
 
 ```
 .plume
@@ -115,7 +114,7 @@ src
   |- constants
 ```
 
-则会自动创建如下router
+则会自动创建如下 router
 
 ```bash
 / # Home
@@ -126,6 +125,7 @@ src
 /page_2 # page_2
 
 ```
+
 打包时，为每一个页面单独打包需要的资源文件。
 
 ### dynamic router
@@ -133,6 +133,7 @@ src
 在文件或目录名称前加上`$`表示动态路由
 
 例如：
+
 ```
 |- pages
    |- Dynamic
@@ -140,22 +141,25 @@ src
       |- $id.jsx
 
 ```
+
 则会生成
+
 ```
 /dynamic
 /dynamic/:id
 ```
+
 这样的动态路由
 
-## @plume/flow && models 
+## @plume/flow && models
 
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
 2. 每个 model 的`namespace`必须是**唯一**的
 
 ## TODOS
 
-- [x] 支持dev下，当新建page页面时，更新pageInfo.json文件
-- [x] 支持dev&&flow下，当新建model时，更新models.js文件
+- [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件
+- [x] 支持 dev&&flow 下，当新建 model 时，更新 models.js 文件
 - [x] 支持多层路由
 - [ ] 支持嵌套路由
 - [x] 支持动态路由
