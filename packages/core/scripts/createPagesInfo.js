@@ -46,6 +46,7 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
   const files = fse.readdirSync(dirPath);
 
   files.forEach(file => {
+    if (!file.match(/\.(js|jsx)?$/)) return true;
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {

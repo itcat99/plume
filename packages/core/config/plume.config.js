@@ -5,16 +5,19 @@ const src = path.join(root, "src");
 const pages = path.join(src, "pages");
 const output = path.join(root, "dist");
 const plume = path.join(root, ".plume");
+const assets = path.join(output, "assets");
 
 module.exports = {
   paths: {
+    assets,
+    output,
+    pages,
+    plume,
     root,
     src,
-    pages,
-    output,
-    plume,
   },
   options: {
+    assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
     target: "root",
     analyzer: false,
     flow: false,
@@ -24,4 +27,5 @@ module.exports = {
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
   },
+  webpack: null,
 };

@@ -39,10 +39,11 @@ config 还可以是名为`plume.config.json`的 json 文件
 
 config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
 
-| name    | type   | desc               |
-| ------- | ------ | ------------------ |
-| paths   | object | 各种目录的配置对象 |
-| options | object | 各种选项的配置对象 |
+| name    | type     | desc                |
+| ------- | -------- | ------------------- |
+| paths   | object   | 各种目录的配置对象  |
+| options | object   | 各种选项的配置对象  |
+| webpack | function | 自定义 webpack 配置 |
 
 ### paths
 
@@ -53,6 +54,7 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | pages  | string | {src}/pages   | 页面目录     |
 | plume  | string | {root}/.plume | plume 目录   |
 | output | string | {root}/dist   | 打包输出目录 |
+| assets | string | {dist}/assets | 静态资源目录 |
 
 ### options
 
@@ -65,6 +67,13 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | dll       | boolean  | true                                                         | 是否启用 dll 拆分                           |
 | dllName   | string   | "vendor"                                                     | 拆分的 dll 文件名                           |
 | dllVendor | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                   |
+| assetsExt | string[] | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]    | 静态资源后缀                                |
+
+### webpack
+
+| name    | type             | default | signature                                                        | desct                                                                                |
+| ------- | ---------------- | ------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| webpack | null \| function | null    | null \| (webpack_config: object, plume_config: object) => object | 当 webpack 是函数的时候，接受当前的 webpack 配置和 plume 配置，输出新的 webpack 配置 |
 
 ## router
 
@@ -156,6 +165,26 @@ src
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
 2. 每个 model 的`namespace`必须是**唯一**的
 
+## 静态资源
+
+使用了`file-loader`来管理静态资源，默认输出文件夹`{output}/assets`，默认识别后缀为["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]的静态资源。
+
+使用静态资源：
+
+```jsx
+import React from "react";
+import icon from "../icon.png";
+
+export default () => {
+  return (
+    <div>
+      Home
+      <img src={icon} alt="icon" />
+    </div>
+  );
+};
+```
+
 ## TODOS
 
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件
@@ -165,3 +194,4 @@ src
 - [ ] 支持权限路由
 - [x] 支持动态路由
 - [x] 支持可选动态路由
+- [x] 支持静态资源打包

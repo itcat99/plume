@@ -12,8 +12,6 @@ cli --help
 // TODO: DEMONSTRATE API
 ```
 
-## Using
-
 `plume-cli create <PROJECT_NAME> [PATH]`：创建新项目，默认在当前目录下。\[PATH\] 选项指定创建目录
 
 `plume-cli create <-h | --help>`：查看 create 命令的帮助
@@ -29,3 +27,12 @@ cli --help
 `plume-cli update`：更新`@plume/cli`
 
 `plume-cli help`：查看帮助
+
+## Create
+
+选项：
+
+- `@plume/flow`: 是否启用@plume/flow 数据流管理
+- `eslint`: 是否启用 eslint 检测及 prettier 美化
+- `scss`: 是否支持 scss **需要 node-sass**
+- `less`: 是否支持 less

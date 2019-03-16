@@ -47,8 +47,9 @@ const run = compiler => {
 
 module.exports = async (config, mode) => {
   const isDev = mode === "development";
-  const { dll, port } = config.options;
-  const { output } = config.paths;
+  const { paths, options, webpack: customWebpack } = config;
+  const { dll, port } = options;
+  const { output } = paths;
 
   if (dll && !isDev) {
     const dllOptions = require("../webpack/webpack.dll")(config);
@@ -56,14 +57,17 @@ module.exports = async (config, mode) => {
 
     try {
       await run(dllCompiler);
-      const options = require("../webpack/webpack.config")(config, isDev);
+      let options = require("../webpack/webpack.config")(config, isDev);
+      options = customWebpack ? customWebpack(options, config) : options;
+
       const compiler = webpack(options);
       await run(compiler);
     } catch (error) {
       throw new Error(error);
     }
   } else {
-    const options = require("../webpack/webpack.config")(config, isDev);
+    let options = require("../webpack/webpack.config")(config, isDev);
+    options = customWebpack ? customWebpack(options, config) : options;
 
     if (isDev) {
       try {
