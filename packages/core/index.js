@@ -1,3 +1,29 @@
-import * as reactRouterDom from "react-router-dom";
+import {
+  Link,
+  BrowserRouter,
+  HashRouter,
+  withRouter,
+  Route,
+  Redirect,
+  Switch,
+  NavLink,
+  Prompt,
+  MemoryRouter,
+  StaticRouter,
+  matchPath,
+} from "react-router-dom";
 
-export default { ...reactRouterDom };
+export {
+  Link,
+  BrowserRouter,
+  MemoryRouter,
+  StaticRouter,
+  HashRouter,
+  withRouter,
+  Route,
+  Redirect,
+  Switch,
+  NavLink,
+  Prompt,
+  matchPath,
+};

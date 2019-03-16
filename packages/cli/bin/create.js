@@ -4,7 +4,7 @@ const fse = require("fs-extra");
 const child_process = require("child_process");
 const { spawn, spawnSync } = child_process;
 
-const mkPackage = (name, projectPath, eslint) => {
+const mkPackage = (name, projectPath, eslint, jest) => {
   const data = {
     name,
     version: "0.0.1",
@@ -23,6 +23,8 @@ const mkPackage = (name, projectPath, eslint) => {
       },
     };
   }
+
+  if (jest) data.scripts["test"] = "jest";
 
   fse.writeFileSync(path.join(projectPath, `package.json`), JSON.stringify(data, null, 2));
 };
@@ -50,28 +52,27 @@ const installDependents = (projectPath, dependents, dev) => {
   });
 };
 
-const yarnInstall = async (projectPath, flow, eslint) => {
+const yarnInstall = async (projectPath, flow, eslint, jest) => {
   process.stdout.write("\n> Yarn Install\n");
   const dependents = ["@plume/core"];
   flow && dependents.push("@plume/flow");
+  let devDependents = jest ? ["jest"] : [];
 
   try {
     await installDependents(projectPath, dependents);
-    eslint &&
-      (await installDependents(
-        projectPath,
-        [
-          "eslint",
-          "babel-eslint",
-          "eslint-config-prettier",
-          "eslint-plugin-prettier",
-          "eslint-plugin-react",
-          "precise-commits",
-          "prettier",
-          "husky",
-        ],
-        true,
-      ));
+    if (eslint) {
+      devDependents = [].concat(devDependents, [
+        "eslint",
+        "babel-eslint",
+        "eslint-config-prettier",
+        "eslint-plugin-prettier",
+        "eslint-plugin-react",
+        "precise-commits",
+        "prettier",
+        "husky",
+      ]);
+    }
+    if (devDependents.length) await installDependents(projectPath, devDependents, true);
   } catch (error) {
     throw new Error(error);
   }
@@ -112,15 +113,15 @@ const delLoader = (name, msg = "") => {
   process.stdout.write(`\n${msg}`);
 };
 
-module.exports = (name, targetPath, flow, eslint) => {
+module.exports = (name, targetPath, flow, eslint, jest) => {
   // fse.mkdirSync(path.join(targetPath, name));
   const projectPath = path.join(targetPath, name);
   const tempPath = path.resolve(__dirname, "..", "templates", flow ? "project-flow" : "project");
 
   fse.copySync(tempPath, projectPath);
-  mkPackage(name, projectPath, eslint);
+  mkPackage(name, projectPath, eslint, jest);
   initGit(projectPath);
-  yarnInstall(projectPath, flow, eslint)
+  yarnInstall(projectPath, flow, eslint, jest)
     .then(() => {
       process.stdout.write("\n> Yarn Install is done.\n");
 

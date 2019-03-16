@@ -16,7 +16,7 @@ program
         {
           type: "checkbox",
           name: "options",
-          choices: ["@plume/flow", "eslint"],
+          choices: ["@plume/flow", "eslint", "jest"],
           message: "please select the option you need",
         },
       ])
@@ -24,11 +24,12 @@ program
         const { options } = answers;
         const flow = options.indexOf("@plume/flow") >= 0;
         const eslint = options.indexOf("eslint") >= 0;
+        const jest = options.indexOf("jest") >= 0;
 
         if (targetPath && !path.isAbsolute(targetPath)) {
           targetPath = path.join(process.cwd(), targetPath);
         }
-        require("./create")(name, targetPath || process.cwd(), flow, eslint);
+        require("./create")(name, targetPath || process.cwd(), flow, eslint, jest);
       });
   });
 
