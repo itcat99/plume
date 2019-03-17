@@ -26,7 +26,7 @@ module.exports = (config, isDev) => {
       use: [require.resolve("handlebars-loader")],
     },
     {
-      test: new RegExp(`.(${assetsExt.join("|")})?$`),
+      test: new RegExp(`.(${assetsExt.join("|")})$`),
       use: [
         {
           loader: "file-loader",

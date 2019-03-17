@@ -2,7 +2,7 @@ const common = require("./webpack.common");
 
 module.exports = (config, isDev) => {
   const plugins = require("./config.plugins")(config, isDev);
-  const rules = require("./config.rules")(isDev);
+  const rules = require("./config.rules")(config, isDev);
   const optimization = require("./config.optimization")(isDev);
 
   return Object.assign(
