@@ -4,7 +4,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.8");
+program.version("0.0.10");
 
 /* 创建新项目 */
 program
