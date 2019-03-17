@@ -1,6 +1,6 @@
 {
   "name": "@plume/cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "plume cli tool",
   "keywords": [
     "cli"
