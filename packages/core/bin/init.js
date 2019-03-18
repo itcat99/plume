@@ -3,7 +3,7 @@ const path = require("path");
 const createpagesInfo = require("../scripts/createPagesInfo");
 const createModels = require("../scripts/createModels");
 const { relativePostion } = require("../scripts/helper");
-const { getConfig, hasBeing } = require("../scripts/helper");
+const { getConfig, isExist } = require("../scripts/helper");
 const template = require("../scripts/template");
 
 /**
@@ -48,7 +48,7 @@ const mkRouter = (plumePath, pagePath) => {
 
 const mkBabelrc = rootPath => {
   const babelrcPath = path.join(rootPath, ".babelrc");
-  if (!hasBeing(babelrcPath)) {
+  if (!isExist(babelrcPath)) {
     fse.copyFileSync(path.resolve(__dirname, "../config", ".babelrc"), babelrcPath);
   }
 };
@@ -64,12 +64,15 @@ module.exports = configFilePath => {
   const { flow, target } = options;
 
   /* 创建.plume目录 */
-  if (hasBeing(plume)) {
+  if (isExist(plume)) {
     fse.removeSync(plume);
   }
   fse.mkdirSync(plume);
   /* 创建配置文件 */
-  fse.writeFileSync(path.join(plume, "config.json"), JSON.stringify(config, null, 2));
+  fse.writeFileSync(
+    path.join(plume, "config.js"),
+    `module.exports = ${JSON.stringify(config, null, 2)}`,
+  );
   /* 创建入口文件 index.jsx */
   mkEntry(flow, target, plume);
   /* 创建页面目录的信息文件 pagesInfo.json */

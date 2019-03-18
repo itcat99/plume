@@ -1,4 +1,4 @@
-const { getConfig, hasBeing, debounce } = require("../scripts/helper");
+const { getConfig, isExist, debounce } = require("../scripts/helper");
 const webpack = require("../scripts/webpack");
 const chokidar = require("chokidar");
 const path = require("path");
@@ -10,13 +10,13 @@ const createPagesInfo = require("../scripts/createPagesInfo");
  * @param {string} filePath 文件路径
  * @return {Object} {name, parentName}
  */
-const parsePath = filePath => {
-  const parsePathArr = filePath.split("/").reverse();
-  return {
-    name: parsePathArr[0],
-    parentName: parsePathArr[1],
-  };
-};
+// const parsePath = filePath => {
+//   const parsePathArr = filePath.split("/").reverse();
+//   return {
+//     name: parsePathArr[0],
+//     parentName: parsePathArr[1],
+//   };
+// };
 
 /**
  * 更新models.js文件
@@ -24,19 +24,19 @@ const parsePath = filePath => {
  * @param {string} rootPath 项目根目录
  * @param {string} plumePath plume目录
  */
-const updateModel = (filePath, rootPath, plumePath) => {
-  const { parentName } = parsePath(filePath);
-  if (parentName === "models") {
-    createModels(rootPath, plumePath);
-  }
-};
+// const updateModel = (filePath, rootPath, plumePath) => {
+//   const { parentName } = parsePath(filePath);
+//   if (parentName === "models") {
+//     createModels(rootPath, plumePath);
+//   }
+// };
 
 module.exports = configFilePath => {
   const config = getConfig(configFilePath);
   const { plume, root, pages } = config.paths;
   const { flow } = config.options;
 
-  if (!hasBeing(plume)) {
+  if (!isExist(plume)) {
     require("./init")(configFilePath);
   }
 

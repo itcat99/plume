@@ -6,10 +6,14 @@ const pages = path.join(src, "pages");
 const output = path.join(root, "dist");
 const plume = path.join(root, ".plume");
 const assets = path.join(output, "assets");
+const components = path.join(src, "components");
+const containers = path.join(src, "containers");
 
 module.exports = {
   paths: {
     assets,
+    components,
+    containers,
     output,
     pages,
     plume,

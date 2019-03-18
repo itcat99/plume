@@ -38,17 +38,11 @@ program
   .description(
     "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
   )
-  .option(
-    "-c, --container | -p, --page | -m, --model",
-    "[-c]创建container组件， [-p]创建page页面，[-m]创建model模块。",
-  )
-  .action((name, path, args) => {
+  .option("-c | --container", "创建container组件")
+  .option("-p | --page", "创建page页面")
+  .option("-m | --model", "创建model模块")
+  .action((name, targetPath, args) => {
     const { container, page, model } = args;
-
-    require("./add")(name, path, {
-      container,
-      page,
-      model,
-    });
+    require("./add")(name, { container, page, model }, targetPath);
   });
 program.parse(process.argv);

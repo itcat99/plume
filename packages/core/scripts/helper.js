@@ -44,10 +44,10 @@ const getConfig = configFilePath => {
       : path.resolve(process.cwd(), configFilePath);
   } else {
     const tempFile = path.resolve(process.cwd(), "plume.config.json");
-    configFile = hasBeing(tempFile) ? tempFile : path.resolve(process.cwd(), "plume.config.js");
+    configFile = isExist(tempFile) ? tempFile : path.resolve(process.cwd(), "plume.config.js");
   }
 
-  if (hasBeing(configFile)) {
+  if (isExist(configFile)) {
     config = deepAssign(config, require(configFile));
   }
 
@@ -59,7 +59,7 @@ const getConfig = configFilePath => {
  * @param {string} targetPath 目标文件路径
  * @param {boolean} 返回true or false
  */
-const hasBeing = targetPath => {
+const isExist = targetPath => {
   try {
     fse.statSync(targetPath);
     return true;
@@ -140,5 +140,5 @@ exports.deepAssign = deepAssign;
 exports.isObject = isObject;
 exports.getCleanPluginOpts = getCleanPluginOpts;
 exports.getConfig = getConfig;
-exports.hasBeing = hasBeing;
+exports.isExist = isExist;
 exports.relativePostion = relativePostion;

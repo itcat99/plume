@@ -31,11 +31,8 @@
   },
   "dependencies": {
     "commander": "^2.19.0",
-    "cross-env": "^5.2.0",
     "fs-extra": "^7.0.1",
-    "inquirer": "^6.2.2",
-    "shelljs": "^0.8.3",
-    "yargs": "^13.2.2"
+    "inquirer": "^6.2.2"
   },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"

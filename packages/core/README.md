@@ -33,9 +33,9 @@ plume-core build # 打包
 
 ## config
 
-config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象
+config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象，不可使用es6导出语法
 
-config 还可以是名为`plume.config.json`的 json 文件
+~~config 还可以是名为`plume.config.json`的 json 文件~~ 由于加入了webpack选项，所以只能使用.js文件
 
 config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
 
@@ -47,14 +47,16 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 
 ### paths
 
-| name   | type   | default       | desc         |
-| ------ | ------ | ------------- | ------------ |
-| root   | string | process.cwd() | 项目根目录   |
-| src    | string | {root}/src    | 开发目录     |
-| pages  | string | {src}/pages   | 页面目录     |
-| plume  | string | {root}/.plume | plume 目录   |
-| output | string | {root}/dist   | 打包输出目录 |
-| assets | string | {dist}/assets | 静态资源目录 |
+| name       | type   | default          | desc         |
+| ---------- | ------ | ---------------- | ------------ |
+| root       | string | process.cwd()    | 项目根目录   |
+| src        | string | {root}/src       | 开发目录     |
+| pages      | string | {src}/pages      | 页面目录     |
+| plume      | string | {root}/.plume    | plume 目录   |
+| output     | string | {root}/dist      | 打包输出目录 |
+| assets     | string | {dist}/assets    | 静态资源目录 |
+| components | string | {src}/components | 组件目录     |
+| containers | string | {src}/containers | 包装组件目录 |
 
 ### options
 
