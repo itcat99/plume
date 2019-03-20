@@ -110,9 +110,14 @@ module.exports = (name, types, targetPath) => {
       fse.writeFileSync(
         path.join(_path, "index.jsx"),
         `
-      import React, { Component } from "react";
+      import React, { PureComponent } from "react";
 
-      export default () => <div>${name} component.</div>
+      class ${name[0].toUpperCase()}${name.slice(1)} extends PureComponent{
+        render(){
+          return <div>Hello ${name} Component</div>;
+        }
+      }
+      export default ${name[0].toUpperCase()}${name.slice(1)};
     `,
       );
       return;

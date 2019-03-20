@@ -15,8 +15,8 @@ const dev = async (config, output, port) => {
   const compiler = webpack(config);
   const server = new WebpackDevServer(compiler, devOptions);
 
-  server.listen(port, "localhost", () => {
-    console.log(`Starting server on http://localhost:${port}`);
+  server.listen(port, "0.0.0.0", () => {
+    console.log(`Starting server on http://0.0.0.0:${port}`);
   });
 };
 
