@@ -28,11 +28,15 @@ const mkEntry = (flow, target, plumePath) => {
  * 创建主应用文件
  * @param {*} plumePath 项目目录下plume目录的绝对路径
  */
-const mkApp = plumePath => {
+const mkApp = (plumePath, hashRouter) => {
   const originFile = path.join(__dirname, "../src", "App.jsx");
   const targetFile = path.join(plumePath, "App.jsx");
 
-  fse.copyFileSync(originFile, targetFile);
+  const data = template(originFile, {
+    hashRouter: `${hashRouter ? true : false}`,
+  });
+
+  fse.writeFileSync(targetFile, data);
 };
 
 const mkRouter = (plumePath, pagePath) => {
@@ -61,7 +65,7 @@ module.exports = configFilePath => {
   const config = getConfig(configFilePath);
   const { paths, options } = config;
   const { plume, pages, root } = paths;
-  const { flow, target } = options;
+  const { flow, target, hashRouter } = options;
 
   /* 创建.plume目录 */
   if (isExist(plume)) {
@@ -82,7 +86,7 @@ module.exports = configFilePath => {
   /* 创建Router.js文件 */
   mkRouter(plume, pages);
   /* 创建主应用 App.jsx文件 */
-  mkApp(plume);
+  mkApp(plume, hashRouter);
   /* 创建.babelrc文件 */
   mkBabelrc(root);
 };

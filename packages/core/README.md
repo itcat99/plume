@@ -60,16 +60,17 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 
 ### options
 
-| name      | type     | default                                                      | desc                                        |
-| --------- | -------- | ------------------------------------------------------------ | ------------------------------------------- |
-| target    | string   | "root"                                                       | 目标 element 的 ID                          |
-| flow      | boolean  | false                                                        | 是否使用 @plume/flow                        |
-| gzip      | boolean  | true                                                         | 是否启用 gzip 压缩                          |
-| port      | number   | 8080                                                         | 开发模式下，webpack-dev-server 服务器端口号 |
-| dll       | boolean  | true                                                         | 是否启用 dll 拆分                           |
-| dllName   | string   | "vendor"                                                     | 拆分的 dll 文件名                           |
-| dllVendor | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                   |
-| assetsExt | string[] | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]    | 静态资源后缀                                |
+| name       | type     | default                                                      | desc                                        |
+| ---------- | -------- | ------------------------------------------------------------ | ------------------------------------------- |
+| target     | string   | "root"                                                       | 目标 element 的 ID                          |
+| flow       | boolean  | false                                                        | 是否使用 @plume/flow                        |
+| gzip       | boolean  | true                                                         | 是否启用 gzip 压缩                          |
+| port       | number   | 8080                                                         | 开发模式下，webpack-dev-server 服务器端口号 |
+| dll        | boolean  | true                                                         | 是否启用 dll 拆分                           |
+| dllName    | string   | "vendor"                                                     | 拆分的 dll 文件名                           |
+| dllVendor  | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                   |
+| assetsExt  | string[] | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]    | 静态资源后缀                                |
+| hashRouter | boolean  | false                                                        | 使用hashRouter，默认为browserRouter         |
 
 ### webpack
 

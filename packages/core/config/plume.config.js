@@ -30,6 +30,7 @@ module.exports = {
     port: 8080,
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
+    hashRouter: false,
   },
   webpack: null,
 };

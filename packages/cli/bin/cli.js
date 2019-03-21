@@ -4,13 +4,14 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.10");
+program.version("0.0.12");
 
 /* 创建新项目 */
 program
   .command("create <name> [path]")
   .description("创建新项目，<name>指定项目名称，[path]指定新建项目地址，默认在当前目录下。")
-  .action((name, targetPath) => {
+  .option("-s | --skip", "跳过安装依赖的步骤，手动安装")
+  .action((name, targetPath, args) => {
     inquirer
       .prompt([
         {
@@ -29,7 +30,7 @@ program
         if (targetPath && !path.isAbsolute(targetPath)) {
           targetPath = path.join(process.cwd(), targetPath);
         }
-        require("./create")(name, targetPath || process.cwd(), flow, eslint, jest);
+        require("./create")(name, targetPath || process.cwd(), flow, eslint, jest, args.skip);
       });
   });
 

@@ -1,4 +1,4 @@
-const { getConfig, isExist, debounce } = require("../scripts/helper");
+const { getConfig, debounce } = require("../scripts/helper");
 const webpack = require("../scripts/webpack");
 const chokidar = require("chokidar");
 const path = require("path");
@@ -36,9 +36,7 @@ module.exports = configFilePath => {
   const { plume, root, pages } = config.paths;
   const { flow } = config.options;
 
-  if (!isExist(plume)) {
-    require("./init")(configFilePath);
-  }
+  require("./init")(configFilePath);
 
   webpack(config, "development").then(() => {
     /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */

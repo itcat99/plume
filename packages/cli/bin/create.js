@@ -54,7 +54,14 @@ const installDependents = (projectPath, dependents, dev) => {
 
 const yarnInstall = async (projectPath, flow, eslint, jest) => {
   process.stdout.write("\n> Yarn Install\n");
-  const dependents = ["@plume/core"];
+  const dependents = [
+    "@babel/runtime",
+    "react",
+    "react-dom",
+    "react-router-dom",
+    "react-loadable",
+    "@plume/core",
+  ];
   flow && dependents.push("@plume/flow");
   let devDependents = jest ? ["jest"] : [];
 
@@ -113,7 +120,7 @@ const delLoader = (name, msg = "") => {
   process.stdout.write(`\n${msg}`);
 };
 
-module.exports = (name, targetPath, flow, eslint, jest) => {
+module.exports = (name, targetPath, flow, eslint, jest, skip) => {
   // fse.mkdirSync(path.join(targetPath, name));
   const projectPath = path.join(targetPath, name);
   const tempPath = path.resolve(__dirname, "..", "templates", flow ? "project-flow" : "project");
@@ -121,17 +128,29 @@ module.exports = (name, targetPath, flow, eslint, jest) => {
   fse.copySync(tempPath, projectPath);
   mkPackage(name, projectPath, eslint, jest);
   initGit(projectPath);
-  yarnInstall(projectPath, flow, eslint, jest)
-    .then(() => {
-      process.stdout.write("\n> Yarn Install is done.\n");
-
-      const plumeStart = spawn("yarn", ["dev"], {
-        cwd: projectPath,
-      }).stdout;
-      plumeStart.on("data", data => console.log(data.toString()));
-      plumeStart.on("error", err => console.error(err.toString()));
-    })
-    .catch(err => console.error("Install dependents error: ", err));
 
   eslint && createEslint(projectPath);
+
+  if (skip) {
+    process.stdout.write(
+      `>> You must run "yarn add react react-dom react-router-dom react-loadable @babel/runtime" to install devendents.\n`,
+    );
+
+    eslint &&
+      process.stdout.write(
+        `>> You must run "yarn add -D eslint babel-eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-react precise-commits prettier husky" to install devDependents.\n`,
+      );
+  } else {
+    yarnInstall(projectPath, flow, eslint, jest)
+      .then(() => {
+        process.stdout.write("\n> Yarn Install is done.\n");
+
+        const plumeStart = spawn("yarn", ["dev"], {
+          cwd: projectPath,
+        }).stdout;
+        plumeStart.on("data", data => console.log(data.toString()));
+        plumeStart.on("error", err => console.error(err.toString()));
+      })
+      .catch(err => console.error("Install dependents error: ", err));
+  }
 };

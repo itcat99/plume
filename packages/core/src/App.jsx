@@ -1,12 +1,12 @@
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
 
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import Routers from "./Router";
 
 class App extends PureComponent {
   render() {
-    return <Routers />;
+    return Routers("{{hashRouter}}");
   }
 
   componentDidMount() {

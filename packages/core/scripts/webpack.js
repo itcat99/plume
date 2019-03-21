@@ -2,13 +2,14 @@
 
 const webpack = require("webpack");
 
-const dev = async (config, output, port) => {
+const dev = async (config, output, port, hashRouter) => {
   const WebpackDevServer = require("webpack-dev-server");
   const devOptions = {
     hot: true,
     compress: true,
     contentBase: output,
     host: "0.0.0.0",
+    historyApiFallback: hashRouter ? false : true,
   };
 
   WebpackDevServer.addDevServerEntrypoints(config, devOptions);
@@ -48,7 +49,7 @@ const run = compiler => {
 module.exports = async (config, mode) => {
   const isDev = mode === "development";
   const { paths, options, webpack: customWebpack } = config;
-  const { dll, port } = options;
+  const { dll, port, hashRouter } = options;
   const { output } = paths;
 
   if (dll && !isDev) {
@@ -71,7 +72,7 @@ module.exports = async (config, mode) => {
 
     if (isDev) {
       try {
-        await dev(options, output, port);
+        await dev(options, output, port, hashRouter);
         console.log("> SUCCESSED!");
       } catch (error) {
         throw new Error(error);
