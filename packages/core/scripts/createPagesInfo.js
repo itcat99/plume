@@ -50,6 +50,8 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
+      if (file.match(/^404$/)) return true;
+
       const nextParent = `${parent || ""}/${getDynamicName(dirName)}`;
       info = getPageInfo(filePath, nextParent, info);
     } else {
@@ -90,12 +92,15 @@ module.exports = (pagesPath, plumePath) => {
   try {
     let pagesInfo = [];
     const result = fse.readdirSync(pagesPath);
-    result.forEach(item => {
+    for (const key in result) {
+      const item = result[key];
+      if (item.match(/^404$/)) continue;
+
       const _path = path.join(pagesPath, item);
       if (isDir(_path)) {
         pagesInfo = pagesInfo.concat(getPageInfo(_path));
       }
-    });
+    }
 
     fse.writeFile(path.join(plumePath, "pagesInfo.json"), JSON.stringify(pagesInfo, null, 2));
     console.log("> create pagesInfo.json is done.");

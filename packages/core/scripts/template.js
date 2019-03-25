@@ -1,5 +1,5 @@
 const fse = require("fs-extra");
-const REG_KEY = /{{.*?}}/;
+const REG_KEY = /{{.*?}}/g;
 
 /**
  * 简单的模版生成函数 替换 {{KEY}} 内的参数

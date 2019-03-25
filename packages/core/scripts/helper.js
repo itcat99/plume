@@ -88,6 +88,7 @@ const isDir = dirPath => {
  * @param {*} b 目标路径
  */
 const relativePostion = (a, b) => {
+  if (a === b) return ".";
   const p1 = a.split("/");
   const p2 = b.split("/");
   let tempIndex = 0;
@@ -128,10 +129,10 @@ const getCleanPluginOpts = outPath => {
 const debounce = (cb, time) => {
   let timer = null;
 
-  return (() => {
+  return (...args) => {
     clearTimeout(timer);
-    timer = setTimeout(() => cb(), time);
-  })();
+    timer = setTimeout(() => cb(...args), time);
+  };
 };
 
 exports.debounce = debounce;

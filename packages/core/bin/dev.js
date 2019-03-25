@@ -4,6 +4,7 @@ const chokidar = require("chokidar");
 const path = require("path");
 const createModels = require("../scripts/createModels");
 const createPagesInfo = require("../scripts/createPagesInfo");
+const mkRouter = require("../scripts/mkRouter");
 
 /**
  * 解析文件路径，返回文件名和父级文件名
@@ -40,18 +41,24 @@ module.exports = configFilePath => {
 
   webpack(config, "development").then(() => {
     /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
-    const pageWatcher = chokidar.watch(
-      [`${pages}/**/*.js`, `${pages}/**/*.jsx`, `${pages}/**/*.json`],
-      {
-        ignored: path.join(root, "node_modules"),
-      },
-    );
-
-    pageWatcher.on("all", () => {
-      debounce(() => {
-        createPagesInfo(pages, plume);
-      }, 500);
+    const pageWatcher = chokidar.watch([`${pages}/**/*`], {
+      ignored: path.join(root, "node_modules"),
     });
+
+    pageWatcher.on(
+      "all",
+      debounce((_event, file) => {
+        if (file.indexOf(pages) >= 0) {
+          const page404Match = file.replace(pages, "").match(/404/);
+
+          if (page404Match && page404Match.index === 1) {
+            mkRouter(plume, pages);
+          }
+        }
+
+        createPagesInfo(pages, plume);
+      }, 400),
+    );
 
     if (flow) {
       /* 当启用flow后，检测model文件的变更并更新 */
@@ -60,11 +67,12 @@ module.exports = configFilePath => {
         cwd: root,
       });
 
-      modelWatcher.on("all", () => {
+      modelWatcher.on(
+        "all",
         debounce(() => {
           createModels(root, plume);
-        }, 500);
-      });
+        }, 500),
+      );
     }
   });
 };

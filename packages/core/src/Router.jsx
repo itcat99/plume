@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from "react";
 import { HashRouter, BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const SwitchRoute = () => {
             key={`${url}_${index}`}
             component={Loadable({
               loader: () => import(`{{relativePath}}${component}`),
-              loading() {
+              loading: () => {
                 if (url === "/") return null;
                 return <div>Loading...</div>;
               },
@@ -25,13 +26,13 @@ const SwitchRoute = () => {
           />
         );
       })}
-      {/* <Route
-          component={Loadable({
-            loader: () => import(`./pages/Err404`),
-            loading: () => <div>Loading...</div>,
-            delay: 300,
-          })}
-        /> */}
+      <Route
+        component={Loadable({
+          loader: () => import(`{{errorPages}}/404`),
+          loading: () => <div>Loading...</div>,
+          delay: 300,
+        })}
+      />
     </Switch>
   );
 };

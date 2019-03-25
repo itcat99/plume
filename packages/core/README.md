@@ -168,6 +168,12 @@ src
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
 2. 每个 model 的`namespace`必须是**唯一**的
 
+
+## 404页面
+有默认的404页面，也可以自定义
+
+自定义的404页面放置在`{pages}/404`目录下，当检测到`{pages}/404`目录存在时，将使用自定义的404页面
+
 ## 静态资源
 
 使用了`file-loader`来管理静态资源，默认输出文件夹`{output}/assets`，默认识别后缀为["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]的静态资源。
