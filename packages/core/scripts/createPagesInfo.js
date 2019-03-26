@@ -46,15 +46,14 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
   const files = fse.readdirSync(dirPath);
 
   files.forEach(file => {
-    if (!file.match(/\.(js|jsx)?$/)) return true;
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
-      if (file.match(/^404$/)) return true;
-
       const nextParent = `${parent || ""}/${getDynamicName(dirName)}`;
       info = getPageInfo(filePath, nextParent, info);
     } else {
+      if (!file.match(/\.(js|jsx)?$/)) return true;
+
       const urlTitle = getUrlTitle(file);
       info.unshift({
         title: urlTitle === "index" ? dirName : urlTitle,

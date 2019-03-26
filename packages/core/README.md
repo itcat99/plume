@@ -163,6 +163,38 @@ src
 
 这样的动态路由
 
+## 嵌套路由
+
+在`{pages}`下的每个目录或`js|jsx`文件（除了index文件）会被当作一个页面，所以可以在页面目录下嵌套其他目录，实现路由嵌套
+
+例如：
+
+```
+{pages}
+  |- Post
+    |- P1
+    |- P2
+```
+
+则会生成:
+
+```json
+
+[{
+  "path": "/Post",
+  "component": "{pages}/Post/index.jsx"
+},{
+  "path": "/Post/P1",
+  "component": "{pages}/Post/P1/index.jsx"
+},{
+  "path": "/Post/P2",
+  "component": "{pages}/Post/P2/index.jsx"
+}]
+
+```
+
+的结构，访问不同的地址，则会跳转到相应页面
+
 ## @plume/flow && models
 
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
@@ -199,7 +231,7 @@ export default () => {
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件
 - [x] 支持 dev&&flow 下，当新建 model 时，更新 models.js 文件
 - [x] 支持多层路由
-- [ ] 支持嵌套路由
+- [x] 支持嵌套路由
 - [ ] 支持权限路由
 - [x] 支持动态路由
 - [x] 支持可选动态路由
