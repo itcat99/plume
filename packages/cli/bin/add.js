@@ -15,6 +15,28 @@ const isExist = targetPath => {
   }
 };
 
+/**
+ * 创建模块
+ * @param {string} type 目标module类型
+ * @param {string} name 目标module名称
+ * @param {string} dirPath 目标目录
+ */
+const createModule = (type, name, dirPath) => {
+  let moduleName = `${name[0].toUpperCase()}${name.slice(1)}`;
+  let filePath = path.join(dirPath, "index.jsx");
+  if (type === "model") {
+    moduleName = name;
+    filePath = path.join(dirPath, `${name}.js`);
+  }
+
+  let data = fse
+    .readFileSync(path.resolve(__dirname, "../templates/modules", `${type}.js`))
+    .toString()
+    .replace(/NAME/g, moduleName);
+
+  fse.writeFileSync(filePath, data);
+};
+
 module.exports = (name, types, targetPath) => {
   const { model, page, container } = types;
 
@@ -48,81 +70,15 @@ module.exports = (name, types, targetPath) => {
   const { paths } = config;
 
   const type = model ? "model" : page ? "page" : container ? "container" : "component";
-  const _path = model ? targetPath : path.join(targetPath || paths[`${type}s`], name);
-  if (isExist(_path)) throw new Error(`[${name}] directory already exists `);
-  fse.mkdirSync(_path);
+  const dirPath = model ? targetPath : path.join(targetPath || paths[`${type}s`], name);
 
-  switch (type) {
-    case "container": {
-      fse.writeFileSync(
-        path.join(_path, "index.jsx"),
-        `
-        import React, { Component } from "react";
-        import { createContainer } from "@plume/flow";
-
-        class ${name[0].toUpperCase()}${name.slice(1)} extends Component{
-          render(){
-            return <div>${name} component</div>
-          }
-        }
-
-        export default createContainer(${name[0].toUpperCase()}${name.slice(1)});
-      `,
-      );
-      break;
-    }
-    case "page": {
-      fse.writeFileSync(
-        path.join(_path, "index.jsx"),
-        `
-        import React, { Component } from "react";
-
-        export default () => <div>${name} page.</div>
-      `,
-      );
-      break;
-    }
-    case "model": {
-      fse.writeFileSync(
-        path.join(_path, `${name}.js`),
-        `
-        export default {
-          namespace: ${name},
-          state: 0,
-          reducer: {
-            plus: state => state + 1,
-            minus: state => state - 1,
-          },
-          effecet: {
-            asyncPlus: actions => {
-              setTimeout(() => actions[${name}].plus(), 300);
-            },
-            asyncMinus: actions => {
-              setTimeout(() => actions[${name}].minus(), 300);
-            }
-          }
-        }
-      `,
-      );
-      break;
-    }
-    default: {
-      fse.writeFileSync(
-        path.join(_path, "index.jsx"),
-        `
-      import React, { PureComponent } from "react";
-
-      class ${name[0].toUpperCase()}${name.slice(1)} extends PureComponent{
-        render(){
-          return <div>Hello ${name} Component</div>;
-        }
-      }
-      export default ${name[0].toUpperCase()}${name.slice(1)};
-    `,
-      );
-      return;
-    }
+  if (!isExist(dirPath)) {
+    fse.mkdirSync(dirPath);
+  } else {
+    if (!model) throw new Error(`[${name}] directory already exists.`);
+    if (isExist(path.join(dirPath, name))) throw new Error(`[${name}] model file already exists.`);
   }
 
-  process.stdout.write(`add ${name} ${type} is done. \npath:${_path}\n`);
+  createModule(type, name, dirPath);
+  process.stdout.write(`add ${name} ${type} is done. \npath:${dirPath}\n`);
 };
