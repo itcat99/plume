@@ -19,3 +19,9 @@ npm i -g lerna
 ```bash
 lerna bootstrap
 ```
+
+**[@plume/cli 直达](https://github.com/itcat99/plume/tree/master/packages/cli)**
+
+**[@plume/core 直达](https://github.com/itcat99/plume/tree/master/packages/core)**
+
+**[@plume/flow 直达](https://github.com/itcat99/plume/tree/master/packages/flow)**

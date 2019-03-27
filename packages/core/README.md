@@ -226,6 +226,21 @@ export default () => {
 };
 ```
 
+## 网络请求
+
+集成了[\[axios\]](https://github.com/axios/axios)库
+
+使用方法：
+
+```js
+import { axios } from "@plume/core";
+
+axios
+  .get("/")
+  .then(result => {})
+  .catch(reault => {})
+```
+
 ## TODOS
 
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件
@@ -236,3 +251,4 @@ export default () => {
 - [x] 支持动态路由
 - [x] 支持可选动态路由
 - [x] 支持静态资源打包
+- [x] 集成axios
