@@ -9,5 +9,6 @@ module.exports = configFilePath => {
     require("./init")(configFilePath);
   }
 
-  webpack(config, "production");
+  /* eslint no-console:0 */
+  webpack(config, "production").catch(err => console.log(`[WEBPACK BUILD ERROR] ==> ${err}`));
 };

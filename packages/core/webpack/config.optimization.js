@@ -1,4 +1,4 @@
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const opt = {
   runtimeChunk: "single",
@@ -22,15 +22,11 @@ module.exports = isDev =>
     opt,
     !isDev && {
       minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({
           cache: true,
           parallel: true,
           exclude: /node_modules/,
-          uglifyOptions: {
-            output: {
-              comments: false,
-              beautify: false,
-            },
+          terserOptions: {
             compress: {
               drop_console: true,
               warnings: false,
