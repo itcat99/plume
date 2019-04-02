@@ -5,7 +5,7 @@ export default {
     plus: state => state + 1,
     minus: state => state - 1,
   },
-  effecet: {
+  effect: {
     asyncPlus: actions => {
       setTimeout(() => actions["NAME"].plus(), 300);
     },

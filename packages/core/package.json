@@ -10,11 +10,8 @@
   "bin": {
     "plume-core": "bin/index.js"
   },
-  "main": "lib/index.js",
+  "main": "index.js",
   "license": "GPL-3.0",
-  "scripts": {
-    "build": "node ./scripts/build.js"
-  },
   "directories": {
     "bin": "bin",
     "example": "example",
