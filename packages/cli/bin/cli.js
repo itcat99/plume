@@ -4,7 +4,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.13");
+program.version("0.0.15", "-v,--version");
 
 /* 创建新项目 */
 program
@@ -30,7 +30,16 @@ program
         if (targetPath && !path.isAbsolute(targetPath)) {
           targetPath = path.join(process.cwd(), targetPath);
         }
-        require("./create")(name, targetPath || process.cwd(), flow, eslint, jest, args.skip);
+
+        const opts = {
+          name,
+          targetPath: targetPath || process.cwd(),
+          flow,
+          eslint,
+          jest,
+          skip: args.skip,
+        };
+        require("./create")(opts);
       });
   });
 

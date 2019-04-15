@@ -2,6 +2,8 @@
 const path = require("path");
 const fse = require("fs-extra");
 const child_process = require("child_process");
+const task = require("../scripts/task");
+
 const { spawn, spawnSync } = child_process;
 
 const mkPackage = (name, projectPath, eslint, jest) => {
@@ -39,21 +41,19 @@ const installDependents = (projectPath, dependents, dev) => {
       cwd: projectPath,
     });
 
-    const loading = loader(`install ${dev ? "DevDependents" : "dependents"}`);
-
     yarnStdout.stdout.on("error", err => {
-      delLoader(loading);
       reject(err);
     });
-    yarnStdout.on("close", async () => {
-      delLoader(loading);
+    yarnStdout.on("exit", code => {
+      if (code !== 0) reject(`exit code : ${code}`);
+    });
+    yarnStdout.on("close", () => {
       resolve();
     });
   });
 };
 
 const yarnInstall = async (projectPath, flow, eslint, jest) => {
-  process.stdout.write("\n> Yarn Install\n");
   const dependents = [
     "@babel/runtime",
     "react",
@@ -66,7 +66,7 @@ const yarnInstall = async (projectPath, flow, eslint, jest) => {
   let devDependents = jest ? ["jest"] : [];
 
   try {
-    await installDependents(projectPath, dependents);
+    await task("install dependents", installDependents(projectPath, dependents));
     if (eslint) {
       devDependents = [].concat(devDependents, [
         "eslint",
@@ -79,7 +79,8 @@ const yarnInstall = async (projectPath, flow, eslint, jest) => {
         "husky",
       ]);
     }
-    if (devDependents.length) await installDependents(projectPath, devDependents, true);
+    if (devDependents.length)
+      await task("install devDependents", installDependents(projectPath, devDependents, true));
   } catch (error) {
     throw new Error(error);
   }
@@ -98,38 +99,33 @@ const createEslint = projectPath => {
 };
 
 const initGit = projectPath => {
-  process.stdout.write(`\n> initialize git\n`);
   spawnSync("git", ["init"], {
     cwd: projectPath,
   });
 };
 
-const loader = msg => {
-  process.stdout.write("\n");
-  const p = ["\\", "|", "/", "-"];
-
-  let x = 0;
-  return setInterval(() => {
-    process.stdout.write(`\r${p[x++]} ${msg}`);
-    x = x >= p.length ? 0 : x;
-  }, 200);
-};
-
-const delLoader = (name, msg = "") => {
-  clearInterval(name);
-  process.stdout.write(`\n${msg}`);
-};
-
-module.exports = (name, targetPath, flow, eslint, jest, skip) => {
-  // fse.mkdirSync(path.join(targetPath, name));
-  const projectPath = path.join(targetPath, name);
+const copyTemp = (projectPath, flow) => {
   const tempPath = path.resolve(__dirname, "..", "templates", flow ? "project-flow" : "project");
-
   fse.copySync(tempPath, projectPath);
-  mkPackage(name, projectPath, eslint, jest);
-  initGit(projectPath);
+};
 
-  eslint && createEslint(projectPath);
+/**
+ * @param {object} opts 创建选项
+ * @param {string} opts.name 项目名字
+ * @param {string} opts.targetPath 项目目录
+ * @param {boolean} opts.flow 是否启用@plume/flow
+ * @param {boolean} opts.esling 是否启用eslint
+ * @param {boolean} opts.jest 是否启用jest
+ * @param {boolean} opts.skip 是否跳过安装依赖
+ */
+module.exports = opts => {
+  const { name, targetPath, flow, eslint, jest, skip } = opts;
+  const projectPath = path.join(targetPath, name);
+
+  task("copy template", copyTemp(projectPath, flow));
+  task("create package.json", mkPackage(name, projectPath, eslint, jest));
+  task("initial git", initGit(projectPath));
+  eslint && task("create eslint", createEslint(projectPath));
 
   if (skip) {
     process.stdout.write(
@@ -143,8 +139,6 @@ module.exports = (name, targetPath, flow, eslint, jest, skip) => {
   } else {
     yarnInstall(projectPath, flow, eslint, jest)
       .then(() => {
-        process.stdout.write("\n> Yarn Install is done.\n");
-
         const plumeStart = spawn("yarn", ["dev"], {
           cwd: projectPath,
         }).stdout;

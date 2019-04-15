@@ -1,5 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
+const task = require("../scripts/task");
 
 /**
  * 检查文件/文件夹是否存在
@@ -79,6 +80,7 @@ module.exports = (name, types, targetPath) => {
     if (isExist(path.join(dirPath, name))) throw new Error(`[${name}] model file already exists.`);
   }
 
-  createModule(type, name, dirPath);
-  process.stdout.write(`add ${name} ${type} is done. \npath:${dirPath}\n`);
+  task("create module", createModule(type, name, dirPath), {
+    success: `add '${name}' ${type} is done. \npath:${dirPath}\n`,
+  });
 };
