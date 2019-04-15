@@ -4,7 +4,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 
-program.version("0.0.16", "-v,--version");
+program.version("0.0.17", "-v,--version");
 
 /* 创建新项目 */
 program
