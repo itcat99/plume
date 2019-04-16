@@ -104,6 +104,13 @@ const initGit = projectPath => {
   });
 };
 
+const initGitignore = projectPath => {
+  fse.copyFileSync(
+    path.resolve(__dirname, "..", "templates", "gitignore"),
+    path.join(projectPath, ".gitignore"),
+  );
+};
+
 const copyTemp = (projectPath, flow) => {
   const tempPath = path.resolve(__dirname, "..", "templates", flow ? "project-flow" : "project");
   fse.copySync(tempPath, projectPath);
@@ -125,6 +132,7 @@ module.exports = opts => {
   task("copy template", copyTemp(projectPath, flow));
   task("create package.json", mkPackage(name, projectPath, eslint, jest));
   task("initial git", initGit(projectPath));
+  task("initial gitignore", initGitignore(projectPath));
   eslint && task("create eslint", createEslint(projectPath));
 
   if (skip) {
