@@ -14,9 +14,9 @@ module.exports = (config, isDev) => {
   return {
     entry,
     output: {
-      filename: "[name].[hash].js",
+      filename: isDev ? "[name].[hash].js" : "[name].[contenthash].js",
       path: outputPath,
-      chunkFilename: "[name].[hash].js",
+      chunkFilename: isDev ? "[name].[hash].js" : "[name].[contenthash].js",
       publicPath: "/",
     },
     module: {
@@ -32,7 +32,16 @@ module.exports = (config, isDev) => {
         },
         {
           test: /\.less?$/,
-          use: ["style-loader", "css-loader", "less-loader"],
+          use: [
+            "style-loader",
+            "css-loader",
+            {
+              loader: "less-loader",
+              options: {
+                javascriptEnabled: true, // fixe antd compile bug
+              },
+            },
+          ],
         },
         {
           test: /\.css?$/,
@@ -45,20 +54,8 @@ module.exports = (config, isDev) => {
       ],
     },
     resolve: {
-      extensions: [".js", ".jsx", ".json"],
+      extensions: [".js", ".jsx", ".json", ".scss", ".css", ".less"],
       modules: ["node_modules"],
-    },
-    optimization: {
-      runtimeChunk: "single",
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /node_modules/,
-            name: "common",
-            chunks: "all",
-          },
-        },
-      },
     },
   };
 };

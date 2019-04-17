@@ -3,9 +3,6 @@ const TerserPlugin = require("terser-webpack-plugin");
 const opt = {
   runtimeChunk: "single",
   splitChunks: {
-    // chunks: "all",
-    // name: "common",
-    // minChunks: 1,
     cacheGroups: {
       commons: {
         test: /node_modules/,

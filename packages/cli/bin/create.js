@@ -13,6 +13,7 @@ const mkPackage = (name, projectPath, eslint, jest) => {
     main: "index.js",
     license: "MIT",
     scripts: {
+      initial: "plume-core init",
       dev: "plume-core dev",
       build: "plume-core build",
     },

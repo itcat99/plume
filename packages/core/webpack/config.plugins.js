@@ -69,8 +69,8 @@ module.exports = (config, isDev) => {
       dll: dllVendorName,
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].[hash].css",
-      chunkFilename: "[id].[hash].css",
+      filename: isDev ? "[name].css" : "[name].[contenthash].css",
+      chunkFilename: isDev ? "[name].css" : "[name].[contenthash].css",
     }),
     new optimizeCssAssetsPlugin(),
     new HappyPack({

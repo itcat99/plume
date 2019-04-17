@@ -15,7 +15,16 @@ module.exports = (config, isDev) => {
     },
     {
       test: /\.less?$/,
-      use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+      use: [
+        isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+        "css-loader",
+        {
+          loader: "less-loader",
+          options: {
+            javascriptEnabled: true, // fix antd compile bug
+          },
+        },
+      ],
     },
     {
       test: /\.css?$/,
