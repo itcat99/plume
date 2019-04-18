@@ -71,6 +71,7 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | dllVendor  | string[] | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                   |
 | assetsExt  | string[] | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]    | 静态资源后缀                                |
 | hashRouter | boolean  | false                                                        | 使用hashRouter，默认为browserRouter         |
+| progress   | boolean  | true                                                         | 编译时显示进度条                            |
 
 ### webpack
 

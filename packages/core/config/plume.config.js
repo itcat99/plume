@@ -31,6 +31,7 @@ module.exports = {
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
     hashRouter: false,
+    progress: true,
   },
   webpack: null,
 };

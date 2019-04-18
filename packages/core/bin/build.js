@@ -1,5 +1,6 @@
 const { getConfig, isExist } = require("../scripts/helper");
 const webpack = require("../scripts/webpack");
+const chalk = require("chalk");
 
 module.exports = configFilePath => {
   const config = getConfig(configFilePath);
@@ -10,5 +11,7 @@ module.exports = configFilePath => {
   }
 
   /* eslint no-console:0 */
-  webpack(config, "production").catch(err => console.log(`[WEBPACK BUILD ERROR] ==> ${err}`));
+  webpack(config, "production").catch(err =>
+    console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)),
+  );
 };

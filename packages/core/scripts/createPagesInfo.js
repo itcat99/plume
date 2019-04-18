@@ -1,6 +1,8 @@
 const fse = require("fs-extra");
 const path = require("path");
 const { isDir } = require("../scripts/helper");
+const chalk = require("chalk");
+
 /* eslint no-console:0 */
 
 const getUrlPath = (parentPath, dirName, title) => {
@@ -102,9 +104,9 @@ module.exports = (pagesPath, plumePath) => {
     }
 
     fse.writeFile(path.join(plumePath, "pagesInfo.json"), JSON.stringify(pagesInfo, null, 2));
-    console.log("> create pagesInfo.json is done.");
+    console.log(chalk.green("> create pagesInfo.json is done."));
   } catch (error) {
-    console.error("> Error in [createPagesInfo]: ", error);
+    console.error(chalk.red("> Error in [createPagesInfo]: ", error));
     process.exit(1);
   }
 };

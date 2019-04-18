@@ -31,15 +31,17 @@ const run = compiler => {
         }
       }
 
-      const info = stats.toJson();
+      const info = stats.toJson({
+        stats: "errors-only",
+      });
 
       if (stats.hasErrors()) {
         reject(info.errors);
       }
 
-      if (stats.hasWarnings()) {
-        reject(info.warnings);
-      }
+      // if (stats.hasWarnings()) {
+      //   reject(info.warnings);
+      // }
 
       resolve();
     });
@@ -52,38 +54,24 @@ module.exports = async (config, mode) => {
   const { dll, port, hashRouter } = options;
   const { output } = paths;
 
-  if (dll && !isDev) {
-    const dllOptions = require("../webpack/webpack.dll")(config);
-    const dllCompiler = webpack(dllOptions);
-
-    try {
-      await run(dllCompiler);
-      let options = require("../webpack/webpack.config")(config, isDev);
-      options = customWebpack ? customWebpack(options, config) : options;
-
-      const compiler = webpack(options);
-      await run(compiler);
-    } catch (error) {
-      throw new Error(error);
-    }
-  } else {
-    let options = require("../webpack/webpack.config")(config, isDev);
-    options = customWebpack ? customWebpack(options, config) : options;
-
+  try {
     if (isDev) {
-      try {
-        await dev(options, output, port, hashRouter);
-        console.log("> SUCCESSED!");
-      } catch (error) {
-        throw new Error(error);
-      }
+      let webpackConfig = require("../webpack/webpack.config")(config, isDev);
+      webpackConfig = customWebpack ? customWebpack(webpackConfig, config) : webpackConfig;
+      await dev(webpackConfig, output, port, hashRouter);
     } else {
-      try {
-        const compiler = webpack(options);
-        await run(compiler);
-      } catch (error) {
-        throw new Error(error);
+      if (dll) {
+        const dllOptions = require("../webpack/webpack.dll")(config);
+        const dllCompiler = webpack(dllOptions);
+        await run(dllCompiler);
       }
+      let webpackConfig = require("../webpack/webpack.config")(config, isDev);
+      webpackConfig = customWebpack ? customWebpack(webpackConfig, config) : webpackConfig;
+
+      const compiler = webpack(webpackConfig);
+      await run(compiler);
     }
+  } catch (error) {
+    throw new Error(error);
   }
 };

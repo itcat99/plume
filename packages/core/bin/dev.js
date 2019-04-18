@@ -5,6 +5,7 @@ const path = require("path");
 const createModels = require("../scripts/createModels");
 const createPagesInfo = require("../scripts/createPagesInfo");
 const mkRouter = require("../scripts/mkRouter");
+const chalk = require("chalk");
 
 module.exports = configFilePath => {
   const config = getConfig(configFilePath);
@@ -51,5 +52,5 @@ module.exports = configFilePath => {
       }
     })
     /* eslint no-console:0 */
-    .catch(err => console.log(`[WEBPACK DEV ERROR] ==> ${err}`));
+    .catch(err => console.log(chalk.red(`[WEBPACK DEV ERROR] ==> ${err}`)));
 };
