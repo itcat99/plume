@@ -3,6 +3,7 @@ import asyncMiddleware from "./asyncMiddleware";
 import handleReducer from "./handleReducer";
 import IModel from "./model";
 import { isEmptyObject } from "./helpers";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 
 export default (models: IModel[] | undefined, middleware: Middleware[]) => {
   let resultReducers: any = {};
@@ -26,5 +27,8 @@ export default (models: IModel[] | undefined, middleware: Middleware[]) => {
     };
   }
   const reducer = combineReducers(resultReducers);
-  return createStore(reducer, applyMiddleware(asyncMiddleware(), ...middleware));
+  return createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(asyncMiddleware(), ...middleware)),
+  );
 };
