@@ -8,12 +8,15 @@ const plume = path.join(root, ".plume");
 const assets = path.join(output, "assets");
 const components = path.join(src, "components");
 const containers = path.join(src, "containers");
+const modules = path.join(src, "modules");
 
 module.exports = {
+  mode: "app",
   paths: {
     assets,
     components,
     containers,
+    modules,
     output,
     pages,
     plume,
@@ -28,6 +31,10 @@ module.exports = {
     gzip: true,
     dll: true,
     port: 8080,
+    externals: {
+      react: "React",
+      "react-dom": "ReactDOM",
+    },
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
     hashRouter: false,

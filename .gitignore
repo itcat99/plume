@@ -242,5 +242,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # custom
-lib
+packages/*/lib
 # End of https://www.gitignore.io/api/node,macos,linux,windows,webstorm,visualstudiocode

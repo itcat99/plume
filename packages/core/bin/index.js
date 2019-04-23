@@ -22,12 +22,12 @@ program
   });
 
 /* 初始化 */
-program
-  .command("init")
-  .option("-c, --config <path>", "指定plume.config.js文件路径")
-  .description("初始化plume文件")
-  .action(arg => {
-    require("./init")(arg.config);
-  });
+// program
+//   .command("init")
+//   .option("-c, --config <path>", "指定plume.config.js文件路径")
+//   .description("初始化plume文件")
+//   .action(arg => {
+//     require("./init")(arg.config);
+//   });
 
 program.parse(process.argv);

@@ -1,6 +1,13 @@
-# `plume`
+# `@plume/core`
 
 > TODO: description
+
+**@plume/core的功能发生重大变更，现在仅作为@plume/app和@plume/lib的引用**
+
+new PlumeCore的实例含有两个函数`dev`和`build`作为开发模式和打包使用
+
+dev和build均返回一个Promise函数，可以在then和catch内进行生成webpack实例的后续操作
+
 
 ## Install
 
