@@ -1,0 +1,17 @@
+{
+  "name": "@plume/config",
+  "version": "1.0.0",
+  "description": "plume config file",
+  "keywords": [],
+  "author": "FreMaNgo <boping2010@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itcat99/plume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itcat99/plume/issues"
+  },
+  "homepage": "https://github.com/itcat99/plume#readme"
+}

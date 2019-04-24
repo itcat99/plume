@@ -1,6 +1,6 @@
 const fse = require("fs-extra");
-// const path = require("path");
-// const DEFAULT_CONFIG = require("../config/plume.config");
+const path = require("path");
+const DEFAULT_CONFIG = require("@plume/config");
 
 /**
  * 是否为Object
@@ -8,13 +8,6 @@ const fse = require("fs-extra");
  * @return {boolean}
  */
 const isObject = obj => Object.prototype.toString.call(obj).indexOf("Object") >= 0;
-
-/**
- * 是否为Function
- * @param {object} obj
- * @return {boolean}
- */
-const isFunc = obj => Object.prototype.toString.call(obj).indexOf("Function") > 0;
 
 /**
  * 深合并对象
@@ -41,25 +34,25 @@ const deepAssign = (origin, target) => {
  * @param {string} configFilePath 手动指定的配置文件路径
  * @param {object} 输出配置对象
  */
-// const getConfig = configFilePath => {
-//   let config = DEFAULT_CONFIG;
-//   let configFile = "";
+const getConfig = configFilePath => {
+  let config = DEFAULT_CONFIG;
+  let configFile = "";
 
-//   if (configFilePath) {
-//     configFile = path.isAbsolute(configFilePath)
-//       ? configFilePath
-//       : path.resolve(process.cwd(), configFilePath);
-//   } else {
-//     const tempFile = path.resolve(process.cwd(), "plume.config.json");
-//     configFile = isExist(tempFile) ? tempFile : path.resolve(process.cwd(), "plume.config.js");
-//   }
+  if (configFilePath) {
+    configFile = path.isAbsolute(configFilePath)
+      ? configFilePath
+      : path.resolve(process.cwd(), configFilePath);
+  } else {
+    const tempFile = path.resolve(process.cwd(), "plume.config.json");
+    configFile = isExist(tempFile) ? tempFile : path.resolve(process.cwd(), "plume.config.js");
+  }
 
-//   if (isExist(configFile)) {
-//     config = deepAssign(config, require(configFile));
-//   }
+  if (isExist(configFile)) {
+    config = deepAssign(config, require(configFile));
+  }
 
-//   return config;
-// };
+  return config;
+};
 
 /**
  * 检查文件/文件夹是否存在
@@ -147,7 +140,6 @@ exports.isDir = isDir;
 exports.deepAssign = deepAssign;
 exports.isObject = isObject;
 exports.getCleanPluginOpts = getCleanPluginOpts;
-// exports.getConfig = getConfig;
+exports.getConfig = getConfig;
 exports.isExist = isExist;
-exports.isFunc = isFunc;
 exports.relativePostion = relativePostion;

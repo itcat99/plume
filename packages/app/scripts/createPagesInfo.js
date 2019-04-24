@@ -1,6 +1,6 @@
 const fse = require("fs-extra");
 const path = require("path");
-const { isDir } = require("../scripts/helper");
+const { isDir } = require("./helper");
 const chalk = require("chalk");
 
 /* eslint no-console:0 */

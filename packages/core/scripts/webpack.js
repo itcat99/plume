@@ -48,8 +48,7 @@ const run = compiler => {
   });
 };
 
-module.exports = async (config, mode) => {
-  const isDev = mode === "development";
+module.exports = async (config, isDev) => {
   const { paths, options, webpack: customWebpack } = config;
   const { dll, port, hashRouter } = options;
   const { output } = paths;

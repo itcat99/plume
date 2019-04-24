@@ -1,22 +1,8 @@
-const DEFAULT_CONFIG = require("./config/plume.config");
-const { deepAssign } = require("./scripts/helper");
+const DEFAULT_CONFIG = require("@plume/config");
 const webpack = require("./scripts/webpack");
 
-function getCfg(config) {
-  let _cfg = DEFAULT_CONFIG;
-  const mode = config.mode || process.env.PLUME_ENV || _cfg.mode;
-
-  if (mode === "lib") {
-    const { options } = _cfg;
-    options.gzip = false;
-    options.dll = false;
-  }
-
-  return deepAssign(_cfg, config);
-}
-
 class PlumeCore {
-  constructor(config) {
+  constructor(config = DEFAULT_CONFIG) {
     this.config = config;
   }
 
@@ -37,10 +23,4 @@ class PlumeCore {
   }
 }
 
-module.exports = config => {
-  const _config = getCfg(config);
-  const { mode } = _config;
-  if (!process.env.PLUME_ENV) process.env.PLUME_ENV = mode;
-
-  return new PlumeCore(_config);
-};
+module.exports = config => new PlumeCore(config);

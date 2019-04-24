@@ -7,17 +7,13 @@
   ],
   "author": "FreMaNgo <boping2010@gmail.com>",
   "license": "MIT",
-  "main": "lib/app.js",
-  "bin": {
-    "index.js": "bin/index.js"
-  },
+  "main": "index.js",
   "directories": {
-    "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "bin",
-    "lib"
+    "src",
+    "scripts"
   ],
   "repository": {
     "type": "git",
@@ -26,7 +22,13 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@plume/config": "^1.0.0",
+    "@plume/core": "^0.0.16",
+    "chalk": "^2.4.2",
+    "chokidar": "^2.1.5",
+    "fs-extra": "^7.0.1"
+  },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"
   },

@@ -25,6 +25,8 @@ module.exports = {
   },
   options: {
     assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
+    entry: null,
+    lib: null,
     target: "root",
     analyzer: false,
     flow: false,

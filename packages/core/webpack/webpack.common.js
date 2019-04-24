@@ -1,24 +1,10 @@
-const path = require("path");
+const entry = require("./config.entry");
+const output = require("./config.output");
 
 module.exports = (config, isDev) => {
-  const { paths } = config;
-  const { plume, output } = paths;
-
-  const entry = isDev
-    ? path.join(plume, "index.jsx")
-    : {
-        main: path.join(plume, "index.jsx"),
-      };
-  const outputPath = path.resolve(output);
-
   return {
-    entry,
-    output: {
-      filename: isDev ? "[name].[hash].js" : "[name].[contenthash].js",
-      path: outputPath,
-      chunkFilename: isDev ? "[name].[hash].js" : "[name].[contenthash].js",
-      publicPath: "/",
-    },
+    entry: entry(config),
+    output: output(config, isDev),
     module: {
       rules: [
         {
