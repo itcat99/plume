@@ -8,12 +8,22 @@ program.version("0.0.19", "-v,--version");
 
 /* 创建新项目 */
 program
-  .command("create <name> [path]")
-  .description("创建新项目，<name>指定项目名称，[path]指定新建项目地址，默认在当前目录下。")
-  .option("-s | --skip", "跳过安装依赖的步骤，手动安装")
-  .action((name, targetPath, args) => {
+  .command("create <name>")
+  .description("创建新项目，<name>指定项目名称")
+  .option("-p, --path", "指定新建项目目录，默认在当前目录下")
+  .option("-s, --skip", "跳过安装依赖的步骤，手动安装")
+  .action((name, args) => {
+    const { path: customPath, skip } = args;
+    let targetPath = customPath;
+
     inquirer
       .prompt([
+        {
+          type: "list",
+          name: "mode",
+          choices: ["app", "lib"],
+          message: "please select the project mode",
+        },
         {
           type: "checkbox",
           name: "options",
@@ -22,13 +32,13 @@ program
         },
       ])
       .then(answers => {
-        const { options } = answers;
+        const { options, mode } = answers;
         const flow = options.indexOf("@plume/flow") >= 0;
         const eslint = options.indexOf("eslint") >= 0;
         const jest = options.indexOf("jest") >= 0;
 
-        if (targetPath && !path.isAbsolute(targetPath)) {
-          targetPath = path.join(process.cwd(), targetPath);
+        if (customPath && !path.isAbsolute(customPath)) {
+          targetPath = path.join(process.cwd(), customPath);
         }
 
         const opts = {
@@ -37,8 +47,10 @@ program
           flow,
           eslint,
           jest,
-          skip: args.skip,
+          skip,
+          mode,
         };
+
         require("./create")(opts);
       });
   });
@@ -55,4 +67,41 @@ program
     const { container, page, model } = args;
     require("./add")(name, { container, page, model }, targetPath);
   });
+
+/* 初始化plume */
+program
+  .command("init")
+  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-c, --config <path>", "指定plume.config.js文件路径")
+  .description("初始化plume文件")
+  .action(args => {
+    const { config, mode = "app" } = args;
+
+    require("./init")(config, mode);
+  });
+
+/* 启动开发模式 */
+program
+  .command("dev")
+  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-c, --config <path>", "指定plume.config.js文件路径")
+  .description("启动开发模式")
+  .action(args => {
+    const { config, mode = "app" } = args;
+
+    require("./dev")(config, mode);
+  });
+
+/* 打包 */
+program
+  .command("build")
+  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-c, --config <path>", "指定plume.config.js文件路径")
+  .description("打包项目")
+  .action(args => {
+    const { config, mode = "app" } = args;
+
+    require("./build")(config, mode);
+  });
+
 program.parse(process.argv);
