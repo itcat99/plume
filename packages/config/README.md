@@ -1,12 +1,12 @@
 # `config`
 
-> plume的全局配置文件，影响@plume/app @plume/lib @plume/core
+> plume 的全局配置文件，影响@plume/app @plume/lib @plume/core
 
 ## Usage
 
-config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象，不可使用es6导出语法
+config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象，不可使用 es6 导出语法
 
-~~config 还可以是名为`plume.config.json`的 json 文件~~ 由于加入了webpack选项，所以只能使用.js文件
+~~config 还可以是名为`plume.config.json`的 json 文件~~ 由于加入了 webpack 选项，所以只能使用.js 文件
 
 config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
 
@@ -41,10 +41,10 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | dllName    | string                                 | "vendor"                                                     | 拆分的 dll 文件名                                              |
 | dllVendor  | string[]                               | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                                      |
 | assetsExt  | string[]                               | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"]    | 静态资源后缀                                                   |
-| hashRouter | boolean                                | false                                                        | 使用hashRouter，默认为browserRouter                            |
+| hashRouter | boolean                                | false                                                        | 使用 hashRouter，默认为 browserRouter                          |
 | progress   | boolean                                | true                                                         | 编译时显示进度条                                               |
 | entry      | null \| function \| object \| string[] | null                                                         | 配置入口文件，当没有配置时，使用{plume}/index.jsx 作为默认入口 |
-| lib        | null \| string                         | null                                                         | 当值为string类型时，打包为组件库，名称为设置的值               |
+| lib        | null \| string                         | null                                                         | 当值为 string 类型时，打包为组件库，名称为设置的值             |
 
 ### webpack
 
