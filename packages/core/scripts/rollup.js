@@ -1,8 +1,8 @@
 const rollup = require("rollup");
 
 const dev = config => {
-  return rollup.rollup(inputOptions)
-}
+  return rollup.rollup(inputOptions);
+};
 
 module.exports = async (config, isDev) => {
   const { paths, options, lib } = config;
@@ -10,5 +10,5 @@ module.exports = async (config, isDev) => {
   const { rollup: customRollup } = lib;
 
   const rollupConfig = require("../rollup")(config, isDev);
-  rollup(rollup)
-}
+  rollup(rollup);
+};

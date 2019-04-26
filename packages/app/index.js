@@ -64,7 +64,7 @@ class App {
     const { flow } = this.config.options;
 
     core(this.config)
-      .dev('webpack')
+      .dev("webpack")
       .then(() => {
         /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
         const pageWatcher = chokidar.watch([`${pages}/**/*`], {
@@ -106,7 +106,7 @@ class App {
 
   build() {
     core(this.config)
-      .build('webpack')
+      .build("webpack")
       .catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
   }
 }

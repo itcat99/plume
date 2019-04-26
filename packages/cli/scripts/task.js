@@ -1,6 +1,6 @@
 const ora = require("ora");
 const spinner = ora();
-const Status = function (name, texts) {
+const Status = function(name, texts) {
   this.start = texts && texts.start ? texts.start : `[${name}] task running...`;
   this.fail = texts && texts.fail ? texts.fail : `[${name}] task failed.`;
   this.success = texts && texts.success ? texts.success : `[${name}] task is done.`;
