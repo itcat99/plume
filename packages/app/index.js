@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 const path = require("path");
-const axios = require("axios");
+// const axios = require("axios");
 const fse = require("fs-extra");
 const { getConfig, isExist, debounce } = require("./scripts/helper");
 const mkApp = require("./scripts/mkApp");
@@ -112,4 +112,4 @@ class App {
 }
 
 module.exports = App;
-exports.axios = axios;
+// exports.axios = axios;

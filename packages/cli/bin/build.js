@@ -3,6 +3,7 @@ const App = require("@plume/app");
 const Lib = require("@plume/lib");
 
 module.exports = (customConfig, mode) => {
-  const instance = mode === "app" ? new App(customConfig) : new Lib(customConfig);
+  console.log("run this", mode);
+  const instance = mode === "app" ? new App("@plume/app") : new Lib("@plume/lib");
   instance.build();
 };

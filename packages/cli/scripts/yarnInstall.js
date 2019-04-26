@@ -3,7 +3,7 @@ const installDependents = require("../scripts/installDependents");
 
 /**
  * 安装不同模式下的相应的依赖
- * 
+ *
  * @param {object} config
  * @param {string} config.projectPath 项目目录
  * @param {boolean} flow 是否启用 plumeFlow
@@ -11,7 +11,8 @@ const installDependents = require("../scripts/installDependents");
  * @param {boolean} jest 是否启用jest
  * @param {string} mode 模式
  */
-module.exports = async ({ projectPath, flow, eslint, jest, mode }) => {
+module.exports = async opts => {
+  const { projectPath, flow, eslint, jest, mode } = opts;
   const dependents = ["@babel/runtime", "react", "react-dom"];
   if (mode === "app") {
     dependents.push("react-router-dom", "react-loadable", "axios");
@@ -19,7 +20,7 @@ module.exports = async ({ projectPath, flow, eslint, jest, mode }) => {
   }
 
   const devDependents = ["@plume/config", "@plume/core"];
-  devDependents.push(mode === "lib" ? "@plume/lib" : "@plume/app");
+  devDependents.push(mode === "app" ? "@plume/app" : "@plume/lib");
   jest && devDependents.push("jest");
   eslint &&
     devDependents.push(

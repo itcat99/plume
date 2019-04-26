@@ -23,8 +23,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "fs-extra": "^7.0.1",
-    "yargs": "^13.2.2"
+    "fs-extra": "^7.0.1"
   },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"

@@ -1,7 +1,11 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { getConfig, isExist, debounce } = require("./scripts/helper");
+const {
+  getConfig,
+  isExist,
+  debounce
+} = require("./scripts/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const core = require("@plume/core");
 const chokidar = require("chokidar");
@@ -11,17 +15,22 @@ const chalk = require("chalk");
  * 初始化lib
  * @param {string} customConfig 手动指定的配置文件路径
  */
-class App {
+class Lib {
   constructor(customConfig) {
     this.customConfig = customConfig;
-
+    
     this.init();
   }
 
   init() {
     const config = getConfig(this.customConfig);
-    const { paths, lib } = config;
-    const { plume, root } = paths;
+    const {
+      paths
+    } = config;
+    const {
+      plume,
+      root
+    } = paths;
 
     this.config = config;
 
@@ -41,8 +50,14 @@ class App {
   }
 
   dev() {
-    const { pages, root, plume } = this.config.paths;
-    const { flow } = this.config.options;
+    const {
+      pages,
+      root,
+      plume
+    } = this.config.paths;
+    const {
+      flow
+    } = this.config.options;
 
     core(this.config)
       .dev("rollup")
@@ -53,9 +68,11 @@ class App {
   build() {
     core(this.config)
       .build("rollup")
-      .catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
+      .then(() => {
+        console.log("is build!")
+      })
+      .catch(err => console.log(chalk.red(`[ROLLUP BUILD ERROR] ==> ${err}`)));
   }
 }
 
-module.exports = App;
-exports.axios = axios;
+module.exports = Lib;

@@ -17,7 +17,7 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | app     | null \| object | app 模式的配置选项 |
 | lib     | null \| object | lib 模式的配置选项 |
 | ~~      | webpack        | function           | 自定义 webpack 配置 | ~~ |
-| ~~      | rollup         | function           | 自定义 rollup 配置  | ~~ |
+| ~~      | rollup         | function           | 自定义 rollup 配置 | ~~ |
 
 ### paths
 
