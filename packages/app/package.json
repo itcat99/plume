@@ -22,6 +22,9 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@babel/runtime": "^7.4.0",
     "axios": "^0.18.0",
@@ -40,5 +43,6 @@
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"
   },
-  "homepage": "https://github.com/itcat99/plume#readme"
+  "homepage": "https://github.com/itcat99/plume#readme",
+  "gitHead": "2e7f0f0e0c8786737e11e3cefb9504fe772280b7"
 }

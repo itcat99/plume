@@ -6,6 +6,9 @@
   "author": "FreMaNgo <boping2010@gmail.com>",
   "license": "MIT",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itcat99/plume.git"
@@ -13,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"
   },
-  "homepage": "https://github.com/itcat99/plume#readme"
+  "homepage": "https://github.com/itcat99/plume#readme",
+  "gitHead": "2e7f0f0e0c8786737e11e3cefb9504fe772280b7"
 }
