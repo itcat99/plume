@@ -3,8 +3,9 @@
 const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
+const pkg = require("../package.json");
 
-program.version("0.0.19", "-v,--version");
+program.version(pkg.version, "-v,--version");
 
 /* 创建新项目 */
 program

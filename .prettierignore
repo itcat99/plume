@@ -9,3 +9,4 @@ example
 *.html
 *.hbs
 .*
+gitignore

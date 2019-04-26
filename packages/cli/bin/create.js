@@ -10,8 +10,6 @@ const initGit = require("../scripts/initGit");
 const initGitignore = require("../scripts/initGitignore");
 const copyTemp = require("../scripts/copyTemp");
 
-const dev = require("./dev");
-
 /**
  * @param {object} opts 创建选项
  * @param {string} opts.name 项目名字
@@ -22,7 +20,6 @@ const dev = require("./dev");
  * @param {boolean} opts.skip 是否跳过安装依赖
  */
 module.exports = opts => {
-  console.log("opts: ", opts);
   const { name, targetPath, flow, eslint, jest, skip, mode } = opts;
   const projectPath = path.join(targetPath, name);
 
@@ -42,14 +39,10 @@ module.exports = opts => {
         `>> You must run "yarn add -D eslint babel-eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-react precise-commits prettier husky" to install devDependents.\n`,
       );
   } else {
-    yarnInstall(projectPath, flow, eslint, jest)
+    yarnInstall({ projectPath, flow, eslint, jest, mode })
       .then(() => {
-        dev(null, mode);
-        // const plumeStart = spawn("yarn", ["dev"], {
-        //   cwd: projectPath,
-        // }).stdout;
-        // plumeStart.on("data", data => console.log(data.toString()));
-        // plumeStart.on("error", err => console.error(err.toString()));
+        process.chdir(projectPath);
+        require("./dev")(null, mode);
       })
       .catch(err => console.error("Install dependents error: ", err));
   }

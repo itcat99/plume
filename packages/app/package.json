@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
@@ -21,6 +21,14 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "peerDependencies": {
+    "@babel/runtime": "^7.4.0",
+    "axios": "^0.18.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-loadable": "^5.5.0",
+    "react-router-dom": "^5.0.0"
   },
   "dependencies": {
     "@plume/config": "^1.0.0",

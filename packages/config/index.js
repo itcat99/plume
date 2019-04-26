@@ -42,6 +42,6 @@ module.exports = {
     hashRouter: false,
   },
   lib: {
-    rollup: null
-  }
+    rollup: null,
+  },
 };

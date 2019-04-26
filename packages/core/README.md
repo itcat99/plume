@@ -2,11 +2,11 @@
 
 > TODO: description
 
-**@plume/core的功能发生重大变更，现在仅作为@plume/app和@plume/lib的依赖**
+**@plume/core 的功能发生重大变更，现在仅作为@plume/app 和@plume/lib 的依赖**
 
-new PlumeCore的实例含有两个函数`dev`和`build`作为开发模式和打包使用
+new PlumeCore 的实例含有两个函数`dev`和`build`作为开发模式和打包使用
 
-dev和build均返回一个Promise函数，可以在then和catch内进行生成webpack实例的后续操作
+dev 和 build 均返回一个 Promise 函数，可以在 then 和 catch 内进行生成 webpack 实例的后续操作
 
 ## router
 
@@ -95,7 +95,7 @@ src
 
 ## 嵌套路由
 
-在`{pages}`下的每个目录或`js|jsx`文件（除了index文件）会被当作一个页面，所以可以在页面目录下嵌套其他目录，实现路由嵌套
+在`{pages}`下的每个目录或`js|jsx`文件（除了 index 文件）会被当作一个页面，所以可以在页面目录下嵌套其他目录，实现路由嵌套
 
 例如：
 
@@ -109,18 +109,20 @@ src
 则会生成:
 
 ```json
-
-[{
-  "path": "/Post",
-  "component": "{pages}/Post/index.jsx"
-},{
-  "path": "/Post/P1",
-  "component": "{pages}/Post/P1/index.jsx"
-},{
-  "path": "/Post/P2",
-  "component": "{pages}/Post/P2/index.jsx"
-}]
-
+[
+  {
+    "path": "/Post",
+    "component": "{pages}/Post/index.jsx"
+  },
+  {
+    "path": "/Post/P1",
+    "component": "{pages}/Post/P1/index.jsx"
+  },
+  {
+    "path": "/Post/P2",
+    "component": "{pages}/Post/P2/index.jsx"
+  }
+]
 ```
 
 的结构，访问不同的地址，则会跳转到相应页面
@@ -130,11 +132,11 @@ src
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
 2. 每个 model 的`namespace`必须是**唯一**的
 
+## 404 页面
 
-## 404页面
-有默认的404页面，也可以自定义
+有默认的 404 页面，也可以自定义
 
-自定义的404页面放置在`{pages}/404`目录下，当检测到`{pages}/404`目录存在时，将使用自定义的404页面
+自定义的 404 页面放置在`{pages}/404`目录下，当检测到`{pages}/404`目录存在时，将使用自定义的 404 页面
 
 ## 静态资源
 
@@ -168,7 +170,7 @@ import { axios } from "@plume/core";
 axios
   .get("/")
   .then(result => {})
-  .catch(reault => {})
+  .catch(reault => {});
 ```
 
 ## TODOS
@@ -181,4 +183,4 @@ axios
 - [x] 支持动态路由
 - [x] 支持可选动态路由
 - [x] 支持静态资源打包
-- [x] 集成axios
+- [x] 集成 axios

@@ -26,9 +26,10 @@ class App {
 
   init() {
     const config = getConfig(this.customConfig);
-    const { paths, options } = config;
+    const { paths, options, app } = config;
     const { plume, pages, root } = paths;
-    const { flow, target, hashRouter } = options;
+    const { flow } = options;
+    const { target, hashRouter } = app;
 
     this.config = config;
 
