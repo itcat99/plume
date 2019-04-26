@@ -24,23 +24,24 @@ module.exports = {
     src,
   },
   options: {
-    assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
     entry: null,
-    lib: null,
-    target: "root",
+    assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
     analyzer: false,
     flow: false,
     gzip: true,
-    dll: true,
     port: 8080,
-    externals: {
-      react: "React",
-      "react-dom": "ReactDOM",
-    },
+    externals: null,
+    progress: true,
+  },
+  app: {
+    target: "root",
+    webpack: null,
+    dll: true,
     dllName: "vendor",
     dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
     hashRouter: false,
-    progress: true,
   },
-  webpack: null,
+  lib: {
+    rollup: null
+  }
 };
