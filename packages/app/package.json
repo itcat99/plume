@@ -27,6 +27,8 @@
   },
   "peerDependencies": {
     "@babel/runtime": "^7.4.0",
+    "@plume/config": "^1.0.2",
+    "@plume/core": "^0.0.18",
     "axios": "^0.18.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
@@ -34,8 +36,6 @@
     "react-router-dom": "^5.0.0"
   },
   "dependencies": {
-    "@plume/config": "^1.0.2",
-    "@plume/core": "^0.0.18",
     "chalk": "^2.4.2",
     "chokidar": "^2.1.5",
     "fs-extra": "^7.0.1"
@@ -43,6 +43,5 @@
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"
   },
-  "homepage": "https://github.com/itcat99/plume#readme",
-  "gitHead": "2e7f0f0e0c8786737e11e3cefb9504fe772280b7"
+  "homepage": "https://github.com/itcat99/plume#readme"
 }

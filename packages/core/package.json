@@ -61,6 +61,5 @@
     "webpack-cli": "^3.2.3",
     "webpack-dashboard": "^3.0.0",
     "webpack-dev-server": "^3.2.0"
-  },
-  "gitHead": "2e7f0f0e0c8786737e11e3cefb9504fe772280b7"
+  }
 }
