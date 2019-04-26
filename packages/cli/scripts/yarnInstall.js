@@ -13,9 +13,10 @@ const installDependents = require("../scripts/installDependents");
  */
 module.exports = async ({ projectPath, flow, eslint, jest, mode }) => {
   const dependents = ["@babel/runtime", "react", "react-dom"];
-
-  mode === "app" && dependents.push("react-router-dom", "react-loadable", "axios");
-  flow && dependents.push("@plume/flow");
+  if (mode === "app") {
+    dependents.push("react-router-dom", "react-loadable", "axios");
+    flow && dependents.push("@plume/flow");
+  }
 
   const devDependents = ["@plume/config", "@plume/core"];
   devDependents.push(mode === "lib" ? "@plume/lib" : "@plume/app");

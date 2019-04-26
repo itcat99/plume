@@ -27,7 +27,6 @@ module.exports = {
     entry: null,
     assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
     analyzer: false,
-    flow: false,
     gzip: true,
     port: 8080,
     externals: null,
@@ -35,6 +34,7 @@ module.exports = {
   },
   app: {
     target: "root",
+    flow: false,
     webpack: null,
     dll: true,
     dllName: "vendor",

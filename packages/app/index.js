@@ -26,10 +26,9 @@ class App {
 
   init() {
     const config = getConfig(this.customConfig);
-    const { paths, options, app } = config;
+    const { paths, app } = config;
     const { plume, pages, root } = paths;
-    const { flow } = options;
-    const { target, hashRouter } = app;
+    const { target, hashRouter, flow } = app;
 
     this.config = config;
 
@@ -49,7 +48,7 @@ class App {
     /* 创建页面目录的信息文件 pagesInfo.json */
     createPagesInfo(pages, plume);
     /* 如果开启flow模式，则根据配置创建models.js文件 */
-    if (flow) createModels(root, plume);
+    flow && createModels(root, plume);
     /* 创建Router.js文件 */
     mkRouter(plume, pages);
     /* 创建主应用 App.jsx文件 */
@@ -65,7 +64,7 @@ class App {
     const { flow } = this.config.options;
 
     core(this.config)
-      .dev()
+      .dev('webpack')
       .then(() => {
         /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
         const pageWatcher = chokidar.watch([`${pages}/**/*`], {
@@ -107,7 +106,7 @@ class App {
 
   build() {
     core(this.config)
-      .build()
+      .build('webpack')
       .catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
   }
 }

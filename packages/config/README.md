@@ -17,7 +17,7 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 | app     | null \| object | app 模式的配置选项 |
 | lib     | null \| object | lib 模式的配置选项 |
 | ~~      | webpack        | function           | 自定义 webpack 配置 | ~~ |
-| ~~      | rollup         | function           | 自定义 rollup 配置 | ~~ |
+| ~~      | rollup         | function           | 自定义 rollup 配置  | ~~ |
 
 ### paths
 
@@ -36,7 +36,6 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 
 | name      | type                                      | default                                                   | desc                                                                                                                                                                   |
 | --------- | ----------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| flow      | boolean                                   | false                                                     | 是否使用 @plume/flow                                                                                                                                                   |
 | gzip      | boolean                                   | true                                                      | 是否启用 gzip 压缩                                                                                                                                                     |
 | port      | number                                    | 8080                                                      | 开发模式下，webpack-dev-server 服务器端口号                                                                                                                            |
 | assetsExt | string[]                                  | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"] | 静态资源后缀                                                                                                                                                           |
@@ -61,6 +60,7 @@ plume_config 为 plume 的配置选项
 | dllName    | string           | "vendor"                                                     | 拆分的 dll 文件名                     |
 | dllVendor  | string[]         | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组             |
 | hashRouter | boolean          | false                                                        | 使用 hashRouter，默认为 browserRouter |
+| flow       | boolean          | false                                                        | 是否使用 @plume/flow                  |
 | webpack    | null \| function | null                                                         | 自定义 webpack 配置                   |
 
 #### webpack

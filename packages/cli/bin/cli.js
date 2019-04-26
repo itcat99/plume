@@ -45,7 +45,7 @@ program
         const opts = {
           name,
           targetPath: targetPath || process.cwd(),
-          flow,
+          flow: mode === "lib" ? false : flow,
           eslint,
           jest,
           skip,
