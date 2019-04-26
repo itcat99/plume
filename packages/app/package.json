@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
@@ -31,8 +31,8 @@
     "react-router-dom": "^5.0.0"
   },
   "dependencies": {
-    "@plume/config": "^1.0.0",
-    "@plume/core": "^0.0.16",
+    "@plume/config": "^1.0.1",
+    "@plume/core": "^0.0.17",
     "chalk": "^2.4.2",
     "chokidar": "^2.1.5",
     "fs-extra": "^7.0.1"
