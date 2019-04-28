@@ -1,43 +1,25 @@
 const rollup = require("rollup");
-const { INPUT_ARGS, OUTPUT_ARGS } = require("../rollup/constants");
+const getCfg = require("../rollup");
 
-// const dev = async config => {
-//   return rollup.rollup(inputOptions);
-// };
-
-const build = async config => {
-  const { inputConfig, outputConfig } = config;
-  const bundle = await rollup.rollup(inputConfig);
-  await bundle.write(outputConfig);
+const build = async (inputCfg, outputCfg) => {
+  const result = await rollup.rollup(inputCfg);
+  result.write(outputCfg);
 };
 
-module.exports = async (config, isDev) => {
-  const rollupConfig = require("../rollup")(config, isDev);
-  if (isDev) {
-    return;
-  } else {
-    const result = [];
-    rollupConfig.forEach(cfg => {
-      const inputConfig = {},
-        outputConfig = {};
-      const keys = Object.keys(cfg);
+module.exports = (config, isDev) => {
+  const { lib } = config;
+  const { rollup: customRollup } = lib;
 
-      for (const key of keys) {
-        const content = cfg[key];
-
-        if (key === "output") {
-          for (const _k of Object.keys(content)) {
-            outputConfig[_k] = content[_k];
-          }
-        }
-
-        if (INPUT_ARGS.indexOf(key) >= 0) inputConfig[key] = content;
-        if (OUTPUT_ARGS.indexOf(key) >= 0) outputConfig[key] = content;
-      }
-
-      result.push(build({ inputConfig, outputConfig }));
-    });
-
-    return Promise.all(result);
+  let rollupConfig = getCfg(config, isDev);
+  if (customRollup) {
+    rollupConfig = customRollup(rollupConfig, config, isDev);
   }
+
+  let result = [];
+  rollupConfig.forEach(cfg => {
+    const { input, output } = cfg;
+    result.push(build(input, output));
+  });
+
+  return Promise.all(result);
 };

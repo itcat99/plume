@@ -1,9 +1,8 @@
 /* eslint no-console:0 */
-// const App = require("@plume/app");
-// const Lib = require("@plume/lib");
+const App = require("@plume/app");
+const Lib = require("@plume/lib");
 
 module.exports = (customConfig, mode) => {
-  const constructor = mode === "app" ? require("@plume/app") : require("@plume/lib");
-  const instance = new constructor(customConfig);
+  const instance = mode === "app" ? new App(customConfig) : new Lib(customConfig);
   instance.dev();
 };

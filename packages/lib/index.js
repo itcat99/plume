@@ -24,9 +24,7 @@ class Lib {
 
   init() {
     const config = getConfig(this.customConfig);
-    const {
-      paths
-    } = config;
+    const {paths} = config;
     const {
       plume,
       root

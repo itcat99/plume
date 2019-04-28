@@ -21,27 +21,27 @@ config 文件放置在项目根目录，可以在 cli 内不配置`--config`选�
 
 ### paths
 
-| name       | type   | default          | desc                                                                           |
-| ---------- | ------ | ---------------- | ------------------------------------------------------------------------------ |
-| root       | string | process.cwd()    | 项目根目录                                                                     |
-| src        | string | {root}/src       | 开发目录                                                                       |
-| pages      | string | {src}/pages      | 页面目录                                                                       |
-| plume      | string | {root}/.plume    | plume 目录                                                                     |
-| output     | string | {root}/dist      | 打包输出目录                                                                   |
-| assets     | string | {dist}/assets    | 静态资源目录                                                                   |
-| components | string | {src}/components | 组件目录。在 app 模式下，作为静态组件的目录；在 lib 模式下，作为独立组件的目录 |
-| containers | string | {src}/containers | 包装组件目录                                                                   |
+| name       | type   | default          | desc                                        |
+| ---------- | ------ | ---------------- | ------------------------------------------- |
+| root       | string | process.cwd()    | 项目根目录                                  |
+| src        | string | {root}/src       | 开发目录                                    |
+| pages      | string | {src}/pages      | 页面目录                                    |
+| plume      | string | {root}/.plume    | plume 目录                                  |
+| output     | string | {root}/dist      | 打包输出目录                                |
+| assets     | string | {dist}/assets    | 静态资源目录                                |
+| components | string | {src}/components | 组件目录。在 app 模式下，作为静态组件的目录 |
+| containers | string | {src}/containers | 包装组件目录                                |
 
 ### options
 
-| name      | type                                      | default                                                   | desc                                                                                                                                                                   |
-| --------- | ----------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| gzip      | boolean                                   | true                                                      | 是否启用 gzip 压缩                                                                                                                                                     |
-| port      | number                                    | 8080                                                      | 开发模式下，webpack-dev-server 服务器端口号                                                                                                                            |
-| assetsExt | string[]                                  | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"] | 静态资源后缀                                                                                                                                                           |
-| progress  | boolean                                   | true                                                      | 编译时显示进度条                                                                                                                                                       |
-| entry     | null \| function \| object \|string[]     | null                                                      | 配置入口文件，当没有配置时，app 模式下使用{plume}/index.jsx 作为默认入口；lib 模式下使用{src}/index.js 和{components}目录下每个`文件夹`内的 index.jsx 文件作为默认入口 |
-| externals | null \| String \| Array \| Object \| Regx | null                                                      | 配置外部依赖，当 app 模式时同 webpack 的 externals 配置，当 lib 模式时同 rollup 的 external                                                                            |
+| name      | type                                      | default                                                   | desc                                                                                                                                                            |
+| --------- | ----------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gzip      | boolean                                   | true                                                      | 是否启用 gzip 压缩                                                                                                                                              |
+| port      | number                                    | 8080                                                      | 开发模式下，webpack-dev-server 服务器端口号                                                                                                                     |
+| assetsExt | string[]                                  | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"] | 静态资源后缀                                                                                                                                                    |
+| progress  | boolean                                   | true                                                      | 编译时显示进度条                                                                                                                                                |
+| entry     | null \| function \| object \|string[]     | null                                                      | 配置入口文件，当没有配置时，app 模式下使用{plume}/index.jsx 作为默认入口；lib 模式下使用{src}/index.js 和{src}目录下每个`文件夹`内的 index.jsx 文件作为默认入口 |
+| externals | null \| String \| Array \| Object \| Regx | null                                                      | 配置外部依赖，当 app 模式时同 webpack 的 externals 配置，当 lib 模式时同 rollup 的 external                                                                     |
 
 #### entry: Function
 
@@ -71,9 +71,10 @@ plume_config 为 plume 的配置选项
 
 ### lib
 
-| name   | type             | default | desc               |
-| ------ | ---------------- | ------- | ------------------ |
-| rollup | null \| function | null    | 自定义 rollup 配置 |
+| name   | type             | default  | desc                      |
+| ------ | ---------------- | -------- | ------------------------- |
+| rollup | null \| function | null     | 自定义 rollup 配置        |
+| name   | string           | PlumeLib | umd 打包时需要的 lib name |
 
 #### rollup
 

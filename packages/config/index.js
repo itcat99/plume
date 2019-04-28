@@ -41,6 +41,7 @@ module.exports = {
     hashRouter: false,
   },
   lib: {
+    name: "PlumeLib",
     rollup: null,
   },
 };
