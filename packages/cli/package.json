@@ -18,7 +18,8 @@
   "files": [
     "bin",
     "templates",
-    "scripts"
+    "scripts",
+    "constants"
   ],
   "publishConfig": {
     "access": "public"

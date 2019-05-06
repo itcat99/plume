@@ -25,7 +25,6 @@ module.exports = (name, projectPath, eslint, jest, mode) => {
   if (jest) data.scripts["test"] = "jest";
   if (mode === "lib") {
     data.scripts["build:doc"] = "docz build";
-    data.scripts["dev:doc"] = "docz dev";
   }
 
   fse.writeFileSync(path.join(projectPath, `package.json`), JSON.stringify(data, null, 2));

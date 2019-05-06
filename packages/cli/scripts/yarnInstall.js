@@ -6,12 +6,8 @@ const installDependents = require("../scripts/installDependents");
  *
  * @param {object} config
  * @param {string} config.projectPath 项目目录
- * @param {boolean} config.flow 是否启用 plumeFlow
- * @param {boolean} config.eslint 是否启用 eslint
- * @param {boolean} config.jest 是否启用jest
- * @param {string} config.mode 模式
- * @param {string} config.cssMode css模式
- * @param {boolean} config.cssModules 是否启用cssModules
+ * @param {array} config.dependents 依赖的数组
+ * @param {array} config.devDependents 开发依赖的数组
  */
 module.exports = async opts => {
   const { projectPath, dependents, devDependents } = opts;

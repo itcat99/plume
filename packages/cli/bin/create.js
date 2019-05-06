@@ -17,10 +17,13 @@ const skipDependents = require("../scripts/skip");
  * @param {object} opts 创建选项
  * @param {string} opts.name 项目名字
  * @param {string} opts.targetPath 项目目录
- * @param {boolean} opts.flow 是否启用@plume/flow
- * @param {boolean} opts.esling 是否启用eslint
+ * @param {boolean} opts.flow 是否启用 plume-flow
+ * @param {boolean} opts.eslint 是否启用eslint
  * @param {boolean} opts.jest 是否启用jest
  * @param {boolean} opts.skip 是否跳过安装依赖
+ * @param {string} opts.mode 项目模式 app | lib
+ * @param {string} opts.cssMode css模式 sass | less | styled-components | css
+ * @param {boolean} opts.cssModules 是否启用cssModules
  */
 module.exports = opts => {
   const { name, targetPath, flow, eslint, jest, skip, mode, cssMode, cssModules } = opts;

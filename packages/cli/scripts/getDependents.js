@@ -1,6 +1,18 @@
-const dependentsList = require("../scripts/dependents");
-const devDependentsList = require("../scripts/devDependents");
+const dependentsList = require("../constants/dependents");
+const devDependentsList = require("../constants/devDependents");
 
+/**
+ * 获取安装不同模式下的相应的生产依赖和开发依赖
+ *
+ * @param {object} opts
+ * @param {boolean} opts.flow 是否启用 plumeFlow
+ * @param {boolean} opts.eslint 是否启用 eslint
+ * @param {boolean} opts.jest 是否启用jest
+ * @param {string} opts.mode 模式
+ * @param {string} opts.cssMode css模式
+ * @param {boolean} opts.cssModules 是否启用cssModules
+ * @return {object} 返回 {dependents, devDependents}
+ */
 module.exports = opts => {
   const { flow, eslint, jest, mode, cssMode, cssModules } = opts;
   let dependents = dependentsList.common;
