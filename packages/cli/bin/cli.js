@@ -24,16 +24,39 @@ program
           name: "mode",
           choices: ["app", "lib"],
           message: "please select the project mode",
+          default: 0,
+        },
+        {
+          type: "list",
+          name: "cssMode",
+          choices: ["sass", "styled-components", "less", "css"],
+          message: "please select the css mode",
+          when: answers => answers.mode === "lib",
+        },
+        {
+          type: "confirm",
+          name: "cssModules",
+          message: "Do you want to use css modules?",
+          when: answers => {
+            const { cssMode } = answers;
+            return cssMode === "sass" || cssMode === "less" || cssMode === "css";
+          },
         },
         {
           type: "checkbox",
           name: "options",
           choices: ["@plume/flow", "eslint", "jest"],
           message: "please select the option you need",
+          default: ["eslint"],
+        },
+        {
+          type: "confirm",
+          name: "skip",
+          message: "Do you want to skip install dependents?",
         },
       ])
       .then(answers => {
-        const { options, mode } = answers;
+        const { options, mode, cssMode, cssModules, skip: doSkip } = answers;
         const flow = options.indexOf("@plume/flow") >= 0;
         const eslint = options.indexOf("eslint") >= 0;
         const jest = options.indexOf("jest") >= 0;
@@ -48,8 +71,10 @@ program
           flow: mode === "lib" ? false : flow,
           eslint,
           jest,
-          skip,
+          skip: doSkip || skip,
           mode,
+          cssMode,
+          cssModules,
         };
 
         require("./create")(opts);

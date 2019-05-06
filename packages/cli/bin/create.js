@@ -9,6 +9,9 @@ const createEslint = require("../scripts/createEslint");
 const initGit = require("../scripts/initGit");
 const initGitignore = require("../scripts/initGitignore");
 const copyTemp = require("../scripts/copyTemp");
+const createDocz = require("../scripts/createDocz");
+const getDependents = require("../scripts/getDependents");
+const skipDependents = require("../scripts/skip");
 
 /**
  * @param {object} opts 创建选项
@@ -20,27 +23,24 @@ const copyTemp = require("../scripts/copyTemp");
  * @param {boolean} opts.skip 是否跳过安装依赖
  */
 module.exports = opts => {
-  const { name, targetPath, flow, eslint, jest, skip, mode } = opts;
+  const { name, targetPath, flow, eslint, jest, skip, mode, cssMode, cssModules } = opts;
   const projectPath = path.join(targetPath, name);
 
   task("copy template", copyTemp(projectPath, mode, flow));
-  task("create package.json", mkPackage(name, projectPath, eslint, jest));
-  task("initial git", initGit(projectPath));
-  task("initial gitignore", initGitignore(projectPath));
-  eslint && task("create eslint", createEslint(projectPath));
+  task("build package.json", mkPackage(name, projectPath, eslint, jest, mode));
+  task("build git", initGit(projectPath));
+  task("build gitignore", initGitignore(projectPath));
+  eslint && task("build eslint", createEslint(projectPath));
+  mode === "lib" && task("build docz config file", createDocz(projectPath, cssMode, cssModules));
 
+  const { dependents, devDependents } = getDependents(opts);
   if (skip) {
-    process.stdout.write(
-      `>> You must run "yarn add react react-dom react-router-dom react-loadable @babel/runtime" to install devendents.\n`,
-    );
-
-    eslint &&
-      process.stdout.write(
-        `>> You must run "yarn add -D eslint babel-eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-react precise-commits prettier husky" to install devDependents.\n`,
-      );
+    task("build project");
+    skipDependents(dependents, devDependents, projectPath);
   } else {
-    yarnInstall({ projectPath, flow, eslint, jest, mode })
+    yarnInstall({ projectPath, dependents, devDependents })
       .then(() => {
+        task("build project");
         process.chdir(projectPath);
         require("./dev")(null, mode);
       })

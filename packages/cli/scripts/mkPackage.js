@@ -1,7 +1,7 @@
 const path = require("path");
 const fse = require("fs-extra");
 
-module.exports = (name, projectPath, eslint, jest) => {
+module.exports = (name, projectPath, eslint, jest, mode) => {
   const data = {
     name,
     version: "0.0.1",
@@ -23,6 +23,10 @@ module.exports = (name, projectPath, eslint, jest) => {
   }
 
   if (jest) data.scripts["test"] = "jest";
+  if (mode === "lib") {
+    data.scripts["build:doc"] = "docz build";
+    data.scripts["dev:doc"] = "docz dev";
+  }
 
   fse.writeFileSync(path.join(projectPath, `package.json`), JSON.stringify(data, null, 2));
 };

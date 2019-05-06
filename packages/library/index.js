@@ -1,11 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const {
-  getConfig,
-  isExist,
-  debounce
-} = require("./scripts/helper");
+const { getConfig, isExist, debounce } = require("./scripts/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const core = require("@plume/core");
 const chokidar = require("chokidar");
@@ -18,17 +14,14 @@ const chalk = require("chalk");
 class Lib {
   constructor(customConfig) {
     this.customConfig = customConfig;
-    
+
     this.init();
   }
 
   init() {
     const config = getConfig(this.customConfig);
-    const {paths} = config;
-    const {
-      plume,
-      root
-    } = paths;
+    const { paths } = config;
+    const { plume, root } = paths;
 
     this.config = config;
 
@@ -48,18 +41,12 @@ class Lib {
   }
 
   dev() {
-    const {
-      pages,
-      root,
-      plume
-    } = this.config.paths;
-    const {
-      flow
-    } = this.config.options;
+    const { pages, root, plume } = this.config.paths;
+    const { flow } = this.config.options;
 
     core(this.config)
       .dev("rollup")
-      .then(() => { })
+      .then(() => {})
       .catch(err => console.error("dev err: ", err));
   }
 
@@ -67,7 +54,7 @@ class Lib {
     core(this.config)
       .build("rollup")
       .then(() => {
-        console.log("is build!")
+        console.log("is build!");
       })
       .catch(err => console.log(chalk.red(`[ROLLUP BUILD ERROR] ==> ${err}`)));
   }
