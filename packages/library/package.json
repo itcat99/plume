@@ -10,7 +10,8 @@
     "test": "__tests__"
   },
   "files": [
-    "scripts"
+    "scripts",
+    "config"
   ],
   "publishConfig": {
     "access": "public"

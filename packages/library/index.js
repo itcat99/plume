@@ -1,11 +1,11 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { getConfig, isExist, debounce } = require("./scripts/helper");
+const { getConfig, isExist } = require("./scripts/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const core = require("@plume/core");
-const chokidar = require("chokidar");
-const chalk = require("chalk");
+// const chokidar = require("chokidar");
+// const chalk = require("chalk");
 
 /**
  * 初始化lib
@@ -41,22 +41,27 @@ class Lib {
   }
 
   dev() {
-    const { pages, root, plume } = this.config.paths;
-    const { flow } = this.config.options;
+    const { root } = this.config.paths;
 
-    core(this.config)
-      .dev("rollup")
-      .then(() => {})
-      .catch(err => console.error("dev err: ", err));
+    core(this.config).dev("docz", root);
   }
 
   build() {
-    core(this.config)
-      .build("rollup")
-      .then(() => {
-        console.log("is build!");
-      })
-      .catch(err => console.log(chalk.red(`[ROLLUP BUILD ERROR] ==> ${err}`)));
+    const { src, output, root } = this.config.paths;
+
+    // esm
+    process.env.BABEL_ENV = "esm";
+    core(this.config).build("lib", src, path.join(output, "esm"), root);
+
+    // cjs
+    process.env.BABEL_ENV = "cjs";
+    core(this.config).build("lib", src, path.join(output, "lib"), root);
+  }
+
+  buildDocz() {
+    const { root } = this.config.paths;
+
+    core(this.config).build("docz", root, path.join(root, "doc"));
   }
 }
 
