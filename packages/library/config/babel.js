@@ -17,6 +17,13 @@ module.exports = {
     "@babel/plugin-transform-runtime",
     "@babel/plugin-transform-for-of",
     "@babel/plugin-syntax-dynamic-import",
+    [
+      "transform-rename-import",
+      {
+        original: "^(.+?)\\.(sc|sa|le)ss$",
+        replacement: "$1.css",
+      },
+    ],
     // ["css-modules-transform", {
     //   extensions: [".scss", '.less', '.css'],
     //   extractCss: {

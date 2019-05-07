@@ -33,7 +33,7 @@ class PlumeCore {
         cwd: projectPath,
       });
     } else {
-      doczStdout = spawn(`${projectPath}/node_modules/.bin/docz`, ["build", "--dest", outputDir], {
+      doczStdout = spawn(`${projectPath}/node_modules/.bin/docz`, ["build", "--dest", "doc"], {
         cwd: projectPath,
       });
     }
@@ -50,7 +50,7 @@ class PlumeCore {
 
   lib(_isDev, inputDir, outputDir, projectPath) {
     const libStdout = spawn(
-      "gulp",
+      `${projectPath}/node_modules/.bin/gulp`,
       ["-f", path.resolve(__dirname, "gulp", "index.js"), "--cwd", projectPath],
       {
         cwd: projectPath,
