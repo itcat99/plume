@@ -1,6 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const { isExist } = require("./helper");
+const { isExist } = require("@plume/helper");
 
 const BABELRC = {
   presets: ["@babel/preset-env", "@babel/preset-react"],

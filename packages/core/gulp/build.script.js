@@ -38,15 +38,29 @@ function _build(format) {
     //   ),
     // );
   } else {
-    source.pipe(babel()).pipe(
-      terser({
-        compress: {
-          drop_console: true,
-          warnings: false,
-          drop_debugger: true,
-        },
-      }),
-    );
+    source
+      .pipe(
+        babel({
+          plugins: [
+            [
+              "transform-rename-import",
+              {
+                original: "^(.+?)\\.(sc|sa|le)ss$",
+                replacement: "$1.css",
+              },
+            ],
+          ],
+        }),
+      )
+      .pipe(
+        terser({
+          compress: {
+            drop_console: true,
+            warnings: false,
+            drop_debugger: true,
+          },
+        }),
+      );
   }
 
   return source.pipe(dest(`lib/${format}`));

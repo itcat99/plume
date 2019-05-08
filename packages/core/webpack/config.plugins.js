@@ -11,7 +11,7 @@ const webpack = require("webpack");
 const fse = require("fs-extra");
 // const DashboardPlugin = require("webpack-dashboard/plugin");
 // const Dashboard = require("webpack-dashboard");
-const { getCleanPluginOpts } = require("../scripts/helper");
+const { getCleanPluginOpts } = require("@plume/helper");
 
 const plugins = [];
 

@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const CleanPlugin = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-const { getCleanPluginOpts } = require("../scripts/helper");
+const { getCleanPluginOpts } = require("@plume/helper");
 
 module.exports = config => {
   const { options, paths } = config;

@@ -1,5 +1,5 @@
 const path = require("path");
-const { isFunc } = require("../scripts/helper");
+const { isFunc } = require("@plume/helper");
 
 module.exports = config => {
   const { entry } = config.options;

@@ -1,6 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const { relativePostion, isExist } = require("./helper");
+const { relativePostion, isExist } = require("@plume/helper");
 const template = require("./template");
 
 module.exports = (plume, pages) => {

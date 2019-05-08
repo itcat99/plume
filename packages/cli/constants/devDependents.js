@@ -1,5 +1,4 @@
 module.exports = {
-  common: ["@plume/config", "@plume/core"],
   app: ["@plume/app"],
   lib: ["@plume/lib", "docz", "docz-theme-default", "docz-plugin-css"],
   sass: ["node-sass"],

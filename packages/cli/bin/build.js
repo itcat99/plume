@@ -2,12 +2,12 @@
 const App = require("@plume/app");
 const Lib = require("@plume/lib");
 
-module.exports = (customConfig, mode) => {
+module.exports = (config, mode) => {
   if (mode === "app") {
-    const instance = new App(customConfig);
+    const instance = new App(config);
     instance.build();
   } else {
-    const instance = new Lib(customConfig);
+    const instance = new Lib(config);
     instance.build();
     instance.buildDocz();
   }

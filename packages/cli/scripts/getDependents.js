@@ -16,7 +16,7 @@ const devDependentsList = require("../constants/devDependents");
 module.exports = opts => {
   const { flow, eslint, jest, mode, cssMode, cssModules } = opts;
   let dependents = dependentsList.common;
-  let devDependents = devDependentsList.common;
+  let devDependents = [];
 
   if (mode === "app") {
     dependents = [].concat(dependents, dependentsList.app);

@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { isDir } = require("./helper");
+const { isDir } = require("@plume/helper");
 
 const IGONRE_DIRS = ["node_modules", ".plume"];
 

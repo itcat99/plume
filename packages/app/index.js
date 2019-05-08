@@ -2,7 +2,7 @@
 const path = require("path");
 // const axios = require("axios");
 const fse = require("fs-extra");
-const { getConfig, isExist, debounce } = require("./scripts/helper");
+const { isExist, debounce } = require("@plume/helper");
 const mkApp = require("./scripts/mkApp");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const mkEntry = require("./scripts/mkEntry");
@@ -15,22 +15,20 @@ const chalk = require("chalk");
 
 /**
  * 初始化app
- * @param {string} customConfig 手动指定的配置文件路径
+ * @param {string} config plume配置
  */
 class App {
-  constructor(customConfig) {
-    this.customConfig = customConfig;
-
+  constructor(config) {
+    // this.customConfig = customConfig;
+    this.config = config;
     this.init();
   }
 
   init() {
-    const config = getConfig(this.customConfig);
-    const { paths, app } = config;
+    // const config = getConfig(this.customConfig);
+    const { paths, app } = this.config;
     const { plume, pages, root } = paths;
     const { target, hashRouter, flow } = app;
-
-    this.config = config;
 
     /* 创建.plume目录 */
     if (isExist(plume)) {
@@ -41,7 +39,7 @@ class App {
     /* 创建配置文件 */
     fse.writeFileSync(
       path.join(plume, "config.js"),
-      `module.exports = ${JSON.stringify(config, null, 2)}`,
+      `module.exports = ${JSON.stringify(this.config, null, 2)}`,
     );
     /* 创建入口文件 index.jsx */
     mkEntry(flow, target, plume);

@@ -39,6 +39,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "@plume/config": "^1.0.3",
+    "@plume/helper": "^1.0.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-rename-import": "^2.3.0",
     "clean-webpack-plugin": "^1.0.1",

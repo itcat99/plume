@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-
 const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 const pkg = require("../package.json");
+const { getConfig } = require("@plume/helper");
 
 program.version(pkg.version, "-v,--version");
 
@@ -86,6 +86,7 @@ program
   .description(
     "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
   )
+  .option("-l | --lib", "指定项目的模式为 lib，默认的项目模式为 app")
   .option("-c | --container", "创建container组件")
   .option("-p | --page", "创建page页面")
   .option("-m | --model", "创建model模块")
@@ -97,11 +98,13 @@ program
 /* 初始化plume */
 program
   .command("init")
-  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
   .option("-c, --config <path>", "指定plume.config.js文件路径")
   .description("初始化plume文件")
   .action(args => {
-    const { config, mode = "app" } = args;
+    const { config: customConfig, lib, cwd } = args;
+    const mode = lib ? "lib" : "app";
+    const config = getConfig(customConfig, cwd);
 
     require("./init")(config, mode);
   });
@@ -109,11 +112,13 @@ program
 /* 启动开发模式 */
 program
   .command("dev")
-  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
   .option("-c, --config <path>", "指定plume.config.js文件路径")
   .description("启动开发模式")
   .action(args => {
-    const { config, mode = "app" } = args;
+    const { config: customConfig, lib, cwd } = args;
+    const mode = lib ? "lib" : "app";
+    const config = getConfig(customConfig, cwd);
 
     require("./dev")(config, mode);
   });
@@ -121,11 +126,14 @@ program
 /* 打包 */
 program
   .command("build")
-  .option("-m, --mode <type>", "指定项目的模式 app | lib. default: app")
+  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
   .option("-c, --config <path>", "指定plume.config.js文件路径")
+  .option("--cwd", "设置cwd，当config配置为相对路径时，则从此处搜索，默认为process.cwd()")
   .description("打包项目")
   .action(args => {
-    const { config, mode = "app" } = args;
+    const { config: customConfig, lib, cwd } = args;
+    const mode = lib ? "lib" : "app";
+    const config = getConfig(customConfig, cwd);
 
     require("./build")(config, mode);
   });

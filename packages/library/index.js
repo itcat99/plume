@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { getConfig, isExist } = require("./scripts/helper");
+const { isExist } = require("@plume/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const core = require("@plume/core");
 // const chokidar = require("chokidar");
@@ -9,21 +9,21 @@ const core = require("@plume/core");
 
 /**
  * 初始化lib
- * @param {string} customConfig 手动指定的配置文件路径
+ * @param {string} config plume配置
  */
 class Lib {
-  constructor(customConfig) {
-    this.customConfig = customConfig;
+  constructor(config) {
+    this.config = config;
 
     this.init();
   }
 
   init() {
-    const config = getConfig(this.customConfig);
-    const { paths } = config;
+    // const config = getConfig(this.customConfig);
+    const { paths } = this.config;
     const { plume, root } = paths;
 
-    this.config = config;
+    // this.config = config;
 
     /* 创建.plume目录 */
     if (isExist(plume)) {
@@ -34,7 +34,7 @@ class Lib {
     /* 创建配置文件 */
     fse.writeFileSync(
       path.join(plume, "config.js"),
-      `module.exports = ${JSON.stringify(config, null, 2)}`,
+      `module.exports = ${JSON.stringify(this.config, null, 2)}`,
     );
     /* 创建.babelrc文件 */
     mkBabelrc(root);

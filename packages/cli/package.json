@@ -32,6 +32,10 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
+    "@plume/app": "^0.0.4",
+    "@plume/config": "^1.0.3",
+    "@plume/helper": "^1.0.0",
+    "@plume/lib": "^0.0.4",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1",
