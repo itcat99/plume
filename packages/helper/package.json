@@ -1,6 +1,6 @@
 {
   "name": "@plume/helper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "plume helper tools",
   "keywords": [
     "plume",
@@ -27,7 +27,7 @@
     "url": "https://github.com/itcat99/plume/issues"
   },
   "dependencies": {
-    "@plume/config": "^1.0.3",
+    "@plume/config": "^1.0.4",
     "fs-extra": "^7.0.1"
   }
 }
