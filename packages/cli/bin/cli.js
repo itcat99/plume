@@ -11,7 +11,7 @@ program.version(pkg.version, "-v,--version");
 program
   .command("create <name>")
   .description("创建新项目，<name>指定项目名称")
-  .option("-p, --path", "指定新建项目目录，默认在当前目录下")
+  .option("-p, --path <path>", "指定新建项目目录，默认在当前目录下")
   .option("-s, --skip", "跳过安装依赖的步骤，手动安装")
   .action((name, args) => {
     const { path: customPath, skip } = args;

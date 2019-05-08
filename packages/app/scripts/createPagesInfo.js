@@ -104,7 +104,6 @@ module.exports = (pagesPath, plumePath) => {
     }
 
     fse.writeFile(path.join(plumePath, "pagesInfo.json"), JSON.stringify(pagesInfo, null, 2));
-    console.log(chalk.green("> create pagesInfo.json is done."));
   } catch (error) {
     console.error(chalk.red("> Error in [createPagesInfo]: ", error));
     process.exit(1);

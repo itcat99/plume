@@ -2,7 +2,7 @@
 const path = require("path");
 // const { spawn } = require("child_process");
 
-const task = require("../scripts/task");
+const { task } = require("@plume/helper");
 const mkPackage = require("../scripts/mkPackage");
 const yarnInstall = require("../scripts/yarnInstall");
 const createEslint = require("../scripts/createEslint");

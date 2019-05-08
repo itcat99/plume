@@ -14,6 +14,15 @@ module.exports = (name, projectPath, eslint, jest, mode) => {
     },
   };
 
+  if (mode === "lib") {
+    data.scripts = {
+      initial: "plume-cli init -l",
+      build: "plume-cli build -l",
+      dev: "plume-cli dev -l",
+      "build:doc": "docz build",
+    };
+  }
+
   if (eslint) {
     data["husky"] = {
       hooks: {
@@ -23,9 +32,6 @@ module.exports = (name, projectPath, eslint, jest, mode) => {
   }
 
   if (jest) data.scripts["test"] = "jest";
-  if (mode === "lib") {
-    data.scripts["build:doc"] = "docz build";
-  }
 
   fse.writeFileSync(path.join(projectPath, `package.json`), JSON.stringify(data, null, 2));
 };

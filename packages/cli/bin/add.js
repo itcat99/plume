@@ -1,20 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const task = require("../scripts/task");
-
-/**
- * 检查文件/文件夹是否存在
- * @param {string} targetPath 目标文件路径
- * @param {boolean} 返回true or false
- */
-const isExist = targetPath => {
-  try {
-    fse.statSync(targetPath);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
+const { task, isExist } = require("@plume/helper");
 
 /**
  * 创建模块

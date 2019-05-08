@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { isExist } = require("@plume/helper");
+const { isExist, task } = require("@plume/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const core = require("@plume/core");
 // const chokidar = require("chokidar");
@@ -51,17 +51,15 @@ class Lib {
 
     // esm
     process.env.BABEL_ENV = "esm";
-    core(this.config).build("lib", src, path.join(output, "esm"), root);
-
+    task("build esm", core(this.config).build("lib", src, path.join(output, "esm"), root));
     // cjs
     process.env.BABEL_ENV = "cjs";
-    core(this.config).build("lib", src, path.join(output, "lib"), root);
+    task("build cjs", core(this.config).build("lib", src, path.join(output, "lib"), root));
   }
 
   buildDocz() {
     const { root } = this.config.paths;
-
-    core(this.config).build("docz", root, path.join(root, "doc"));
+    task("build document", core(this.config).build("docz", root, path.join(root, "doc")));
   }
 }
 

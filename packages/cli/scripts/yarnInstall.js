@@ -1,4 +1,4 @@
-const task = require("../scripts/task");
+const { task } = require("@plume/helper");
 const installDependents = require("../scripts/installDependents");
 
 /**

@@ -2,7 +2,7 @@
 const path = require("path");
 // const axios = require("axios");
 const fse = require("fs-extra");
-const { isExist, debounce } = require("@plume/helper");
+const { isExist, debounce, task } = require("@plume/helper");
 const mkApp = require("./scripts/mkApp");
 const mkBabelrc = require("./scripts/mkBabelrc");
 const mkEntry = require("./scripts/mkEntry");
@@ -34,27 +34,33 @@ class App {
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
-    fse.mkdirSync(plume);
+    task("create .plume directory", fse.mkdirSync(plume));
 
     /* 创建配置文件 */
-    fse.writeFileSync(
-      path.join(plume, "config.js"),
-      `module.exports = ${JSON.stringify(this.config, null, 2)}`,
+    task(
+      "create plume config",
+      fse.writeFileSync(
+        path.join(plume, "config.js"),
+        `module.exports = ${JSON.stringify(this.config, null, 2)}`,
+      ),
     );
     /* 创建入口文件 index.jsx */
-    mkEntry(flow, target, plume);
+    task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
-    createPagesInfo(pages, plume);
+    task("create pagesInfo file", createPagesInfo(pages, plume));
     /* 如果开启flow模式，则根据配置创建models.js文件 */
-    flow && createModels(root, plume);
+    flow && task("create models file ", createModels(root, plume));
     /* 创建Router.js文件 */
-    mkRouter(plume, pages);
+    task("create Router file", mkRouter(plume, pages));
     /* 创建主应用 App.jsx文件 */
-    mkApp(plume, hashRouter);
+    task("create app main file", mkApp(plume, hashRouter));
     /* 复制errorpages */
-    fse.copyFileSync(path.join(__dirname, "src", "Err404.jsx"), path.join(plume, "404.jsx"));
+    task(
+      "copy errorpages",
+      fse.copyFileSync(path.join(__dirname, "src", "Err404.jsx"), path.join(plume, "404.jsx")),
+    );
     /* 创建.babelrc文件 */
-    mkBabelrc(root);
+    task("create .babelrc file", mkBabelrc(root));
   }
 
   dev() {

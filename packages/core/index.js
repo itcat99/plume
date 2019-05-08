@@ -4,6 +4,8 @@ const rollup = require("./scripts/rollup");
 const { spawn } = require("child_process");
 const path = require("path");
 
+const nodeModulesBin = path.resolve(__dirname, "node_modules", ".bin");
+
 class PlumeCore {
   constructor(config = DEFAULT_CONFIG) {
     this.config = config;
@@ -26,16 +28,13 @@ class PlumeCore {
   }
 
   docz(isDev, projectPath, outputDir) {
+    const docz = path.join(nodeModulesBin, "docz");
     let doczStdout;
 
     if (isDev) {
-      doczStdout = spawn(`${projectPath}/node_modules/.bin/docz`, ["dev"], {
-        cwd: projectPath,
-      });
+      doczStdout = spawn(docz, ["dev"], { cwd: projectPath });
     } else {
-      doczStdout = spawn(`${projectPath}/node_modules/.bin/docz`, ["build", "--dest", "doc"], {
-        cwd: projectPath,
-      });
+      doczStdout = spawn(docz, ["build", "--dest", "doc"], { cwd: projectPath });
     }
     doczStdout.stdout.on("data", data => {
       process.stdout.write(data.toString());
@@ -49,13 +48,13 @@ class PlumeCore {
   }
 
   lib(_isDev, inputDir, outputDir, projectPath) {
-    const libStdout = spawn(
-      `${projectPath}/node_modules/.bin/gulp`,
-      ["-f", path.resolve(__dirname, "gulp", "index.js"), "--cwd", projectPath],
-      {
-        cwd: projectPath,
-      },
-    );
+    const gulp = path.join(nodeModulesBin, "gulp");
+    const libStdout = spawn(gulp, [
+      "-f",
+      path.resolve(__dirname, "gulp", "index.js"),
+      "--cwd",
+      projectPath,
+    ]);
 
     libStdout.stdout.on("error", err => {
       throw new Error(err);
