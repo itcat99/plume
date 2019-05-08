@@ -34,7 +34,7 @@
     "react-router-dom": "^5.0.0"
   },
   "dependencies": {
-    "@plume/core": "^0.0.18",
+    "@plume/core": "^0.0.20",
     "@plume/helper": "^1.0.1",
     "chalk": "^2.4.2",
     "chokidar": "^2.1.5",
