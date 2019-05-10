@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
