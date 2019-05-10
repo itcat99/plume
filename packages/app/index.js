@@ -9,23 +9,23 @@ const mkEntry = require("./scripts/mkEntry");
 const mkRouter = require("./scripts/mkRouter");
 const createPagesInfo = require("./scripts/createPagesInfo");
 const createModels = require("./scripts/createModels");
-const core = require("@plume/core");
+// const core = require("@plume/core");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
+const webpack = require("./scripts/webpack");
+const DEFAULT_CONFIG = require("@plume/config");
 
 /**
  * 初始化app
  * @param {string} config plume配置
  */
 class App {
-  constructor(config) {
-    // this.customConfig = customConfig;
+  constructor(config = DEFAULT_CONFIG) {
     this.config = config;
     this.init();
   }
 
   init() {
-    // const config = getConfig(this.customConfig);
     const { paths, app } = this.config;
     const { plume, pages, root } = paths;
     const { target, hashRouter, flow } = app;
@@ -67,8 +67,9 @@ class App {
     const { pages, root, plume } = this.config.paths;
     const { flow } = this.config.options;
 
-    core(this.config)
-      .dev("webpack")
+    webpack(this.config, true)
+      // core(this.config)
+      // .dev("webpack")
       .then(() => {
         /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
         const pageWatcher = chokidar.watch([`${pages}/**/*`], {
@@ -109,9 +110,9 @@ class App {
   }
 
   build() {
-    core(this.config)
-      .build("webpack")
-      .catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
+    // core(this.config)
+    // .build("webpack")
+    webpack(this.config).catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
   }
 }
 
