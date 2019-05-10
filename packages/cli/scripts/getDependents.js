@@ -20,8 +20,10 @@ module.exports = opts => {
 
   if (mode === "app") {
     dependents = [].concat(dependents, dependentsList.app);
-    devDependents = [].concat(devDependents, devDependentsList.app);
+    // devDependents = [].concat(devDependents, devDependentsList.app);
     if (flow) dependents = [].concat(dependents, dependentsList.flow);
+    if (cssMode === "styled-components")
+      dependents = [].concat(dependents, dependentsList.styledComponents);
   }
 
   if (mode === "lib") {
@@ -43,10 +45,9 @@ module.exports = opts => {
       default:
         break;
     }
-
-    if (cssModules) dependents = [].concat(dependents, dependentsList.cssModules);
   }
 
+  if (cssModules) dependents = [].concat(dependents, dependentsList.cssModules);
   if (jest) devDependents = [].concat(devDependents, devDependentsList.jest);
   if (eslint) devDependents = [].concat(devDependents, devDependentsList.eslint);
 

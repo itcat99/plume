@@ -4,9 +4,9 @@ const CleanPlugin = require("clean-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = config => {
-  const { options, paths } = config;
+  const { paths, app } = config;
   const { plume, output } = paths;
-  const { dllVendor: vendor, dllName, gzip } = options;
+  const { dllVendor: vendor, dllName, gzip } = app;
 
   const plugins = [
     new CleanPlugin(),

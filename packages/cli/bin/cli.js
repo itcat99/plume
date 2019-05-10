@@ -31,7 +31,7 @@ program
           name: "cssMode",
           choices: ["sass", "styled-components", "less", "css"],
           message: "please select the css mode",
-          when: answers => answers.mode === "lib",
+          // when: answers => answers.mode === "lib",
         },
         {
           type: "confirm",
