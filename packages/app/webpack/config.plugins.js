@@ -11,7 +11,6 @@ const webpack = require("webpack");
 const fse = require("fs-extra");
 // const DashboardPlugin = require("webpack-dashboard/plugin");
 // const Dashboard = require("webpack-dashboard");
-const { getCleanPluginOpts } = require("@plume/helper");
 
 const plugins = [];
 
@@ -21,23 +20,18 @@ module.exports = (config, isDev) => {
   const { dll, gzip, analyzer, progress } = options;
 
   if (isDev) {
-    // const dashboard = new Dashboard();
-
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
       new htmlPlugin({
         template: path.resolve(__dirname, "./index.hbs"),
         title: "development mode",
       }),
-      // new DashboardPlugin(dashboard.setData),
     );
 
     return plugins;
   }
 
   let dllVendorName = null;
-  const { dir, root } = getCleanPluginOpts(output);
-
   if (dll) {
     dllVendorName = (() => {
       const dllVendorName = fse
@@ -56,11 +50,7 @@ module.exports = (config, isDev) => {
       }),
     );
   } else {
-    plugins.push(
-      new CleanPlugin([`${dir}/*.*`], {
-        root,
-      }),
-    );
+    plugins.push(new CleanPlugin());
   }
 
   plugins.push(
