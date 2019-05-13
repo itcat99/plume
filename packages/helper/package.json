@@ -24,7 +24,7 @@
     "url": "git+https://github.com/itcat99/plume.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"

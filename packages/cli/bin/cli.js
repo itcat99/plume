@@ -23,20 +23,20 @@ program
           type: "list",
           name: "mode",
           choices: ["app", "lib"],
-          message: "please select the project mode",
+          message: "选择开发项目的模式",
           default: 0,
         },
         {
           type: "list",
           name: "cssMode",
           choices: ["sass", "styled-components", "less", "css"],
-          message: "please select the css mode",
+          message: "选择css模式",
           // when: answers => answers.mode === "lib",
         },
         {
           type: "confirm",
           name: "cssModules",
-          message: "Do you want to use css modules?",
+          message: "是否启用cssModules？",
           when: answers => {
             const { cssMode } = answers;
             return cssMode === "sass" || cssMode === "less" || cssMode === "css";
@@ -46,13 +46,13 @@ program
           type: "checkbox",
           name: "options",
           choices: ["@plume/flow", "eslint", "jest"],
-          message: "please select the option you need",
+          message: "选择你需要的模块",
           default: ["eslint"],
         },
         {
           type: "confirm",
           name: "skip",
-          message: "Do you want to skip install dependents?",
+          message: "是否跳过安装依赖？随后可以手动安装项目依赖",
         },
       ])
       .then(answers => {

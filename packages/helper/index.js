@@ -7,7 +7,5 @@ exports.deepAssign = require("./scripts/deepAssign");
 exports.getCleanPluginOpts = require("./scripts/getrCleanPluginOpts");
 exports.getConfig = require("./scripts/getConfig");
 
-exports.relativePostion = require("./scripts/relativePostion");
-
 exports.debounce = require("./scripts/debounce");
 exports.task = require("./scripts/task");

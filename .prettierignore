@@ -1,7 +1,6 @@
 # Dir
 node_modules
 packages/*/lib
-__tests__
 example
 
 # file
