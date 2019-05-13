@@ -9,7 +9,6 @@ const fse = require("fs-extra");
  * @param {string} plumePath 项目目录下plume目录的绝对路径
  */
 module.exports = (flow, target, plumePath) => {
-  console.log("flow: ", flow);
   const entryAppPath = flow
     ? path.resolve(__dirname, "../src", "index.flow.jsx")
     : path.resolve(__dirname, "../src", "index.jsx");

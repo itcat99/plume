@@ -3,13 +3,14 @@ const path = require("path");
 // const { spawn } = require("child_process");
 
 const { task } = require("@plume/helper");
-const mkPackage = require("../scripts/mkPackage");
+const createDir = require("../scripts/create.dir");
+const createPackage = require("../scripts/create.package");
+const createEslint = require("../scripts/create.eslint");
+const createDocz = require("../scripts/create.docz");
+const createGitignore = require("../scripts/create.gitignore");
+const createPlumeConfig = require("../scripts/create.plumeConfig");
 const yarnInstall = require("../scripts/yarnInstall");
-const createEslint = require("../scripts/createEslint");
 const initGit = require("../scripts/initGit");
-const initGitignore = require("../scripts/initGitignore");
-const copyTemp = require("../scripts/copyTemp");
-const createDocz = require("../scripts/createDocz");
 const getDependents = require("../scripts/getDependents");
 const skipDependents = require("../scripts/skip");
 
@@ -29,12 +30,13 @@ module.exports = opts => {
   const { name, targetPath, flow, eslint, jest, skip, mode, cssMode, cssModules } = opts;
   const projectPath = path.join(targetPath, name);
 
-  task("copy template", copyTemp(projectPath, mode, flow));
-  task("build package.json", mkPackage(name, projectPath, eslint, jest, mode));
-  task("build git", initGit(projectPath));
-  task("build gitignore", initGitignore(projectPath));
-  eslint && task("build eslint", createEslint(projectPath));
-  mode === "lib" && task("build docz config file", createDocz(projectPath, cssMode, cssModules));
+  task("create directory", createDir(projectPath, mode, flow));
+  task("create package.json", createPackage(name, projectPath, eslint, jest, mode));
+  task("initial git", initGit(projectPath));
+  task("create gitignore", createGitignore(projectPath));
+  eslint && task("create eslint", createEslint(projectPath));
+  task("create plume.config.js", createPlumeConfig({ mode, flow, projectPath }));
+  mode === "lib" && task("create docz config file", createDocz(projectPath, cssMode, cssModules));
 
   const { dependents, devDependents } = getDependents(opts);
   if (skip) {

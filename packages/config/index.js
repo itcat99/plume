@@ -11,6 +11,7 @@ const containers = path.join(src, "containers");
 const modules = path.join(src, "modules");
 
 module.exports = {
+  mode: "app",
   paths: {
     assets,
     components,

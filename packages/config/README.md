@@ -4,20 +4,25 @@
 
 ## Usage
 
-config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象，不可使用 es6 导出语法
+config 是名为`plume.config.js`的文件，需要`module.exports`输出 config 配置对象，不可使用 es6 导出语法。
 
-~~config 还可以是名为`plume.config.json`的 json 文件~~ 由于加入了 webpack 选项，所以只能使用.js 文件
+~~config 还可以是名为`plume.config.json`的 json 文件~~ 由于加入了 webpack 选项，所以只能使用.js 文件。
 
-config 文件放置在项目根目录，可以在 cli 内不配置`--config`选项
+config 文件放置在项目根目录，可以在 cli 内部配置`--config`选项。
 
-| name    | type           | desc               |
-| ------- | -------------- | ------------------ |
-| paths   | object         | 各种目录的配置对象 |
-| options | object         | 通用的配置选项     |
-| app     | null \| object | app 模式的配置选项 |
-| lib     | null \| object | lib 模式的配置选项 |
-| ~~      | webpack        | function           | 自定义 webpack 配置 | ~~ |
-| ~~      | rollup         | function           | 自定义 rollup 配置 | ~~ |
+| name    | type           | desc                           |
+| ------- | -------------- | ------------------------------ |
+| mode    | string         | 项目模式 app \| lib 默认为 app |
+| paths   | object         | 各种目录的配置对象             |
+| options | object         | 通用的配置选项                 |
+| app     | null \| object | app 模式的配置选项             |
+| lib     | null \| object | lib 模式的配置选项             |
+| ~~      | webpack        | function                       | 自定义 webpack 配置 | ~~ |
+| ~~      | rollup         | function                       | 自定义 rollup 配置 | ~~ |
+
+### mode
+
+项目的模式，`app`|`lib`二选一，影响打包和开发。默认为`app`。
 
 ### paths
 

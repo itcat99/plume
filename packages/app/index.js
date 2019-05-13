@@ -34,16 +34,8 @@ class App {
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
-    task("create .plume directory", fse.mkdirSync(plume));
 
-    /* 创建配置文件 */
-    task(
-      "create plume config",
-      fse.writeFileSync(
-        path.join(plume, "config.js"),
-        `module.exports = ${JSON.stringify(this.config, null, 2)}`,
-      ),
-    );
+    task("create .plume directory", fse.mkdirSync(plume));
     /* 创建入口文件 index.jsx */
     task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
