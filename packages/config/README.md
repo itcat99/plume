@@ -76,10 +76,11 @@ plume_config 为 plume 的配置选项
 
 ### lib
 
-| name   | type             | default  | desc                      |
-| ------ | ---------------- | -------- | ------------------------- |
-| rollup | null \| function | null     | 自定义 rollup 配置        |
-| name   | string           | PlumeLib | umd 打包时需要的 lib name |
+| name    | type             | default               | desc                      |
+| ------- | ---------------- | --------------------- | ------------------------- |
+| rollup  | null \| function | null                  | 自定义 rollup 配置        |
+| name    | string           | PlumeLib              | umd 打包时需要的 lib name |
+| modules | string[]         | ["esm", "cjs", "umd"] | 打包的模式                |
 
 #### rollup
 

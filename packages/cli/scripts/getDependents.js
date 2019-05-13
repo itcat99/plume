@@ -27,7 +27,7 @@ module.exports = opts => {
   }
 
   if (mode === "lib") {
-    devDependents = [].concat(devDependents, devDependentsList.lib);
+    // devDependents = [].concat(devDependents, devDependentsList.lib);
 
     // fixed docz plugin css BUG https://github.com/pedronauck/docz/issues/793#issuecomment-484753158
     devDependents.push("react-hot-loader");

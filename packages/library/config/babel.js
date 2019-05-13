@@ -8,6 +8,5 @@ module.exports = {
     "@babel/proposal-object-rest-spread",
     "@babel/plugin-transform-runtime",
     "@babel/plugin-transform-for-of",
-    "@babel/plugin-syntax-dynamic-import",
   ],
 };

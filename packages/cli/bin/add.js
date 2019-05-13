@@ -24,38 +24,19 @@ const createModule = (type, name, dirPath) => {
   fse.writeFileSync(filePath, data);
 };
 
-module.exports = (name, types, targetPath) => {
+module.exports = opts => {
+  let { name, types, targetPath } = opts;
   const { model, page, container } = types;
 
   if (model && !targetPath)
     throw new Error(
       "Add a new [Model], you must have a target path. \n try '@plume/cli add [MODEL_NAME] [TARGET_PATH] -m' again. ",
     );
-
-  const rootPath = process.cwd();
-
   if (targetPath && !path.isAbsolute(targetPath)) {
-    targetPath = path.join(rootPath, targetPath);
-  }
-  let plumeDirPath = path.join(rootPath, ".plume");
-  const customConfig = path.join(rootPath, "plume.config.js");
-
-  if (!isExist(plumeDirPath) && isExist(customConfig)) {
-    const config = require(customConfig);
-
-    if (config.paths && config.paths.plume) {
-      plumeDirPath = config.paths.plume;
-    }
+    targetPath = path.join(process.cwd(), targetPath);
   }
 
-  const plumeConfig = path.join(plumeDirPath, "config.js");
-  if (!isExist(plumeConfig)) {
-    throw new Error("Can't find plume config.js");
-  }
-
-  const config = require(plumeConfig);
-  const { paths } = config;
-
+  const { paths } = opts.config;
   const type = model ? "model" : page ? "page" : container ? "container" : "component";
   const dirPath = model ? targetPath : path.join(targetPath || paths[`${type}s`], name);
 

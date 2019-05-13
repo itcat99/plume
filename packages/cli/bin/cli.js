@@ -11,8 +11,8 @@ program.version(pkg.version, "-v,--version");
 program
   .command("create <name>")
   .description("创建新项目，<name>指定项目名称")
-  .option("-p, --path <path>", "指定新建项目目录，默认在当前目录下")
-  .option("-s, --skip", "跳过安装依赖的步骤，手动安装")
+  .option("-p | --path <path>", "指定新建项目目录，默认在当前目录下")
+  .option("-s | --skip", "跳过安装依赖的步骤，手动安装")
   .action((name, args) => {
     const { path: customPath, skip } = args;
     let targetPath = customPath;
@@ -86,56 +86,52 @@ program
   .description(
     "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
   )
-  .option("-l | --lib", "指定项目的模式为 lib，默认的项目模式为 app")
-  .option("-c | --container", "创建container组件")
-  .option("-p | --page", "创建page页面")
-  .option("-m | --model", "创建model模块")
+  .option("-c | --config <path>", "指定plume.config.js文件路径")
+  .option("-C | --container", "创建container组件")
+  .option("-P | --page", "创建page页面")
+  .option("-M | --model", "创建model模块")
   .action((name, targetPath, args) => {
-    const { container, page, model } = args;
-    require("./add")(name, { container, page, model }, targetPath);
+    const { container, page, model, config: customConfig, cwd } = args;
+    const config = getConfig(customConfig, cwd);
+
+    require("./add")({ name, types: { container, page, model }, targetPath, config });
   });
 
 /* 初始化plume */
 program
   .command("init")
-  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
-  .option("-c, --config <path>", "指定plume.config.js文件路径")
   .description("初始化plume文件")
+  .option("-c | --config <path>", "指定plume.config.js文件路径")
   .action(args => {
-    const { config: customConfig, lib, cwd } = args;
-    const mode = lib ? "lib" : "app";
+    const { config: customConfig, cwd } = args;
     const config = getConfig(customConfig, cwd);
 
-    require("./init")(config, mode);
+    require("./init")(config);
   });
 
 /* 启动开发模式 */
 program
   .command("dev")
-  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
-  .option("-c, --config <path>", "指定plume.config.js文件路径")
   .description("启动开发模式")
+  .option("-c | --config <path>", "指定plume.config.js文件路径")
   .action(args => {
-    const { config: customConfig, lib, cwd } = args;
-    const mode = lib ? "lib" : "app";
+    const { config: customConfig, cwd } = args;
     const config = getConfig(customConfig, cwd);
 
-    require("./dev")(config, mode);
+    require("./dev")(config);
   });
 
 /* 打包 */
 program
   .command("build")
-  .option("-l, --lib", "指定项目的模式为 lib，默认的项目模式为 app")
-  .option("-c, --config <path>", "指定plume.config.js文件路径")
-  .option("--cwd", "设置cwd，当config配置为相对路径时，则从此处搜索，默认为process.cwd()")
   .description("打包项目")
+  .option("-c | --config <path>", "指定plume.config.js文件路径")
+  .option("--cwd", "设置cwd，当config配置为相对路径时，则从此处搜索，默认为process.cwd()")
   .action(args => {
-    const { config: customConfig, lib, cwd } = args;
-    const mode = lib ? "lib" : "app";
+    const { config: customConfig, cwd } = args;
     const config = getConfig(customConfig, cwd);
 
-    require("./build")(config, mode);
+    require("./build")(config);
   });
 
 program.parse(process.argv);

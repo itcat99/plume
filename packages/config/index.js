@@ -44,5 +44,6 @@ module.exports = {
   lib: {
     name: "PlumeLib",
     rollup: null,
+    modules: ["esm", "cjs", "umd"],
   },
 };

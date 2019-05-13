@@ -3,9 +3,7 @@ const path = require("path");
 const fse = require("fs-extra");
 const { isExist, task } = require("@plume/helper");
 const mkBabelrc = require("./scripts/mkBabelrc");
-const core = require("@plume/core");
-// const chokidar = require("chokidar");
-// const chalk = require("chalk");
+const { spawnSync } = require("child_process");
 
 /**
  * 初始化lib
@@ -19,47 +17,50 @@ class Lib {
   }
 
   init() {
-    // const config = getConfig(this.customConfig);
     const { paths } = this.config;
     const { plume, root } = paths;
 
-    // this.config = config;
-
-    /* 创建.plume目录 */
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
-    fse.mkdirSync(plume);
 
-    /* 创建配置文件 */
-    fse.writeFileSync(
-      path.join(plume, "config.js"),
-      `module.exports = ${JSON.stringify(this.config, null, 2)}`,
-    );
+    /* 创建.plume目录 */
+    task("create .plume directory", fse.mkdirSync(plume));
     /* 创建.babelrc文件 */
-    mkBabelrc(root);
+    task("create babel file", mkBabelrc(root));
   }
 
   dev() {
     const { root } = this.config.paths;
 
-    core(this.config).dev("docz", root);
+    // core(this.config).dev("docz", root);
   }
 
   build() {
-    const { src, output, root } = this.config.paths;
+    const { lib, paths } = this.config;
+    const { src, output, root } = paths;
+    const { modules } = lib;
 
+    console.log("build lib");
+    const gulp = path.join(__dirname, "node_modules", ".bin", "gulp");
+    const gulpConfig = path.resolve(__dirname, "gulp", "index.js");
+    modules.forEach(m => {
+      process.env.BABEL_ENV = m;
+      const result = spawnSync(gulp, ["-f", gulpConfig, "--cwd", root]);
+      if (result.error) throw new Error(result.error);
+      // task("build esm", core(this.config).build("lib", src, path.join(output, "esm"), root));
+    });
     // esm
     process.env.BABEL_ENV = "esm";
-    task("build esm", core(this.config).build("lib", src, path.join(output, "esm"), root));
+
     // cjs
     process.env.BABEL_ENV = "cjs";
-    task("build cjs", core(this.config).build("lib", src, path.join(output, "lib"), root));
+    // task("build cjs", core(this.config).build("lib", src, path.join(output, "lib"), root));
   }
 
   buildDocz() {
     const { root } = this.config.paths;
-    task("build document", core(this.config).build("docz", root, path.join(root, "doc")));
+    // task("build document", core(this.config).build("docz", root, path.join(root, "doc")));
   }
 }
 
