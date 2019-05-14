@@ -31,6 +31,8 @@ module.exports = {
     port: 8080,
     externals: null,
     progress: true,
+    cssMode: "css",
+    cssModules: false,
   },
   app: {
     target: "root",

@@ -1,6 +1,6 @@
 module.exports = {
   // app: ["@plume/app"],
-  // lib: ["@plume/lib", "docz", "docz-theme-default", "docz-plugin-css"],
+  lib: ["docz-theme-default", "docz-plugin-css"],
   sass: ["node-sass"],
   less: ["less"],
   jest: ["jest"],

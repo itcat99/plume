@@ -44,10 +44,16 @@
     "fs-extra": "^7.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-better-rollup": "^4.0.1",
     "gulp-less": "^4.0.1",
     "gulp-sass": "^4.0.2",
     "less": "^3.9.0",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "rollup": "^1.11.3",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "rollup-plugin-postcss": "^2.0.3"
   },
   "bugs": {
     "url": "https://github.com/itcat99/plume/issues"

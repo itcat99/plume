@@ -1,4 +1,4 @@
-const { statSync } = require("fs-extra");
+const { existsSync } = require("fs-extra");
 
 /**
  * 检查文件/文件夹是否存在
@@ -6,10 +6,5 @@ const { statSync } = require("fs-extra");
  * @param {boolean} 返回true or false
  */
 module.exports = targetPath => {
-  try {
-    statSync(targetPath);
-    return true;
-  } catch (error) {
-    return false;
-  }
+  return existsSync(targetPath);
 };

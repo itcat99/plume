@@ -22,31 +22,33 @@ module.exports = opts => {
     dependents = [].concat(dependents, dependentsList.app);
     // devDependents = [].concat(devDependents, devDependentsList.app);
     if (flow) dependents = [].concat(dependents, dependentsList.flow);
-    if (cssMode === "styled-components")
-      dependents = [].concat(dependents, dependentsList.styledComponents);
+    // if (cssMode === "styled-components")
+    //   dependents = [].concat(dependents, dependentsList.styledComponents);
   }
 
   if (mode === "lib") {
-    // devDependents = [].concat(devDependents, devDependentsList.lib);
+    devDependents = [].concat(devDependents, devDependentsList.lib);
 
     // fixed docz plugin css BUG https://github.com/pedronauck/docz/issues/793#issuecomment-484753158
     devDependents.push("react-hot-loader");
 
-    switch (cssMode) {
-      case "sass":
-        devDependents = [].concat(devDependents, devDependentsList.sass);
-        break;
-      case "less":
-        devDependents = [].concat(devDependents, devDependentsList.less);
-        break;
-      case "styled-components":
-        dependents = [].concat(dependents, dependentsList.styledComponents);
-        break;
-      default:
-        break;
-    }
+    // switch (cssMode) {
+    //   case "sass":
+    //     devDependents = [].concat(devDependents, devDependentsList.sass);
+    //     break;
+    //   case "less":
+    //     devDependents = [].concat(devDependents, devDependentsList.less);
+    //     break;
+    //   case "styled-components":
+    //     dependents = [].concat(dependents, dependentsList.styledComponents);
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
+  if (cssMode === "styled-components")
+    dependents = [].concat(dependents, dependentsList.styledComponents);
   if (cssModules) dependents = [].concat(dependents, dependentsList.cssModules);
   if (jest) devDependents = [].concat(devDependents, devDependentsList.jest);
   if (eslint) devDependents = [].concat(devDependents, devDependentsList.eslint);

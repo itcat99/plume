@@ -3,15 +3,15 @@ const less = require("gulp-less");
 const { src, dest } = require("gulp");
 
 function _sass(format) {
-  return src("src/**/*.scss")
+  return src(`${process.env.PLUME_SRC || "src"}/**/*.scss`)
     .pipe(sass())
-    .pipe(dest(`lib/${format}`));
+    .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
 
 function _less(format) {
-  return src("src/**/*.less")
+  return src(`${process.env.PLUME_SRC || "src"}/**/*.less`)
     .pipe(less())
-    .pipe(dest(`lib/${format}`));
+    .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
 
 function _build(format) {
@@ -26,7 +26,7 @@ function cjs(cb) {
 
 function es(cb) {
   cb();
-  return _build("es");
+  return _build("esm");
 }
 
 module.exports = {

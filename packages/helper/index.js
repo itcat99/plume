@@ -9,3 +9,5 @@ exports.getConfig = require("./scripts/getConfig");
 
 exports.debounce = require("./scripts/debounce");
 exports.task = require("./scripts/task");
+
+exports.whichBin = require("./scripts/whichBin");
