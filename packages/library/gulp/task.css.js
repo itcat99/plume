@@ -14,22 +14,21 @@ function _less(format) {
     .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
 
-function _build(format) {
-  _sass(format);
-  _less(format);
+function _css(format) {
+  return src(`${process.env.PLUME_SRC || "src"}/**/*.css`).pipe(
+    dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`),
+  );
 }
 
-function cjs(cb) {
-  cb();
-  return _build("cjs");
-}
+function _build(type) {
+  const mode = process.env.PLUME_CSSMODE;
+  if (mode === "sass") return _sass(type);
+  if (mode === "less") return _less(type);
 
-function es(cb) {
-  cb();
-  return _build("esm");
+  return _css(type);
 }
 
 module.exports = {
-  cjs,
-  es,
+  esm: () => _build("esm"),
+  cjs: () => _build("cjs"),
 };

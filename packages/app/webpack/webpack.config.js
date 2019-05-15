@@ -4,6 +4,7 @@ module.exports = (config, isDev) => {
   const plugins = require("./config.plugins")(config, isDev);
   const rules = require("./config.rules")(config, isDev);
   const optimization = require("./config.optimization")(isDev);
+  const { externals } = config.options;
 
   return Object.assign(
     {},
@@ -13,6 +14,7 @@ module.exports = (config, isDev) => {
       module: {
         rules,
       },
+      externals,
       optimization,
       plugins,
     },

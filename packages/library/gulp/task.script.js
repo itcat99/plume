@@ -17,17 +17,7 @@ function _build(format) {
     .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
 
-function cjs(cb) {
-  cb();
-  return _build("cjs");
-}
-
-function es(cb) {
-  cb();
-  return _build("esm");
-}
-
 module.exports = {
-  cjs,
-  es,
+  esm: () => _build("esm"),
+  cjs: () => _build("cjs"),
 };

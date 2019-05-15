@@ -29,23 +29,37 @@ class Lib {
   }
 
   dev() {
-    const { root } = this.config.paths;
-    this.run(this.docz, ["dev"], { cwd: root });
+    const { paths, options } = this.config;
+    const { root } = paths;
+    const { port } = options;
+    this.run(this.docz, ["dev", "-p", port], { cwd: root });
   }
 
   build() {
-    const { paths } = this.config;
+    const { paths, lib, options } = this.config;
     const { root, output, src } = paths;
+    const { modules, docDist } = lib;
+    const { cssMode, assetsExt } = options;
 
     process.env.PLUME_OUTPUT = output;
     process.env.PLUME_SRC = src;
+    process.env.PLUME_CSSMODE = cssMode;
+    process.env.PLUME_ASSETSEXT = assetsExt.toString();
 
     const gulpConfig = path.resolve(__dirname, "gulp", "index.js");
 
-    this.run(this.gulp, ["-f", gulpConfig, "--cwd", root])
-      .then(() => rollup(this.config, root))
-      .then(() => this.run(this.docz, ["build"], { cwd: root }))
-      .catch(err => console.error(err));
+    modules.forEach(type => {
+      if (type === "umd") {
+        rollup(this.config, root).catch(err => console.error(err));
+      } else {
+        this.run(this.gulp, [type, "-f", gulpConfig, "--cwd", root]).catch(err =>
+          console.error(err),
+        );
+      }
+    });
+
+    // this.run(this.gulp, ["assets", "-f", gulpConfig, "--cwd", root]);
+    this.run(this.docz, ["build", "-d", docDist], { cwd: root }).catch(err => console.error(err));
   }
 
   /**
@@ -60,10 +74,6 @@ class Lib {
       result.stdout.on("data", data => {
         process.stdout.write(`${data.toString()}\r`);
       });
-
-      // result.stdout.on("error", err => {
-      //   reject(err);
-      // });
 
       result.stderr.on("data", data => {
         console.error("err: ", data.toString());

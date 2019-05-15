@@ -1,15 +1,23 @@
 const { parallel } = require("gulp");
-const script = require("./build.script");
-const css = require("./build.css");
+const script = require("./task.script");
+const css = require("./task.css");
+const assets = require("./task.assets");
 
-function cjs() {
-  return parallel(script.cjs, css.cjs);
+function esm(cb) {
+  script.esm();
+  css.esm();
+
+  cb();
 }
 
-function es() {
-  return parallel(script.es, css.es);
+function cjs(cb) {
+  script.cjs();
+  css.cjs();
+
+  cb();
 }
 
-exports.css = parallel(css.cjs, css.es);
-exports.js = parallel(script.cjs, script.es);
-exports.default = parallel(cjs(), es());
+exports.esm = esm;
+exports.cjs = cjs;
+exports.assets = assets;
+exports.default = parallel(cjs, esm);

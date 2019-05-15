@@ -42,7 +42,7 @@ config 文件放置在项目根目录，可以在 cli 内部配置`--config`选�
 | name       | type                                      | default                                                   | desc                                                                                                                                                            |
 | ---------- | ----------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | gzip       | boolean                                   | true                                                      | 是否启用 gzip 压缩                                                                                                                                              |
-| port       | number                                    | 8080                                                      | 开发模式下，webpack-dev-server 服务器端口号                                                                                                                     |
+| port       | number                                    | 8080                                                      | 开发模式下，webpack-dev-server 或 docz 服务器端口号                                                                                                             |
 | assetsExt  | string[]                                  | ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"] | 静态资源后缀                                                                                                                                                    |
 | progress   | boolean                                   | true                                                      | 编译时显示进度条                                                                                                                                                |
 | entry      | null \| function \| object \|string[]     | null                                                      | 配置入口文件，当没有配置时，app 模式下使用{plume}/index.jsx 作为默认入口；lib 模式下使用{src}/index.js 和{src}目录下每个`文件夹`内的 index.jsx 文件作为默认入口 |
@@ -76,6 +76,15 @@ plume_config 为 plume 的配置选项
 | ------- | ---------------- | ------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | webpack | null \| function | null    | null \| (webpack_config: object, plume_config: object) => object | 当 webpack 是函数的时候，接受当前的 webpack 配置和 plume 配置，输出新的 webpack 配置 |
 
+参数：
+
+- `webpack_config`: 为当前 webpack 的配置对象
+- `plume_config`: plume 配置对象
+
+返回：
+
+- 返回新的 webpack 配置对象
+
 ### lib
 
 | name    | type             | default               | desc                      |
@@ -83,9 +92,19 @@ plume_config 为 plume 的配置选项
 | rollup  | null \| function | null                  | 自定义 rollup 配置        |
 | name    | string           | PlumeLib              | umd 打包时需要的 lib name |
 | modules | string[]         | ["esm", "cjs", "umd"] | 打包的模式                |
+| docDist | string           | doc                   | 输出文档的目录            |
 
 #### rollup
 
-| name   | type             | default | signature                                                                             | desc           |
-| ------ | ---------------- | ------- | ------------------------------------------------------------------------------------- | -------------- |
-| rollup | null \| function | null    | null \| (rollup_config: object\|object[], plume_config: object) => object \| object[] | 用法同 webpack |
+| name   | type             | default | signature                                                                                                                             | desc           |
+| ------ | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| rollup | null \| function | null    | null \| (rollup_config: {inputCfg: object, outputCfg: object}: object, plume_config: object) => {inputCfg: object, outputCfg: object} | 用法同 webpack |
+
+参数：
+
+- `rollup_config`: 为当前 rollup 的配置对象，包含`inputCfg`（输入参数）和`outputCfg`（输出参数）
+- `plume_config`: plume 配置对象
+
+返回：
+
+- 返回新的 rollup 配置对象，包含`inputCfg`和`outputCfg`

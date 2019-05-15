@@ -35,7 +35,10 @@ module.exports = opts => {
   task("initial git", initGit(projectPath));
   task("create gitignore", createGitignore(projectPath));
   eslint && task("create eslint", createEslint(projectPath));
-  task("create plume.config.js", createPlumeConfig({ mode, flow, projectPath }));
+  task(
+    "create plume.config.js",
+    createPlumeConfig({ mode, flow, projectPath, cssMode, cssModules }),
+  );
   mode === "lib" && task("create docz config file", createDocz(projectPath, cssMode, cssModules));
 
   const { dependents, devDependents } = getDependents(opts);

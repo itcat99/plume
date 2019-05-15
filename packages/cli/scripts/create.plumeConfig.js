@@ -2,8 +2,14 @@ const fse = require("fs-extra");
 const path = require("path");
 
 module.exports = opts => {
-  const { mode, flow, projectPath } = opts;
-  const config = { mode };
+  const { mode, flow, projectPath, cssMode, cssModules } = opts;
+  const config = {
+    mode,
+    options: {
+      cssMode,
+      cssModules,
+    },
+  };
 
   if (mode === "app") {
     config.app = {
