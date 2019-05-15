@@ -62,7 +62,7 @@
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "nyan-progress-webpack-plugin": "^1.2.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "rollup": "^1.10.1",
