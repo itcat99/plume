@@ -8026,6 +8026,11 @@ has-flag@^1.0.0:
   resolved "https://registry.npmjs.org/has-flag/-/has-flag-1.0.0.tgz#9d9e793165ce017a00f00418c43f942a7b1d11fa"
   integrity sha1-nZ55MWXOAXoA8AQYxD+UKnsdEfo=
 
+has-flag@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/has-flag/download/has-flag-1.0.0.tgz#9d9e793165ce017a00f00418c43f942a7b1d11fa"
+  integrity sha1-nZ55MWXOAXoA8AQYxD+UKnsdEfo=
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/has-flag/download/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -14273,6 +14278,15 @@ rollup@^1.11.3:
   version "1.12.1"
   resolved "https://registry.npmjs.org/rollup/-/rollup-1.12.1.tgz#02148d3d79f819b418a2f4c374f859fed56ae40c"
   integrity sha512-6CL0c+HxqEY9/8G+7mYIvor0tt60mVC64410/1DeaGWZCFAvcY8ClT0bsnTxECd6vR004CMm0X2yBZmod5gWjw==
+  dependencies:
+    "@types/estree" "0.0.39"
+    "@types/node" "^12.0.2"
+    acorn "^6.1.1"
+
+rollup@^1.11.3:
+  version "1.12.0"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.12.0.tgz#3e07e7d178bf61fe12325660a037ae0041219d8c"
+  integrity sha1-Pgfn0Xi/Yf4SMlZgoDeuAEEhnYw=
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "^12.0.2"
