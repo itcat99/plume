@@ -29,7 +29,7 @@ module.exports = {
     analyzer: false,
     gzip: true,
     port: 8080,
-    externals: null,
+    externals: [],
     progress: true,
     cssMode: "css",
     cssModules: false,
@@ -45,7 +45,8 @@ module.exports = {
   },
   lib: {
     name: "PlumeLib",
-    rollup: null,
+    // rollup: null,
+    webpack: null,
     modules: ["esm", "cjs", "umd"],
     docDist: "doc",
   },

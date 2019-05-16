@@ -9,7 +9,6 @@ const mkEntry = require("./scripts/mkEntry");
 const mkRouter = require("./scripts/mkRouter");
 const createPagesInfo = require("./scripts/createPagesInfo");
 const createModels = require("./scripts/createModels");
-// const core = require("@plume/core");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const webpack = require("./scripts/webpack");

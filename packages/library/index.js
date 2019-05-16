@@ -4,6 +4,7 @@ const fse = require("fs-extra");
 const { isExist, whichBin } = require("@plume/helper");
 const { spawn } = require("child_process");
 const rollup = require("./rollup");
+const webpack = require("./webpack");
 
 /**
  * 初始化lib
@@ -32,7 +33,8 @@ class Lib {
     const { paths, options } = this.config;
     const { root } = paths;
     const { port } = options;
-    this.run(this.docz, ["dev", "-p", port], { cwd: root });
+
+    this.run(this.docz, ["dev", "-p", port, "--color"], { cwd: root });
   }
 
   build() {
@@ -50,16 +52,18 @@ class Lib {
 
     modules.forEach(type => {
       if (type === "umd") {
-        rollup(this.config, root).catch(err => console.error(err));
+        // rollup(this.config, root).catch(err => console.error(err));
+        webpack(this.config);
       } else {
-        this.run(this.gulp, [type, "-f", gulpConfig, "--cwd", root]).catch(err =>
+        this.run(this.gulp, [type, "-f", gulpConfig, "--cwd", root, "--color"]).catch(err =>
           console.error(err),
         );
       }
     });
 
-    // this.run(this.gulp, ["assets", "-f", gulpConfig, "--cwd", root]);
-    this.run(this.docz, ["build", "-d", docDist], { cwd: root }).catch(err => console.error(err));
+    this.run(this.docz, ["build", "-d", docDist, "--color"], { cwd: root }).catch(err =>
+      console.error(err),
+    );
   }
 
   /**

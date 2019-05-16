@@ -3,7 +3,13 @@ const commonjs = require("rollup-plugin-commonjs");
 const json = require("rollup-plugin-json");
 const babel = require("rollup-plugin-babel");
 const css = require("rollup-plugin-postcss");
+const url = require("postcss-url");
+const cpy = require("rollup-plugin-cpy");
+const autoprefixer = require("autoprefixer");
+const scss = require("rollup-plugin-scss");
+const { terser } = require("rollup-plugin-terser");
 const path = require("path");
+const { isExist } = require("@plume/helper");
 
 const getPlugins = () => {
   return Object.assign({}, require("../scripts/babel")("umd"), {
@@ -14,7 +20,7 @@ const getPlugins = () => {
 
 module.exports = config => {
   const { options, paths } = config;
-  const { root } = paths;
+  const { root, src, output } = paths;
   const { cssModules } = options;
 
   /* fixed [name] is not exported by [module] bug https://rollupjs.org/guide/en#error-name-is-not-exported-by-module- */
@@ -44,11 +50,28 @@ module.exports = config => {
     commonjs({
       namedExports,
     }),
-    css({
-      extensions: [".scss", ".sass", ".less", ".css"],
-      modules: cssModules,
-      extract: true,
+    terser(),
+    cpy({
+      files: `${src}/**/*.+(${process.env.PLUME_ASSETSEXT.replace(/,/g, "|")})`,
+      dest: `${output}/umd/assets`,
     }),
+    scss({
+      // output: path.join(output, "umd", "style.css"),
+      output: true,
+    }),
+    // css({
+    //   extensions: [".scss", ".sass", ".less", ".css"],
+    //   modules: cssModules,
+    //   // minimize: true,
+    //   extract: true,
+    //   plugins: [
+    //     // autoprefixer(),
+    //     url({
+    //       filter: "**/*.jpg",
+    //       url: asset => isExist(asset.absolutePath) && `./assets/${asset.url}`,
+    //     }),
+    //   ],
+    // }),
     json(),
   ];
 };
