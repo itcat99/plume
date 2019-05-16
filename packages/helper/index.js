@@ -12,3 +12,4 @@ exports.debounce = require("./scripts/debounce");
 exports.task = require("./scripts/task");
 
 exports.whichBin = require("./scripts/whichBin");
+exports.makeDirSync = require("./scripts/makeDirSync");

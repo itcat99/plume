@@ -1,6 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const { task, isExist } = require("@plume/helper");
+const { task, isExist, makeDirSync } = require("@plume/helper");
 
 /**
  * 创建模块
@@ -52,11 +52,10 @@ module.exports = opts => {
   const type = model ? "model" : page ? "page" : container ? "container" : "component";
   const dirPath = model ? targetPath : path.join(targetPath || paths[`${type}s`], name);
 
-  console.log("mode: ", mode);
-  console.log("model: ", type);
   if (mode === "lib" && type !== "component") return;
   if (!isExist(dirPath)) {
-    fse.mkdirSync(dirPath);
+    console.log("dirPath", dirPath);
+    makeDirSync(dirPath);
   } else {
     if (!model) throw new Error(`[${name}] directory already exists.`);
     if (isExist(path.join(dirPath, name))) throw new Error(`[${name}] model file already exists.`);

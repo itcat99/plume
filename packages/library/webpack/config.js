@@ -2,10 +2,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 module.exports = config => {
-  const { paths, lib, options } = config;
+  const { paths, options } = config;
   const { src, output, assets } = paths;
-  const { name } = lib;
-  const { cssModules, externals, assetsExt } = options;
+  const { cssModules, externals, assetsExt, name } = options;
 
   const result = {
     mode: "production",

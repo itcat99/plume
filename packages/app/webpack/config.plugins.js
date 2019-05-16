@@ -15,10 +15,9 @@ const fse = require("fs-extra");
 const plugins = [];
 
 module.exports = (config, isDev) => {
-  const { paths, app, options } = config;
-  const { progress } = options;
+  const { paths, options } = config;
+  const { progress, dll, gzip, analyzer } = options;
   const { plume, output } = paths;
-  const { dll, gzip, analyzer } = app;
 
   if (isDev) {
     plugins.push(

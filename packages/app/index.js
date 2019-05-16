@@ -1,6 +1,5 @@
 /* eslint no-console:0 */
 const path = require("path");
-// const axios = require("axios");
 const fse = require("fs-extra");
 const { isExist, debounce, task } = require("@plume/helper");
 const mkApp = require("./scripts/mkApp");
@@ -12,7 +11,7 @@ const createModels = require("./scripts/createModels");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const webpack = require("./scripts/webpack");
-const DEFAULT_CONFIG = require("@plume/config");
+const DEFAULT_CONFIG = require("@plume/config")("app");
 
 /**
  * 初始化app
@@ -25,9 +24,9 @@ class App {
   }
 
   init() {
-    const { paths, app } = this.config;
+    const { paths, options } = this.config;
     const { plume, pages, root } = paths;
-    const { target, hashRouter, flow } = app;
+    const { target, hashRouter, flow } = options;
 
     /* 创建.plume目录 */
     if (isExist(plume)) {
@@ -59,8 +58,6 @@ class App {
     const { flow } = this.config.options;
 
     webpack(this.config, true)
-      // core(this.config)
-      // .dev("webpack")
       .then(() => {
         /* 当webpackDevServer启动后，检测pages目录的变更，更新路由 */
         const pageWatcher = chokidar.watch([`${pages}/**/*`], {
@@ -101,11 +98,8 @@ class App {
   }
 
   build() {
-    // core(this.config)
-    // .build("webpack")
     webpack(this.config).catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
   }
 }
 
 module.exports = App;
-// exports.axios = axios;

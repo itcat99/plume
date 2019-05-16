@@ -3,7 +3,7 @@ const path = require("path");
 const fse = require("fs-extra");
 const { isExist, whichBin } = require("@plume/helper");
 const { spawn } = require("child_process");
-const rollup = require("./rollup");
+// const rollup = require("./rollup");
 const webpack = require("./webpack");
 
 /**
@@ -38,10 +38,9 @@ class Lib {
   }
 
   build() {
-    const { paths, lib, options } = this.config;
+    const { paths, options } = this.config;
     const { root, output, src } = paths;
-    const { modules, docDist } = lib;
-    const { cssMode, assetsExt } = options;
+    const { cssMode, assetsExt, modules, docDist } = options;
 
     process.env.PLUME_OUTPUT = output;
     process.env.PLUME_SRC = src;

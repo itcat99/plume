@@ -1,4 +1,6 @@
 const path = require("path");
+const appCfg = require("./app");
+const libCfg = require("./lib");
 
 const root = process.cwd();
 const src = path.join(root, "src");
@@ -10,44 +12,38 @@ const components = path.join(src, "components");
 const containers = path.join(src, "containers");
 const modules = path.join(src, "modules");
 
-module.exports = {
-  mode: "app",
-  paths: {
-    assets,
-    components,
-    containers,
-    modules,
-    output,
-    pages,
-    plume,
-    root,
-    src,
-  },
-  options: {
-    entry: null,
-    assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
-    analyzer: false,
-    gzip: true,
-    port: 8080,
-    externals: [],
-    progress: true,
-    cssMode: "css",
-    cssModules: false,
-  },
-  app: {
-    target: "root",
-    flow: false,
-    webpack: null,
-    dll: true,
-    dllName: "vendor",
-    dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
-    hashRouter: false,
-  },
-  lib: {
-    name: "PlumeLib",
-    // rollup: null,
-    webpack: null,
-    modules: ["esm", "cjs", "umd"],
-    docDist: "doc",
-  },
+module.exports = (mode = "app") => {
+  const modeCfg = mode === "app" ? appCfg : libCfg;
+
+  const options = Object.assign(
+    {},
+    {
+      entry: null,
+      assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
+      analyzer: false,
+      gzip: true,
+      port: 8080,
+      externals: [],
+      progress: true,
+      cssMode: "css",
+      cssModules: false,
+    },
+    modeCfg,
+  );
+
+  return {
+    mode: mode,
+    paths: {
+      assets,
+      components,
+      containers,
+      modules,
+      output,
+      pages,
+      plume,
+      root,
+      src,
+    },
+    options,
+  };
 };
