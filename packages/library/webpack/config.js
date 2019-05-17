@@ -70,7 +70,7 @@ module.exports = config => {
             {
               loader: "file-loader",
               options: {
-                outputPath: path.relative(output, assets),
+                outputPath: path.relative(output, "umd", "assets"),
               },
             },
           ],

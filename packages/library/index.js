@@ -1,8 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { isExist, whichBin } = require("@plume/helper");
-const { spawn } = require("child_process");
+const { isExist, whichBin, spawn } = require("@plume/helper");
 // const rollup = require("./rollup");
 const webpack = require("./webpack");
 
@@ -34,7 +33,7 @@ class Lib {
     const { root } = paths;
     const { port } = options;
 
-    this.run(this.docz, ["dev", "-p", port, "--color"], { cwd: root });
+    spawn(this.docz, ["dev", "-p", port, "--color"], { cwd: root });
   }
 
   build() {
@@ -54,39 +53,11 @@ class Lib {
         // rollup(this.config, root).catch(err => console.error(err));
         webpack(this.config);
       } else {
-        this.run(this.gulp, [type, "-f", gulpConfig, "--cwd", root, "--color"]).catch(err =>
-          console.error(err),
-        );
+        spawn(this.gulp, [type, "-f", gulpConfig, "--cwd", root]).catch(err => console.error(err));
       }
     });
 
-    this.run(this.docz, ["build", "-d", docDist, "--color"], { cwd: root }).catch(err =>
-      console.error(err),
-    );
-  }
-
-  /**
-   * 运行cli命令 spawn
-   * @param {string} command cli命令或命令路径
-   * @param {array} args cli命令附加参数
-   * @param {object} opts 配置项
-   */
-  run(command, args, opts) {
-    return new Promise((resolve, reject) => {
-      const result = spawn(command, args, opts);
-      result.stdout.on("data", data => {
-        process.stdout.write(`${data.toString()}\r`);
-      });
-
-      result.stderr.on("data", data => {
-        console.error("err: ", data.toString());
-      });
-
-      result.on("exit", code => {
-        if (code !== 0) reject();
-        resolve();
-      });
-    });
+    spawn(this.docz, ["build", "-d", docDist], { cwd: root }).catch(err => console.error(err));
   }
 }
 

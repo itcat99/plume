@@ -21,6 +21,6 @@ module.exports = config => {
       console.error(info.errors);
     }
 
-    console.log("SUCCESSED!");
+    console.log("BUILD SUCCESSED!");
   });
 };

@@ -54,7 +54,6 @@ module.exports = opts => {
 
   if (mode === "lib" && type !== "component") return;
   if (!isExist(dirPath)) {
-    console.log("dirPath", dirPath);
     makeDirSync(dirPath);
   } else {
     if (!model) throw new Error(`[${name}] directory already exists.`);

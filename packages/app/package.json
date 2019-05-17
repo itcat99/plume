@@ -26,14 +26,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "@babel/runtime": "^7.4.0",
-    "axios": "^0.18.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-loadable": "^5.5.0",
-    "react-router-dom": "^5.0.0"
-  },
   "dependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
@@ -43,8 +35,10 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.4.0",
     "@plume/config": "^1.0.5",
     "@plume/helper": "^1.0.4",
+    "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
     "chalk": "^2.4.2",
     "chokidar": "^2.1.5",
@@ -57,11 +51,16 @@
     "handlebars-loader": "^1.7.1",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
+    "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.12.0",
     "nyan-progress-webpack-plugin": "^1.2.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-loadable": "^5.5.0",
+    "react-router-dom": "^5.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",

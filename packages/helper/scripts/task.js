@@ -26,6 +26,7 @@ module.exports = (name, result, texts = null) => {
       })
       .catch(err => {
         spinner.fail(`${status.fail} : ${err}`);
+        process.exit(1);
       });
   } else {
     spinner.succeed(status.success);

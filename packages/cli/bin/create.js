@@ -1,8 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
-// const { spawn } = require("child_process");
 
-const { task } = require("@plume/helper");
+const { task, getConfig } = require("@plume/helper");
 const createDir = require("../scripts/create.dir");
 const createPackage = require("../scripts/create.package");
 const createEslint = require("../scripts/create.eslint");
@@ -50,7 +49,8 @@ module.exports = opts => {
       .then(() => {
         task("build project");
         process.chdir(projectPath);
-        require("./dev")(null, mode);
+        const config = getConfig();
+        require("./dev")(config);
       })
       .catch(err => console.error("Install dependents error: ", err));
   }

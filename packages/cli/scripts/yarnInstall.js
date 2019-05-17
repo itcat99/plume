@@ -1,5 +1,4 @@
-const { task } = require("@plume/helper");
-const installDependents = require("../scripts/installDependents");
+const { task, spawn } = require("@plume/helper");
 
 /**
  * 安装不同模式下的相应的依赖
@@ -12,9 +11,21 @@ const installDependents = require("../scripts/installDependents");
 module.exports = async opts => {
   const { projectPath, dependents, devDependents } = opts;
   try {
-    await task("install dependents", installDependents(projectPath, dependents));
+    await task(
+      "install dependents",
+      spawn("yarn", [].concat(["add"], dependents), {
+        cwd: projectPath,
+        print: false,
+      }),
+    );
     if (devDependents.length)
-      await task("install devDependents", installDependents(projectPath, devDependents, true));
+      await task(
+        "install devDependents",
+        spawn("yarn", [].concat(["add", "-D"], devDependents), {
+          cwd: projectPath,
+          print: false,
+        }),
+      );
   } catch (error) {
     throw new Error(error);
   }
