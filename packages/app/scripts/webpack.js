@@ -31,19 +31,21 @@ const run = compiler => {
         }
       }
 
-      const info = stats.toJson({
-        stats: "errors-only",
-      });
+      if (stats) {
+        const info = stats.toJson({
+          stats: "errors-only",
+        });
 
-      if (stats.hasErrors()) {
-        reject(info.errors);
+        if (stats.hasErrors()) {
+          reject(info.errors);
+        }
+
+        if (stats.hasWarnings()) {
+          console.warn(info.warnings);
+        }
+
+        resolve();
       }
-
-      // if (stats.hasWarnings()) {
-      //   reject(info.warnings);
-      // }
-
-      resolve();
     });
   });
 };

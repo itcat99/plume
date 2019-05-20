@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = config => {
   const { paths, options } = config;
-  const { src, output, assets } = paths;
+  const { src, output } = paths;
   const { cssModules, externals, assetsExt, name } = options;
 
   const result = {
@@ -21,7 +21,7 @@ module.exports = config => {
           test: /\.(js|jsx)$/,
           use: [
             {
-              loader: "babel-loader",
+              loader: "babel-loader?cacheDirectory",
               options: require("../scripts/babel")("umd"),
             },
           ],

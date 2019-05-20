@@ -31,7 +31,6 @@ program
           name: "cssMode",
           choices: ["sass", "styled-components", "less", "css"],
           message: "选择css模式",
-          // when: answers => answers.mode === "lib",
         },
         {
           type: "confirm",
