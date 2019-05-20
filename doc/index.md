@@ -2,19 +2,32 @@
 
 ## 安装 nvm
 
+nvm项目地址：[https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+
+windows环境：[https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows)
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 ```
 
 ### 修改`.zshrc`或`.bash_profile`或`.profile`
 
-将以下内容复制粘贴到`~/.zshrc`/`~/.bash_profile`/`~/.profile`任意一个文件内，使用哪个文件取决于当前 shell 环境
+将以下内容复制粘贴到`~/.zshrc`,`~/.bash_profile`,`~/.profile`任意一个文件内，使用哪个文件取决于当前 shell 环境
 
 ```bash
 # NVM config
 export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
+
+查看当前shell环境
+```bash
+echo $SHELL
+```
+
+如果是`zsh`则添加到`~/.zshrc`，如果是`bash`则添加到`~/.bash_profile`或`~/.profile`
+
+如果文件不存在，则新建
 
 ### 使生效
 
@@ -58,6 +71,8 @@ nvm alias default <NODE VERSION>
 ## 切换淘宝源
 
 使用`nrm`来切换 npm 的源，安装 nrm：
+
+nrm 项目地址：[https://github.com/Pana/nrm](https://github.com/Pana/nrm)
 
 ```bash
 npm i -g nrm
