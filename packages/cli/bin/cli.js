@@ -3,7 +3,7 @@ const program = require("commander");
 const inquirer = require("inquirer");
 const path = require("path");
 const pkg = require("../package.json");
-const { getConfig } = require("@plume/helper");
+const { getConfig, spawn, task } = require("@plume/helper");
 
 program.version(pkg.version, "-v,--version");
 
@@ -52,6 +52,8 @@ program
           type: "confirm",
           name: "skip",
           message: "是否跳过安装依赖？随后可以手动安装项目依赖",
+          default: false,
+          when: answers => !answers.skip,
         },
       ])
       .then(answers => {
@@ -131,6 +133,18 @@ program
     const config = getConfig(customConfig, cwd);
 
     require("./build")(config);
+  });
+
+program
+  .command("upgrade")
+  .description("升级plume-cli")
+  .action(async () => {
+    try {
+      await task("remove @plume/cli", spawn("npm", ["uninstall", "-g", "@plume/cli"]));
+      await task("install new @plume/cli", spawn("npm", ["i", "-g", "@plume/cli"]));
+    } catch (err) {
+      throw new Error(err);
+    }
   });
 
 program.parse(process.argv);

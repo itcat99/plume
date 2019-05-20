@@ -1,5 +1,6 @@
 const ora = require("ora");
 const spinner = ora();
+const isPromise = require("./isPromise");
 const Status = function(name, texts) {
   this.start = texts && texts.start ? texts.start : `[${name}] task running...`;
   this.fail = texts && texts.fail ? texts.fail : `[${name}] task failed.`;
@@ -19,7 +20,8 @@ const Status = function(name, texts) {
 module.exports = (name, result, texts = null) => {
   const status = new Status(name, texts);
   spinner.start(status.start);
-  if (Object.prototype.toString.call(result) === "[object Promise]") {
+
+  if (isPromise(result)) {
     return result
       .then(() => {
         spinner.succeed(status.success);

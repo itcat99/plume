@@ -6,17 +6,15 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const optimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const NyanProgressPlugin = require("nyan-progress-webpack-plugin");
+const webpackbar = require("webpackbar");
 const webpack = require("webpack");
 const fse = require("fs-extra");
-// const DashboardPlugin = require("webpack-dashboard/plugin");
-// const Dashboard = require("webpack-dashboard");
 
 const plugins = [];
 
 module.exports = (config, isDev) => {
   const { paths, options } = config;
-  const { progress, dll, gzip, analyzer } = options;
+  const { dll, gzip, analyzer } = options;
   const { plume, output } = paths;
 
   if (isDev) {
@@ -68,6 +66,7 @@ module.exports = (config, isDev) => {
       loaders: ["babel-loader?cacheDirectory"],
       verbose: false,
     }),
+    new webpackbar(),
   );
 
   gzip &&
@@ -79,7 +78,6 @@ module.exports = (config, isDev) => {
     );
 
   analyzer && plugins.push(new BundleAnalyzerPlugin());
-  progress && plugins.push(new NyanProgressPlugin());
 
   return plugins;
 };

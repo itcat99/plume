@@ -12,9 +12,7 @@ module.exports = opts => {
   };
 
   if (mode === "app") {
-    config.app = {
-      flow,
-    };
+    config.options.flow = flow;
   }
 
   fse.writeFileSync(
