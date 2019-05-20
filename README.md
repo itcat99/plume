@@ -13,6 +13,10 @@ Quickly build webApp
 - `@plume/helper`: 帮助方法
 - `@plume/flow`: react 数据流方案
 
+## 开发环境配置
+
+[直达链接](https://github.com/itcat99/plume/blob/master/doc/index.md)
+
 ## 开发前准备
 
 安装`lerna`
