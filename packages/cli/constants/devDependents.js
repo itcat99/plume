@@ -26,4 +26,5 @@ module.exports = {
     "prettier",
     "husky",
   ],
+  babelPluginImportant: ["babel-plugin-import"],
 };
