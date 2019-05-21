@@ -1,13 +1,18 @@
 const sass = require("gulp-sass");
 const less = require("gulp-less");
 const minify = require("gulp-clean-css");
-const autoprefixer = require("gulp-autoprefixer");
+// const autoprefixer = require("gulp-autoprefixer");
+const autoprefixer = require("autoprefixer");
 const { src, dest } = require("gulp");
+const postcss = require("gulp-postcss");
+const cssModules = require("postcss-modules");
+
+const plugins = [autoprefixer(), cssModules()];
 
 function _sass(format) {
   return src(`${process.env.PLUME_SRC || "src"}/**/*.scss`)
     .pipe(sass())
-    .pipe(autoprefixer())
+    .pipe(postcss(plugins))
     .pipe(minify())
     .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
@@ -15,14 +20,14 @@ function _sass(format) {
 function _less(format) {
   return src(`${process.env.PLUME_SRC || "src"}/**/*.less`)
     .pipe(less())
-    .pipe(autoprefixer())
+    .pipe(postcss(plugins))
     .pipe(minify())
     .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }
 
 function _css(format) {
   return src(`${process.env.PLUME_SRC || "src"}/**/*.css`)
-    .pipe(autoprefixer())
+    .pipe(postcss(plugins))
     .pipe(minify())
     .pipe(dest(`${process.env.PLUME_OUTPUT || "dist"}/${format}`));
 }

@@ -140,8 +140,18 @@ program
   .description("升级plume-cli")
   .action(async () => {
     try {
-      await task("remove @plume/cli", spawn("npm", ["uninstall", "-g", "@plume/cli"]));
-      await task("install new @plume/cli", spawn("npm", ["i", "-g", "@plume/cli"]));
+      await task(
+        "remove @plume/cli",
+        spawn("npm", ["uninstall", "-g", "@plume/cli"], {
+          print: false,
+        }),
+      );
+      await task(
+        "install new @plume/cli",
+        spawn("npm", ["i", "-g", "@plume/cli"], {
+          print: false,
+        }),
+      );
     } catch (err) {
       throw new Error(err);
     }

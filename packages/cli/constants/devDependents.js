@@ -12,7 +12,7 @@ module.exports = {
     "file-loader",
   ],
   app: ["@babel/plugin-syntax-dynamic-import", "happypack", "handlebars-loader", "style-loader"],
-  lib: ["docz-theme-default", "docz-plugin-css"],
+  lib: ["docz-theme-default", "docz-plugin-css", "babel-plugin-transform-rename-import"],
   sass: ["node-sass", "sass-loader"],
   less: ["less", "less-loader"],
   jest: ["jest"],

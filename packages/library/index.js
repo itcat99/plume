@@ -2,7 +2,6 @@
 const path = require("path");
 const fse = require("fs-extra");
 const { isExist, whichBin, spawn } = require("@plume/helper");
-// const rollup = require("./rollup");
 const webpack = require("./webpack");
 
 /**
@@ -50,7 +49,6 @@ class Lib {
 
     modules.forEach(type => {
       if (type === "umd") {
-        // rollup(this.config, root).catch(err => console.error(err));
         webpack(this.config);
       } else {
         spawn(this.gulp, [type, "-f", gulpConfig, "--cwd", root]).catch(err => console.error(err));
