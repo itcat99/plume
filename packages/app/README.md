@@ -2,6 +2,24 @@
 
 > TODO: description
 
+## entry
+
+plume 可以手动指定项目入口文件，在`plume.config.js`内配置`options.entry`选项，指定入口文件的位置。
+
+当手动指定 entry 时:
+
+- 需要手动引入`{plume}/App.jsx`文件
+- 需要手动引入 React,ReactDOM
+- 需要手动渲染 App
+- 需要手动指定渲染的目标元素
+
+```jsx
+import App from ".plume/App.jsx";
+import ReactDOM from "react-dom";
+
+ReactDOM.render(<App />, document.getElementById("root"));
+```
+
 ## router
 
 - plume 根据`pages`目录下的文件夹划分页面，pages 目录下的每一个文件夹当作一个页面来看待，需要`index.jsx`作为页面入口。
@@ -28,38 +46,37 @@
 plume 的典型的目录结构为：
 
 ```
-.plume
-   |- App.js
-   |- pagesInfo.json
-   |- models.js
-   |- index.js
-src
-  |- pages
-     |- Home
-        |- index.jsx
-     |- page_1
-        |- index.jsx
-        |- page_1_1.jsx
-        |- page_1_sub
-           |- index.jsx
-           |- page_1_sub_1.jsx
-     |- page_2
-     |- ...
-  |- components
-  |- containers
-  |- constants
+├── .babelrc
+├── .gitignore
+├── .plume
+│   ├── 404.jsx
+│   ├── App.jsx
+│   ├── Router.jsx
+│   ├── index.jsx
+│   └── pagesInfo.json
+├── package.json
+├── plume.config.js
+├── src
+│   ├── components
+│   └── pages
+│       ├── About
+│       │   └── index.jsx
+│       ├── Home
+│       │   └── index.jsx
+│       └── Product
+│           ├── Product_1
+│           │   └── index.jsx
+│           └── index.jsx
+└── yarn.lock
 ```
 
 则会自动创建如下 router
 
 ```bash
 / # Home
-/page_1 # page_1
-/page_1/page_1_1 # page_1_1
-/page_1/page_1_sub # page_1_sub
-/page_1/page_1_sub/page_1_sub_1 # page_1_sub_1
-/page_2 # page_2
-
+/about # About
+/product # Product
+/product/product_1 # Product/Product_1
 ```
 
 打包时，为每一个页面单独打包需要的资源文件。
@@ -71,10 +88,10 @@ src
 例如：
 
 ```
-|- pages
-   |- Dynamic
-      |- index.jsx
-      |- $id.jsx
+├ pages
+   └── Dynamic
+     ├── $id.jsx
+     └── index.jsx
 
 ```
 
@@ -95,9 +112,9 @@ src
 
 ```
 {pages}
-  |- Post
-    |- P1
-    |- P2
+  ├─ Post
+    ├─ P1
+    ├─ P2
 ```
 
 则会生成:
@@ -125,6 +142,31 @@ src
 
 1. 创建 models 的时候，会搜索当前项目下所有`models`目录，目录内的每个`*.js`文件作为一个 model，所以 models 目录下每个 js 文件务必有默认输出 `export defaut`。支持嵌套 models 目录。默认忽略`node_modules`和`.plume`目录。
 2. 每个 model 的`namespace`必须是**唯一**的
+
+可以使用其他数据流工具，如`redux-saga`，必须使用自定义的`entry`入口文件。
+
+使用 saga 的例子：
+
+```jsx
+import App from ".plume/App.jsx";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { helloSaga } from "./sagas";
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(helloSaga);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root"),
+);
+```
 
 ## 404 页面
 

@@ -47,7 +47,10 @@ class App {
     /* 复制errorpages */
     task(
       "copy errorpages",
-      fse.copyFileSync(path.join(__dirname, "src", "Err404.jsx"), path.join(plume, "404.jsx")),
+      fse.copyFileSync(
+        path.join(__dirname, "templates", "Err404.jsx"),
+        path.join(plume, "404.jsx"),
+      ),
     );
     /* 创建.babelrc文件 */
     task("create .babelrc file", mkBabelrc(root));
