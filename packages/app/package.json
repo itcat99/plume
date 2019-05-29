@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
@@ -36,8 +36,8 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
-    "@plume/config": "^1.0.7",
-    "@plume/helper": "^1.0.6",
+    "@plume/config": "^1.0.8",
+    "@plume/helper": "^1.0.7",
     "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
     "chalk": "^2.4.2",
