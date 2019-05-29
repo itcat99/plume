@@ -2,15 +2,26 @@
 
 const webpack = require("webpack");
 
-const dev = async (config, output, port, hashRouter) => {
+const dev = async (config, output, port, hashRouter, proxy) => {
   const WebpackDevServer = require("webpack-dev-server");
-  const devOptions = {
+  const defaultDevOpts = {
     hot: true,
     compress: true,
     contentBase: output,
     host: "0.0.0.0",
     historyApiFallback: hashRouter ? false : true,
   };
+  if (proxy) {
+    if (typeof proxy === "string") {
+      proxy = {
+        "*": proxy,
+      };
+    }
+
+    proxy.changeOrigin = true;
+    defaultDevOpts.proxy = proxy;
+  }
+  const devOptions = Object.assign({}, defaultDevOpts, config.devServer);
 
   WebpackDevServer.addDevServerEntrypoints(config, devOptions);
   const compiler = webpack(config);
@@ -52,14 +63,14 @@ const run = compiler => {
 
 module.exports = async (config, isDev) => {
   const { paths, options } = config;
-  const { dll, hashRouter, webpack: customWebpack, port } = options;
+  const { dll, hashRouter, webpack: customWebpack, port, proxy } = options;
   const { output } = paths;
 
   try {
     if (isDev) {
       let webpackConfig = require("../webpack/webpack.config")(config, isDev);
       webpackConfig = customWebpack ? customWebpack(webpackConfig, config) : webpackConfig;
-      await dev(webpackConfig, output, port, hashRouter);
+      await dev(webpackConfig, output, port, hashRouter, proxy);
     } else {
       if (dll) {
         const dllOptions = require("../webpack/webpack.dll")(config);

@@ -7,4 +7,5 @@ module.exports = {
   dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
   hashRouter: false,
   gzip: true,
+  proxy: null,
 };

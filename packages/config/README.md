@@ -66,22 +66,25 @@ plume_config 为 plume 的配置选项
 
 当 mode 为`app`时，options 内可以有的选项
 
-| name       | type             | default                                                      | desc                                  |
-| ---------- | ---------------- | ------------------------------------------------------------ | ------------------------------------- |
-| target     | string           | root                                                         | 目标 element 的 ID                    |
-| dll        | boolean          | true                                                         | 是否启用 dll 拆分                     |
-| dllName    | string           | "vendor"                                                     | 拆分的 dll 文件名                     |
-| dllVendor  | string[]         | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组             |
-| hashRouter | boolean          | false                                                        | 使用 hashRouter，默认为 browserRouter |
-| flow       | boolean          | false                                                        | 是否使用 @plume/flow                  |
-| webpack    | null \| function | null                                                         | 自定义 webpack 配置                   |
-| gzip       | boolean          | true                                                         | 是否启用 gzip 压缩                    |
+| name       | type                                | default                                                      | desc                                                            |
+| ---------- | ----------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------- |
+| target     | string                              | root                                                         | 目标 element 的 ID                                              |
+| dll        | boolean                             | true                                                         | 是否启用 dll 拆分                                               |
+| dllName    | string                              | "vendor"                                                     | 拆分的 dll 文件名                                               |
+| dllVendor  | string[]                            | ["react", "react-dom", "react-router-dom", "react-loadable"] | 拆分成 dll 的模块名称数组                                       |
+| hashRouter | boolean                             | false                                                        | 使用 hashRouter，默认为 browserRouter                           |
+| flow       | boolean                             | false                                                        | 是否使用 @plume/flow                                            |
+| webpack    | null \| function                    | null                                                         | 自定义 webpack 配置                                             |
+| gzip       | boolean                             | true                                                         | 是否启用 gzip 压缩                                              |
+| proxy      | null \| string\| object \| function | null                                                         | 同 webpack-dev-server 的 proxy，使用 proxy 时，默认开启允许跨域 |
 
 ##### webpack
 
 | name    | type             | default | signature                                                        | desc                                                                                 |
 | ------- | ---------------- | ------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | webpack | null \| function | null    | null \| (webpack_config: object, plume_config: object) => object | 当 webpack 是函数的时候，接受当前的 webpack 配置和 plume 配置，输出新的 webpack 配置 |
+
+自定义的 webpack 配置的优先级最高
 
 参数：
 
@@ -91,6 +94,14 @@ plume_config 为 plume 的配置选项
 返回：
 
 - 返回新的 webpack 配置对象
+
+##### proxy
+
+当使用 proxy 代理的时候，可以使用`string | object | function`的形式
+
+使用`object | function`的规则遵循 webpack 的 devServer.proxy 的配置规则
+
+使用`string`时，将自动配置为`{ "*": CUSTOM_HOST }`的 object 形式
 
 #### lib
 
