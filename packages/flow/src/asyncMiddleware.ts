@@ -26,7 +26,7 @@ export default () => (store: any) => {
       const { type, payload } = action;
       const [namespace, realType] = type.split(SEP);
 
-      result = effects[namespace][realType](actions, payload, getState);
+      result = effects[namespace][realType](payload, actions, getState);
     } else {
       result = next(action);
     }

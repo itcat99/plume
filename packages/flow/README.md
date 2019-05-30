@@ -2,8 +2,6 @@
 
 ## TODOS
 
-- [ ] 支持组件库的数据流
-
 ## Usage
 
 ```
@@ -23,8 +21,8 @@ reducer
   |- payload
 
 effect
-  |- payload
   |- actions
+  |- payload
   |- getState
 
 ```
@@ -92,10 +90,10 @@ export default {
     minus: state => state - 1,
   },
   effect: {
-    asyncPlus: async actions => {
+    asyncPlus: async (_payload, actions) => {
       setTimeout(() => actions.compute.plus(), 500);
     },
-    asyncMinus: async actions => {
+    asyncMinus: async (_payload, actions) => {
       setTimeout(() => actions.compute.minus(), 500);
     },
   },
@@ -200,7 +198,7 @@ new Flow([options])
 
 ### signature
 
-createContainer(<ReactElement>, [options]): ReactElement
+createContainer(\<ReactElement\>, [options]): ReactElement
 
 ### Options
 
@@ -306,8 +304,8 @@ actions => {
 
 #### signature
 
-(actions, payload, getState): void
+(payload, actions, getState): void
 
-- actions: 所有已注册的模型的动作
 - payload: 传入的数据
+- actions: 所有已注册的模型的动作
 - getState: 获取当前的 state 状态
