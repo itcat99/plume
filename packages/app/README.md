@@ -209,13 +209,67 @@ axios
   .catch(reault => {});
 ```
 
+## 权限路由
+
+plume 实现权限路由十分简单，只要在相应的目录下，添加`Author.js`或`Author.jsx`组件即可。
+
+同一目录下的其他子目录，都会走此处的权限组件。除非子目录下有自己的 Author 组件。
+
+在权限组件内，被渲染的组件为权限组件的`props.children`。
+
+权限组件需要使用`export default`输出。
+
+例如，有这样的一个目录结构：
+
+```bash
+└── src
+    ├── components
+    └── pages
+        ├── Home
+        │   └── index.jsx
+        └── Manager
+            ├── Author.js
+            ├── User
+            │   └── index.jsx
+            ├── Post
+            │   ├── Author.jsx
+            │   └── index.jsx
+            └── index.jsx
+```
+
+则路由到`Manager`和`Manager/User`都会先经过 `Manager/Author` 组件，在内部拿到`props.children`，也就是`Manager`或`User`页面，再去判断是否需要渲染。
+
+而路由到`Manager/Post`的，会先经过`Manager/Post/Author`组件。
+
+Author 组件内部可能是这样：
+
+```jsx
+import React, { PureComponent } from "react";
+import { Redirect } from "react-router-dom";
+
+class Author extends PureComponent {
+  render() {
+    const Cmp = this.props.children; // 这个是要渲染的页面
+
+    // 此处判断权限
+    if (isLogin) {
+      return <Cmp />; // 加载组件
+    } else {
+      return <Redirect to="/login" />; // 重定向
+    }
+  }
+}
+
+export default Author;
+```
+
 ## TODOS
 
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件
 - [x] 支持 dev&&flow 下，当新建 model 时，更新 models.js 文件
 - [x] 支持多层路由
 - [x] 支持嵌套路由
-- [ ] 支持权限路由
+- [x] 支持权限路由
 - [x] 支持动态路由
 - [x] 支持可选动态路由
 - [x] 支持静态资源打包

@@ -9,21 +9,45 @@ const SwitchRoute = () => {
   return (
     <Switch>
       {pagesInfo.map((route, index) => {
-        const { exact, path: url, component } = route;
+        const { exact, path: url, component, author } = route;
+        let loadableComponent;
+        if (author) {
+          loadableComponent = Loadable.Map({
+            loader: {
+              Author: () => import(`{{relativePath}}${author}`),
+              Cmp: () => import(`{{relativePath}}${component}`),
+            },
+            render(loaded, props) {
+              const Author = loaded.Author.default;
+              const Cmp = loaded.Cmp.default;
+
+              return (
+                <Author>
+                  <Cmp {...props} />
+                </Author>
+              );
+            },
+            loading: props => {
+              // if (url === "/") return null;
+              if (props.pastDelay) return <div>Loading...</div>;
+              return null;
+            },
+            delay: 200,
+          });
+        } else {
+          loadableComponent = Loadable({
+            loader: () => import(`{{relativePath}}${component}`),
+            loading: props => {
+              // if (url === "/") return null;
+              if (props.pastDelay) return <div>Loading...</div>;
+              return null;
+            },
+            delay: 200,
+          });
+        }
+
         return (
-          <Route
-            exact={exact}
-            path={url}
-            key={`${url}_${index}`}
-            component={Loadable({
-              loader: () => import(`{{relativePath}}${component}`),
-              loading: () => {
-                if (url === "/") return null;
-                return <div>Loading...</div>;
-              },
-              delay: 1000,
-            })}
-          />
+          <Route exact={exact} path={url} key={`${url}_${index}`} component={loadableComponent} />
         );
       })}
       <Route

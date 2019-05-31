@@ -5,6 +5,12 @@ const chalk = require("chalk");
 
 /* eslint no-console:0 */
 
+/**
+ * 获取路由的url地址
+ * @param {*} parentPath 父级路由地址
+ * @param {*} dirName 目录名称
+ * @param {*} title 文件名
+ */
 const getUrlPath = (parentPath, dirName, title) => {
   if (!parentPath && !!dirName.match(/^(H|h)ome?/)) {
     return "/";
@@ -17,8 +23,8 @@ const getUrlPath = (parentPath, dirName, title) => {
   return `${parentPath || ""}/${dirName}${name}`;
 };
 /**
- * 获取组件的路由地址
- * @param {string} parentPath 父级路由地址
+ * 获取组件的动态加载地址
+ * @param {string} parentPath 父级组件的地址
  * @param {string} dirName 目录名称
  * @param {string} file 文件名
  * @return {string}
@@ -41,20 +47,39 @@ const getUrlTitle = title => {
  * @param {string} dirPath 目录地址
  * @param {string} parent 父级路由
  * @param {object[]} info url映射数组
- * @param {object[]}
+ * @param {object[]} permissionPaths 有验证机制的目录集合
+ * @param {string} permissionPaths.path 有验证机制的目录
+ * @param {string} permissionPaths.authorCmpPath 验证文件目录
+ *
  */
-const getPageInfo = (dirPath, parent = null, info = []) => {
+const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = []) => {
   const dirName = dirPath.split("/").reverse()[0];
   const files = fse.readdirSync(dirPath);
+  const authorFile = getAuthor(files);
+  let authorCmpPath;
+
+  /* 如果当前目录有Author文件，则使用当前目录的，如果没有，搜索permissionPaths内是否有父级目录，如果有，则使用父级的Author */
+  if (authorFile.length > 0) {
+    // 只拿搜索到的第一个Author文件
+    authorCmpPath = getCompPath(parent, dirName, authorFile[0]);
+    permissionPaths.push({
+      path: `${parent || ""}/${dirName}`,
+      authorCmpPath,
+    });
+  } else {
+    const parentAuthorFile = permissionPaths.filter(item => dirPath.indexOf(item.path) >= 0);
+    if (parentAuthorFile.length > 0) authorCmpPath = parentAuthorFile[0].authorCmpPath;
+  }
 
   files.forEach(file => {
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
       const nextParent = `${parent || ""}/${getDynamicName(dirName)}`;
-      info = getPageInfo(filePath, nextParent, info);
+      info = getPageInfo(filePath, nextParent, info, permissionPaths);
     } else {
       if (!file.match(/\.(js|jsx)?$/)) return true;
+      if (file.match(/Author\.(js|jsx)?$/)) return true;
 
       const urlTitle = getUrlTitle(file);
       info.unshift({
@@ -62,12 +87,20 @@ const getPageInfo = (dirPath, parent = null, info = []) => {
         path: getUrlPath(parent, dirName, urlTitle),
         component: getCompPath(parent, dirName, file),
         exact: urlTitle === "index" ? true : false,
+        author: authorCmpPath || false,
       });
     }
   });
 
   return info;
 };
+
+/**
+ * 获取Author文件
+ * @param {string[]} files 目标文件集合
+ * @return {array}
+ */
+const getAuthor = files => files.filter(val => val.match(/Author\.(js|jsx)$/));
 
 /**
  * 获取动态路由的url路径名称
