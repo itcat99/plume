@@ -10,15 +10,11 @@ config 是名为`plume.config.js`的文件，需要`module.exports`输出 config
 
 config 文件放置在项目根目录，可以在 cli 内部配置`--config`选项。
 
-| name    | type    | desc                           |
-| ------- | ------- | ------------------------------ |
-| mode    | string  | 项目模式 app \| lib 默认为 app |
-| paths   | object  | 各种目录的配置对象             |
-| options | object  | 通用的配置选项                 |
-| ~~      | app     | null \| object                 | app 模式的配置选项 | ~~ |
-| ~~      | lib     | null \| object                 | lib 模式的配置选项 | ~~ |
-| ~~      | webpack | function                       | 自定义 webpack 配置 | ~~ |
-| ~~      | rollup  | function                       | 自定义 rollup 配置 | ~~ |
+| name    | type   | desc                           |
+| ------- | ------ | ------------------------------ |
+| mode    | string | 项目模式 app \| lib 默认为 app |
+| paths   | object | 各种目录的配置对象             |
+| options | object | 通用的配置选项                 |
 
 ### mode
 
@@ -77,6 +73,7 @@ plume_config 为 plume 的配置选项
 | webpack    | null \| function                    | null                                                         | 自定义 webpack 配置                                             |
 | gzip       | boolean                             | true                                                         | 是否启用 gzip 压缩                                              |
 | proxy      | null \| string\| object \| function | null                                                         | 同 webpack-dev-server 的 proxy，使用 proxy 时，默认开启允许跨域 |
+| analyzer   | boolean                             | false                                                        | 打包完成后显示项目所有包的体积和内容，不包括 dllVendor          |
 
 ##### webpack
 
