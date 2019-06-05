@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React from "react";
-import { HashRouter, BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 
 import Loadable from "react-loadable";
 import pagesInfo from "./pagesInfo.json";
@@ -25,6 +25,8 @@ const SwitchRoute = () => {
               const Author = loaded.Author ? loaded.Author.default : null;
               const Layout = loaded.Layout ? loaded.Layout.default : null;
               const Cmp = loaded.Cmp.default;
+              const { history, location, match, staticContext } = props;
+              const routeProps = { history, location, match, staticContext };
 
               if (Author) {
                 const children = Layout ? (
@@ -35,11 +37,11 @@ const SwitchRoute = () => {
                   <Cmp {...props} />
                 );
 
-                return <Author>{children}</Author>;
+                return <Author {...routeProps}>{children}</Author>;
               }
 
               return (
-                <Layout>
+                <Layout {...routeProps}>
                   <Cmp {...props} />
                 </Layout>
               );
@@ -64,7 +66,12 @@ const SwitchRoute = () => {
         }
 
         return (
-          <Route exact={exact} path={url} key={`${url}_${index}`} component={loadableComponent} />
+          <Route
+            exact={exact}
+            path={url}
+            key={`${url}_${index}`}
+            component={withRouter(loadableComponent)}
+          />
         );
       })}
       <Route

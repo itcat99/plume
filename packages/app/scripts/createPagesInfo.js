@@ -58,20 +58,24 @@ const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = [], la
   const files = fse.readdirSync(dirPath);
 
   /* 获取author组件地址 */
-  const authorCmpPath = getGeneralFileInDirectoryAndCollection(
-    "Author",
+  const authorInfo = getGeneralFileInDirectoryAndCollection(
+    "_Author",
     dirPath,
     parent,
     permissionPaths,
   );
+  const authorCmpPath = authorInfo.targetPath;
+  permissionPaths = authorInfo.collection;
 
   /* 获取layout组件地址 */
-  const layoutCmpPath = getGeneralFileInDirectoryAndCollection(
+  const layoutInfo = getGeneralFileInDirectoryAndCollection(
     "_Layout",
     dirPath,
     parent,
     layoutPaths,
   );
+  const layoutCmpPath = layoutInfo.targetPath;
+  layoutPaths = layoutInfo.collection;
 
   files.forEach(file => {
     const filePath = path.join(dirPath, file);
@@ -81,7 +85,7 @@ const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = [], la
       info = getPageInfo(filePath, nextParent, info, permissionPaths, layoutPaths);
     } else {
       if (!file.match(/\.(js|jsx)?$/)) return true;
-      if (file.match(/Author\.(js|jsx)?$/)) return true;
+      if (file.match(/_Author\.(js|jsx)?$/)) return true;
       if (file.match(/_Layout\.(js|jsx)?$/)) return true;
 
       const urlTitle = getUrlTitle(file);
@@ -118,6 +122,7 @@ const getFile = (files, name) => files.filter(val => val.match(new RegExp(`${nam
  * @param {object[]} collection 集合
  * @param {string} collection.path 目录地址
  * @param {string} collection.targetPath 目标文件地址
+ * @returns {object} 返回targetPath和新的collection
  */
 const getGeneralFileInDirectoryAndCollection = (target, dir, parentRoute, collection) => {
   let targetPath;
@@ -137,7 +142,7 @@ const getGeneralFileInDirectoryAndCollection = (target, dir, parentRoute, collec
     if (parentAuthorFile.length > 0) targetPath = parentAuthorFile[0].targetPath;
   }
 
-  return targetPath;
+  return { targetPath, collection };
 };
 
 /**
@@ -162,15 +167,25 @@ const getDynamicName = name => {
  */
 module.exports = (pagesPath, plumePath) => {
   try {
+    const permissionPaths = [],
+      layoutPaths = [];
+
     let pagesInfo = [];
     const result = fse.readdirSync(pagesPath);
+    /* 获取全局的Author */
+    const authorCmpPath = getFile(result, "_Author")[0];
+    if (authorCmpPath) permissionPaths.push({ path: pagesPath, targetPath: `/${authorCmpPath}` });
+    /* 获取全局的Layout */
+    const layoutCmpPath = getFile(result, "_Layout")[0];
+    if (layoutCmpPath) layoutPaths.push({ path: pagesPath, targetPath: `/${layoutCmpPath}` });
+
     for (const key in result) {
       const item = result[key];
       if (item.match(/^404$/)) continue;
 
       const _path = path.join(pagesPath, item);
       if (isDir(_path)) {
-        pagesInfo = pagesInfo.concat(getPageInfo(_path));
+        pagesInfo = pagesInfo.concat(getPageInfo(_path, null, [], permissionPaths, layoutPaths));
       }
     }
 

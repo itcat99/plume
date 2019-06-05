@@ -217,6 +217,8 @@ plume 实现权限路由十分简单，只要在相应的目录下，添加`Auth
 
 在权限组件内，被渲染的组件为权限组件的`props.children`。
 
+在权限组件内，可以使用 react-router-dom 的`history`,`location`,`match`和`staticContext`属性，其他父级传入的属性，将直接传入被渲染的组件内
+
 权限组件需要使用`export default`输出。
 
 例如，有这样的一个目录结构：
@@ -228,18 +230,18 @@ plume 实现权限路由十分简单，只要在相应的目录下，添加`Auth
         ├── Home
         │   └── index.jsx
         └── Manager
-            ├── Author.js
+            ├── _Author.js
             ├── User
             │   └── index.jsx
             ├── Post
-            │   ├── Author.jsx
+            │   ├── _Author.jsx
             │   └── index.jsx
             └── index.jsx
 ```
 
-则路由到`Manager`和`Manager/User`都会先经过 `Manager/Author` 组件，在内部拿到`props.children`，也就是`Manager`或`User`页面，再去判断是否需要渲染。
+则路由到`Manager`和`Manager/User`都会先经过 `Manager/_Author` 组件，在内部拿到`props.children`，也就是`Manager`或`User`页面，再去判断是否需要渲染。
 
-而路由到`Manager/Post`的，会先经过`Manager/Post/Author`组件。
+而路由到`Manager/Post`的，会先经过`Manager/Post/_Author`组件。
 
 Author 组件内部可能是这样：
 
@@ -263,15 +265,21 @@ class Author extends PureComponent {
 export default Author;
 ```
 
+## glob author/全局权限
+
+全局的权限放在`{pages}`的根目录下，文件名为`_Author.js|jsx`。用法与布局一致
+
 ## Layout/布局
 
-layout 布局的使用方法类似`Author`
+layout 布局的使用方法类似`_Author`
 
 在嵌套的页面下，使用布局非常简单，只要添加`_Layout.js|jsx`文件到目录，则此目录下的所有页面都将使用此布局配置。
 
 除非子目录下有自己的 Layout 组件。
 
 Layout 组件内`props.children`为布局的内容部分。
+
+在权限组件内，可以使用 react-router-dom 的`history`,`location`,`match`和`staticContext`属性，其他父级传入的属性，将直接传入被渲染的组件内。
 
 例如有这样一个目录结构：
 
@@ -294,6 +302,10 @@ Layout 组件内`props.children`为布局的内容部分。
 则路由到`Manager`和`Manager/User`都会使用`Manager`组件下的`_Layout.jsx`组件渲染，在内部会拿到`props.children`，也就是`Manager`或`User`页面。
 
 而路由到`Manager/Post`的，则会使用自己的 Layout 组件。
+
+## glob layout/全局布局
+
+全局的布局放在`{pages}`的根目录下，文件名为`_Layout.js|jsx`。用法与布局一致
 
 ## TODOS
 
