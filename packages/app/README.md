@@ -263,6 +263,38 @@ class Author extends PureComponent {
 export default Author;
 ```
 
+## Layout/布局
+
+layout 布局的使用方法类似`Author`
+
+在嵌套的页面下，使用布局非常简单，只要添加`_Layout.js|jsx`文件到目录，则此目录下的所有页面都将使用此布局配置。
+
+除非子目录下有自己的 Layout 组件。
+
+Layout 组件内`props.children`为布局的内容部分。
+
+例如有这样一个目录结构：
+
+```bash
+└── src
+    ├── components
+    └── pages
+        ├── Home
+        │   └── index.jsx
+        └── Manager
+            ├── _Layout.js
+            ├── User
+            │   └── index.jsx
+            ├── Post
+            │   ├── _Layout.jsx
+            │   └── index.jsx
+            └── index.jsx
+```
+
+则路由到`Manager`和`Manager/User`都会使用`Manager`组件下的`_Layout.jsx`组件渲染，在内部会拿到`props.children`，也就是`Manager`或`User`页面。
+
+而路由到`Manager/Post`的，则会使用自己的 Layout 组件。
+
 ## TODOS
 
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件

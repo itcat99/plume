@@ -9,22 +9,39 @@ const SwitchRoute = () => {
   return (
     <Switch>
       {pagesInfo.map((route, index) => {
-        const { exact, path: url, component, author } = route;
+        const { exact, path: url, component, author, layout } = route;
         let loadableComponent;
-        if (author) {
+
+        if (author || layout) {
+          const loader = {
+            Cmp: () => import(`../src/pages${component}`),
+          };
+          if (author) loader.Author = () => import(`../src/pages${author}`);
+          if (layout) loader.Layout = () => import(`../src/pages${layout}`);
+
           loadableComponent = Loadable.Map({
-            loader: {
-              Author: () => import(`{{relativePath}}${author}`),
-              Cmp: () => import(`{{relativePath}}${component}`),
-            },
+            loader,
             render(loaded, props) {
-              const Author = loaded.Author.default;
+              const Author = loaded.Author ? loaded.Author.default : null;
+              const Layout = loaded.Layout ? loaded.Layout.default : null;
               const Cmp = loaded.Cmp.default;
 
-              return (
-                <Author>
+              if (Author) {
+                const children = Layout ? (
+                  <Layout>
+                    <Cmp {...props} />
+                  </Layout>
+                ) : (
                   <Cmp {...props} />
-                </Author>
+                );
+
+                return <Author>{children}</Author>;
+              }
+
+              return (
+                <Layout>
+                  <Cmp {...props} />
+                </Layout>
               );
             },
             loading: props => {

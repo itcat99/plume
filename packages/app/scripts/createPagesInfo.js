@@ -1,9 +1,8 @@
+/* eslint no-console:0 */
 const fse = require("fs-extra");
 const path = require("path");
 const { isDir } = require("@plume/helper");
 const chalk = require("chalk");
-
-/* eslint no-console:0 */
 
 /**
  * 获取路由的url地址
@@ -29,7 +28,8 @@ const getUrlPath = (parentPath, dirName, title) => {
  * @param {string} file 文件名
  * @return {string}
  */
-const getCompPath = (parentPath, dirName, file) => `${parentPath || ""}/${dirName}/${file}`;
+const getCompPath = (parentPath, dirName, file) =>
+  `${parentPath || ""}/${dirName}${file ? "/" + file : ""}`;
 /**
  * 获取文件名
  * @param {string} title
@@ -50,36 +50,39 @@ const getUrlTitle = title => {
  * @param {object[]} permissionPaths 有验证机制的目录集合
  * @param {string} permissionPaths.path 有验证机制的目录
  * @param {string} permissionPaths.authorCmpPath 验证文件目录
+ * @param {object[]} layoutPaths 布局目录集合
  *
  */
-const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = []) => {
+const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = [], layoutPaths = []) => {
   const dirName = dirPath.split("/").reverse()[0];
   const files = fse.readdirSync(dirPath);
-  const authorFile = getAuthor(files);
-  let authorCmpPath;
 
-  /* 如果当前目录有Author文件，则使用当前目录的，如果没有，搜索permissionPaths内是否有父级目录，如果有，则使用父级的Author */
-  if (authorFile.length > 0) {
-    // 只拿搜索到的第一个Author文件
-    authorCmpPath = getCompPath(parent, dirName, authorFile[0]);
-    permissionPaths.push({
-      path: `${parent || ""}/${dirName}`,
-      authorCmpPath,
-    });
-  } else {
-    const parentAuthorFile = permissionPaths.filter(item => dirPath.indexOf(item.path) >= 0);
-    if (parentAuthorFile.length > 0) authorCmpPath = parentAuthorFile[0].authorCmpPath;
-  }
+  /* 获取author组件地址 */
+  const authorCmpPath = getGeneralFileInDirectoryAndCollection(
+    "Author",
+    dirPath,
+    parent,
+    permissionPaths,
+  );
+
+  /* 获取layout组件地址 */
+  const layoutCmpPath = getGeneralFileInDirectoryAndCollection(
+    "_Layout",
+    dirPath,
+    parent,
+    layoutPaths,
+  );
 
   files.forEach(file => {
     const filePath = path.join(dirPath, file);
 
     if (isDir(filePath)) {
       const nextParent = `${parent || ""}/${getDynamicName(dirName)}`;
-      info = getPageInfo(filePath, nextParent, info, permissionPaths);
+      info = getPageInfo(filePath, nextParent, info, permissionPaths, layoutPaths);
     } else {
       if (!file.match(/\.(js|jsx)?$/)) return true;
       if (file.match(/Author\.(js|jsx)?$/)) return true;
+      if (file.match(/_Layout\.(js|jsx)?$/)) return true;
 
       const urlTitle = getUrlTitle(file);
       info.unshift({
@@ -88,6 +91,7 @@ const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = []) =>
         component: getCompPath(parent, dirName, file),
         exact: urlTitle === "index" ? true : false,
         author: authorCmpPath || false,
+        layout: layoutCmpPath || false,
       });
     }
   });
@@ -96,11 +100,45 @@ const getPageInfo = (dirPath, parent = null, info = [], permissionPaths = []) =>
 };
 
 /**
- * 获取Author文件
+ * 获取目标js,jsx文件
  * @param {string[]} files 目标文件集合
+ * @param {string} name 文件名
  * @return {array}
  */
-const getAuthor = files => files.filter(val => val.match(/Author\.(js|jsx)$/));
+const getFile = (files, name) => files.filter(val => val.match(new RegExp(`${name}.(js|jsx)$`)));
+
+/**
+ * 在目录或集合内搜索通用文件
+ * 如果当前目录有目标文件，则使用当前目录的目标文件
+ * 如果没有，搜索集合内是否有父级目录，如果有，则使用父级的目标文件
+ *
+ * @param {string} target 目标文件名
+ * @param {string} dir 目录地址
+ * @param {string} parentRoute 父级路由地址
+ * @param {object[]} collection 集合
+ * @param {string} collection.path 目录地址
+ * @param {string} collection.targetPath 目标文件地址
+ */
+const getGeneralFileInDirectoryAndCollection = (target, dir, parentRoute, collection) => {
+  let targetPath;
+  const dirName = dir.split("/").reverse()[0];
+  const files = fse.readdirSync(dir);
+  const targetFiles = getFile(files, target);
+
+  if (targetFiles.length > 0) {
+    // 只拿搜索到的第一个目标文件
+    targetPath = getCompPath(parentRoute, dirName, targetFiles[0]);
+    collection.push({
+      path: `${parentRoute || ""}/${dirName}`,
+      targetPath,
+    });
+  } else {
+    const parentAuthorFile = collection.filter(item => dir.indexOf(item.path) >= 0);
+    if (parentAuthorFile.length > 0) targetPath = parentAuthorFile[0].targetPath;
+  }
+
+  return targetPath;
+};
 
 /**
  * 获取动态路由的url路径名称
