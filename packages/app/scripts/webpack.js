@@ -1,6 +1,7 @@
 /* eslint no-console:0 */
 
 const webpack = require("webpack");
+const { deepAssign } = require("@plume/helper");
 
 const dev = async (config, output, port, hashRouter, proxy) => {
   const WebpackDevServer = require("webpack-dev-server");
@@ -21,7 +22,7 @@ const dev = async (config, output, port, hashRouter, proxy) => {
     proxy.changeOrigin = true;
     defaultDevOpts.proxy = proxy;
   }
-  const devOptions = Object.assign({}, defaultDevOpts, config.devServer);
+  const devOptions = deepAssign(defaultDevOpts, config.devServer);
 
   WebpackDevServer.addDevServerEntrypoints(config, devOptions);
   const compiler = webpack(config);

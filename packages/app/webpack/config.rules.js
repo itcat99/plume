@@ -1,4 +1,10 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const postcssCfg = {
+  loader: "postcss-loader",
+  options: {
+    plugins: [require("autoprefixer")],
+  },
+};
 
 module.exports = (config, isDev) => {
   const { assetsExt } = config.options;
@@ -11,13 +17,19 @@ module.exports = (config, isDev) => {
     },
     {
       test: /\.scss?$/,
-      use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      use: [
+        isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+        "css-loader",
+        postcssCfg,
+        "sass-loader",
+      ],
     },
     {
       test: /\.less?$/,
       use: [
         isDev ? "style-loader" : MiniCssExtractPlugin.loader,
         "css-loader",
+        postcssCfg,
         {
           loader: "less-loader",
           options: {
@@ -28,7 +40,7 @@ module.exports = (config, isDev) => {
     },
     {
       test: /\.css?$/,
-      use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
+      use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", postcssCfg],
     },
     {
       test: /\.hbs$/,
