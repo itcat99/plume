@@ -5,7 +5,6 @@ const isExist = require("./isExist");
 /**
  * 获取配置文件信息 如果没有发现配置文件 则
  * @param {string} configFilePath 手动指定的配置文件路径
- * @param {string} mode 获取配置的模式
  * @param {string} cwd 当前路径 默认为process.cwd()
  * @param {object} 输出配置对象
  */

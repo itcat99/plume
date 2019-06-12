@@ -27,9 +27,14 @@ program
           default: 0,
         },
         {
+          type: "confirm",
+          name: "styledComponents",
+          message: "是否启用styled-components？",
+        },
+        {
           type: "list",
           name: "cssMode",
-          choices: ["sass", "styled-components", "less", "css"],
+          choices: ["sass", "less", "css", "none"],
           message: "选择css模式",
         },
         {
@@ -38,7 +43,7 @@ program
           message: "是否启用cssModules？",
           when: answers => {
             const { cssMode } = answers;
-            return cssMode === "sass" || cssMode === "less" || cssMode === "css";
+            return cssMode !== "none";
           },
         },
         {

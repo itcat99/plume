@@ -1,0 +1,29 @@
+{
+  "name": "core",
+  "version": "0.0.23",
+  "description": "core module",
+  "keywords": [
+    "core"
+  ],
+  "author": "FreMaNgo <boping2010@gmail.com>",
+  "homepage": "https://github.com/itcat99/plume#readme",
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "directories": {
+    "test": "__tests__"
+  },
+  "files": [
+    "templates",
+    "scripts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itcat99/plume.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/itcat99/plume/issues"
+  }
+}
