@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
@@ -37,7 +37,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
     "@plume/config": "^1.0.9",
-    "@plume/helper": "^1.0.8",
+    "@plume/helper": "^1.0.9",
     "autoprefixer": "^9.6.0",
     "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
