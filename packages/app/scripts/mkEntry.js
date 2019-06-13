@@ -10,8 +10,8 @@ const fse = require("fs-extra");
  */
 module.exports = (flow, target, plumePath) => {
   const entryAppPath = flow
-    ? path.resolve(__dirname, "../templates", "index.flow.jsx")
-    : path.resolve(__dirname, "../templates", "index.jsx");
+    ? path.resolve(__dirname, "../templates/plume", "index.flow.jsx")
+    : path.resolve(__dirname, "../templates/plume", "index.jsx");
 
   const data = template(entryAppPath, {
     target,

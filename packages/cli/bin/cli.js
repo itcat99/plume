@@ -4,6 +4,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const pkg = require("../package.json");
 const { getConfig, spawn, task } = require("@plume/helper");
+const modes = require("../constants/modes");
 
 program.version(pkg.version, "-v,--version");
 
@@ -22,7 +23,7 @@ program
         {
           type: "list",
           name: "mode",
-          choices: ["app", "lib"],
+          choices: modes,
           message: "选择开发项目的模式",
           default: 0,
         },
@@ -70,10 +71,13 @@ program
         if (customPath && !path.isAbsolute(customPath)) {
           targetPath = path.join(process.cwd(), customPath);
         }
-
+        targetPath = targetPath || process.cwd();
+        const projectPath = path.join(targetPath, name);
+        // console.log("projectPath: ", projectPath);
         const opts = {
           name,
-          targetPath: targetPath || process.cwd(),
+          // targetPath: targetPath || process.cwd(),
+          projectPath,
           flow: mode === "lib" ? false : flow,
           eslint,
           jest,
@@ -83,25 +87,25 @@ program
           cssModules,
         };
 
-        require("./create")(opts);
+        require("./_create")(opts);
       });
   });
 
-program
-  .command("add <name> [path]")
-  .description(
-    "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
-  )
-  .option("-c | --config <path>", "指定plume.config.js文件路径")
-  .option("-C | --container", "创建container组件")
-  .option("-P | --page", "创建page页面")
-  .option("-M | --model", "创建model模块")
-  .action((name, targetPath, args) => {
-    const { container, page, model, config: customConfig, cwd } = args;
-    const config = getConfig(customConfig, cwd);
+// program
+//   .command("add <name> [path]")
+//   .description(
+//     "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
+//   )
+//   .option("-c | --config <path>", "指定plume.config.js文件路径")
+//   .option("-C | --container", "创建container组件")
+//   .option("-P | --page", "创建page页面")
+//   .option("-M | --model", "创建model模块")
+//   .action((name, targetPath, args) => {
+//     const { container, page, model, config: customConfig, cwd } = args;
+//     const config = getConfig(customConfig, cwd);
 
-    require("./add")({ name, types: { container, page, model }, targetPath, config });
-  });
+//     require("./add")({ name, types: { container, page, model }, targetPath, config });
+//   });
 
 /* 初始化plume */
 program

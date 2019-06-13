@@ -9,7 +9,7 @@ module.exports = (plume, pages) => {
 
   let errorPages = path.relative(plume, isExist(path.join(pages, "404")) ? pages : plume);
 
-  const data = template(path.resolve(__dirname, "../templates", "Router.jsx"), {
+  const data = template(path.resolve(__dirname, "../templates/plume", "Router.jsx"), {
     relativePath: relativePath === "" ? "." : relativePath,
     errorPages: errorPages === "" ? "." : errorPages,
   });

@@ -8,7 +8,7 @@ const fse = require("fs-extra");
  * @param {boolean} hashRouter 是否启用hashRouter
  */
 module.exports = (plume, hashRouter) => {
-  const originFile = path.join(__dirname, "../templates", "App.jsx");
+  const originFile = path.join(__dirname, "../templates/plume", "App.jsx");
   const targetFile = path.join(plume, "App.jsx");
 
   const data = template(originFile, {

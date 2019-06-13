@@ -1,10 +1,11 @@
-/* eslint no-console:0 */
-const App = require("@plume/app");
-const Lib = require("@plume/lib");
+const getMode = require("../scripts/getMode");
 
-module.exports = config => {
-  const { mode = "app" } = config;
+module.exports = (config, instance) => {
+  if (!instance) {
+    const { mode } = config;
+    const Mode = getMode(mode);
+    instance = new Mode();
+  }
 
-  const instance = mode === "app" ? new App(config) : new Lib(config);
-  instance.dev();
+  instance.dev(config);
 };

@@ -36,20 +36,6 @@
 | styledComponents | boolean | false   | 是否启用 styled-components                                              |
 | cssModules       | boolean | false   | 是否启用 cssModules，影响打包时对 css 的处理 可选值：true \| false      |
 
-### dependents [静态属性]
-
-一个包含了项目所有依赖的名称的对象。在构建项目时，会被自动安装
-
-| name | type     | desc     |
-| ---- | -------- | -------- |
-| dev  | string[] | 开发依赖 |
-| prod | string[] | 生产依赖 |
-
-备注：
-
-- 默认为`null`
-- 如果选择不自动安装依赖，当项目创建完毕后，会提示安装依赖项。
-
 ## Methods
 
 ### initial
@@ -64,6 +50,22 @@ cli_config 为 cli 传入的配置项
 
 - 默认处理的工作：[`创建项目目录`，`创建 package.json 文件`，`初始化 git`，`初始化 gitignore`，`初始化 plume.config.js 文件`]
 - 附加处理的工作：如果选择了`eslint`，还将运行[`初始化 eslint`]
+
+### dependents
+
+方法签名：`cli_config: Object => {dev: string[], prod:string[]}`
+
+功能：返回一个包含了项目所有依赖的名称的对象。在构建项目时，会被自动安装。
+
+| name | type     | desc     |
+| ---- | -------- | -------- |
+| dev  | string[] | 开发依赖 |
+| prod | string[] | 生产依赖 |
+
+备注：
+
+- 默认不返回任何值
+- 如果选择不自动安装依赖，当项目创建完毕后，会提示安装依赖项。
 
 ### dev
 

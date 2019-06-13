@@ -7,7 +7,7 @@
   ],
   "author": "FreMaNgo <boping2010@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "_index.js",
   "directories": {
     "test": "__tests__"
   },
@@ -37,6 +37,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
     "@plume/config": "^1.0.9",
+    "@plume/core": "^0.0.24",
     "@plume/helper": "^1.0.9",
     "autoprefixer": "^9.6.0",
     "axios": "^0.18.0",
