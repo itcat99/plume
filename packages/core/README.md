@@ -8,7 +8,7 @@
 
 ## Properties
 
-### config [静态属性]
+### config
 
 是通用的默认配置选项，不同的 mode 模块，需要根据此配置项扩展
 

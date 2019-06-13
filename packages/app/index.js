@@ -1,7 +1,8 @@
 /* eslint no-console:0 */
 const path = require("path");
+const Core = require("@plume/core");
+const { isExist, debounce, deepAssign } = require("@plume/helper");
 const fse = require("fs-extra");
-const { isExist, debounce, task } = require("@plume/helper");
 const mkApp = require("./scripts/mkApp");
 const mkBabelrc = require("./scripts/babelConfig");
 const mkEntry = require("./scripts/mkEntry");
@@ -11,52 +12,125 @@ const createModels = require("./scripts/createModels");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
 const webpack = require("./scripts/webpack");
-const DEFAULT_CONFIG = require("@plume/config")("app");
 
-/**
- * 初始化app
- * @param {string} config plume配置
- */
-class App {
-  constructor(config = DEFAULT_CONFIG) {
-    this.config = config;
-    this.init();
+class App extends Core {
+  constructor(rootPath) {
+    super(rootPath);
+
+    const { src, root } = this.config.paths;
+    const plume = path.join(root, ".plume");
+    const pages = path.join(src, "pages");
+    const components = path.join(src, "components");
+    const containers = path.join(src, "containers");
+    const modules = path.join(src, "modules");
+
+    this.config = deepAssign(this.config, {
+      paths: {
+        plume,
+        components,
+        containers,
+        pages,
+        modules,
+      },
+      options: {
+        entry: null,
+        analyzer: false,
+        target: "root",
+        flow: false,
+        webpack: null,
+        dll: true,
+        dllName: "vendor",
+        assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
+        dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
+        hashRouter: false,
+        gzip: true,
+        proxy: null,
+        externals: [],
+      },
+    });
   }
 
-  init() {
+  dependents(opts) {
+    const { dev, prod, sass, less } = super.dependents(opts);
+
+    prod.push(
+      "@babel/runtime",
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "react-loadable",
+      "axios",
+    );
+
+    dev.push(
+      "@babel/core",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-transform-for-of",
+      "@babel/plugin-transform-runtime",
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "babel-loader",
+      "css-loader",
+      "file-loader",
+      "@babel/plugin-syntax-dynamic-import",
+      "happypack",
+      "handlebars-loader",
+      "style-loader",
+      "postcss-loader",
+    );
+
+    sass && dev.push("sass-loader");
+    less && dev.push("less-loader");
+
+    return {
+      prod,
+      dev,
+    };
+  }
+
+  initial(opts) {
+    super.initial(opts);
+    this.createFiles();
+  }
+
+  createFiles() {
     const { paths, options } = this.config;
-    const { plume, pages, root } = paths;
+    const { plume, root, pages } = paths;
     const { target, hashRouter, flow } = options;
 
     /* 创建.plume目录 */
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
-
-    task("create .plume directory", fse.mkdirSync(plume));
+    this.task("copy templates", this.copyTemp(root, flow));
+    this.task("create .plume directory", fse.mkdirSync(plume));
     /* 创建入口文件 index.jsx */
-    task("create entry file", mkEntry(flow, target, plume));
+    this.task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
-    task("create pagesInfo file", createPagesInfo(pages, plume));
+    this.task("create pagesInfo file", createPagesInfo(pages, plume));
     /* 如果开启flow模式，则根据配置创建models.js文件 */
-    flow && task("create models file ", createModels(root, plume));
+    flow && this.task("create models file ", createModels(root, plume));
     /* 创建Router.js文件 */
-    task("create Router file", mkRouter(plume, pages));
+    this.task("create Router file", mkRouter(plume, pages));
     /* 创建主应用 App.jsx文件 */
-    task("create app main file", mkApp(plume, hashRouter));
+    this.task("create app main file", mkApp(plume, hashRouter));
     /* 复制errorpages */
-    task(
+    this.task(
       "copy errorpages",
       fse.copyFileSync(
-        path.join(__dirname, "templates", "Err404.jsx"),
+        path.join(__dirname, "templates/plume", "Err404.jsx"),
         path.join(plume, "404.jsx"),
       ),
     );
     /* 创建.babelrc文件 */
-    task("create .babelrc file", mkBabelrc(root));
+    this.task("create .babelrc file", mkBabelrc(root));
   }
 
-  dev() {
+  dev(config) {
+    super.dev(config);
+    this.createFiles();
+
     const { pages, root, plume } = this.config.paths;
     const { flow } = this.config.options;
 
@@ -100,8 +174,27 @@ class App {
       .catch(err => console.error("dev err: ", err));
   }
 
-  build() {
+  build(config) {
+    super.build(config);
+    this.createFiles();
     webpack(this.config).catch(err => console.log(chalk.red(`[WEBPACK BUILD ERROR] ==> ${err}`)));
+  }
+
+  registerCli(program) {
+    program
+      .command("add <name>", "add a component")
+      .option("-p | --port", "set the server port")
+      .action((cmd, ...args) => {
+        console.log("cmd", cmd);
+        console.log("opts", args);
+      });
+  }
+
+  copyTemp(targetPath, flow) {
+    const tempName = flow ? "app-flow" : "app";
+    const tempPath = path.resolve(__dirname, "templates", tempName);
+
+    fse.copySync(tempPath, targetPath);
   }
 }
 

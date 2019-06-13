@@ -1,53 +1,40 @@
 /* eslint no-console:0 */
-const path = require("path");
-
 const { task, getConfig } = require("@plume/helper");
-const createDir = require("../scripts/create.dir");
-const createPackage = require("../scripts/create.package");
-const createEslint = require("../scripts/create.eslint");
-const createDocz = require("../scripts/create.docz");
-const createGitignore = require("../scripts/create.gitignore");
-const createPlumeConfig = require("../scripts/create.plumeConfig");
-const yarnInstall = require("../scripts/yarnInstall");
-const initGit = require("../scripts/initGit");
-const getDependents = require("../scripts/getDependents");
 const skipDependents = require("../scripts/skip");
+const yarnInstall = require("../scripts/yarnInstall");
 
 /**
  * @param {object} opts 创建选项
  * @param {string} opts.name 项目名字
- * @param {string} opts.targetPath 项目目录
+ * @param {string} opts.projectPath 项目目录
  * @param {boolean} opts.flow 是否启用 plume-flow
  * @param {boolean} opts.eslint 是否启用eslint
  * @param {boolean} opts.jest 是否启用jest
  * @param {boolean} opts.skip 是否跳过安装依赖
  * @param {string} opts.mode 项目模式 app | lib
- * @param {string} opts.cssMode css模式 sass | less | styled-components | css
+ * @param {string} opts.cssMode css模式 sass | less | css | none
  * @param {boolean} opts.cssModules 是否启用cssModules
+ * @param {boolean} opts.styledComponents 是否启用styled-components
  */
-module.exports = opts => {
-  const { name, targetPath, flow, eslint, jest, skip, mode, cssMode, cssModules } = opts;
-  const projectPath = path.join(targetPath, name);
+module.exports = (opts, instance) => {
+  const { mode, skip, projectPath } = opts;
+  if (!instance) {
+    const Mode = require("../scripts/getMode")(mode);
+    instance = new Mode(projectPath);
+  }
 
-  task("create directory", createDir(projectPath, mode, flow));
-  task("create package.json", createPackage(name, projectPath, eslint, jest, mode));
-  task("initial git", initGit(projectPath));
-  task("create gitignore", createGitignore(projectPath));
-  eslint && task("create eslint", createEslint(projectPath));
-  task("create plume.config.js", createPlumeConfig({ projectPath, ...opts }));
-  mode === "lib" && task("create docz config file", createDocz(projectPath, cssMode, cssModules));
-
-  const { dependents, devDependents } = getDependents(opts);
+  instance.initial(opts);
+  const { dev, prod } = instance.dependents(opts);
   if (skip) {
     task("build project");
-    skipDependents(dependents, devDependents, projectPath);
+    skipDependents(prod, dev, projectPath);
   } else {
-    yarnInstall({ projectPath, dependents, devDependents })
+    yarnInstall({ projectPath, prod, dev })
       .then(() => {
         task("build project");
         process.chdir(projectPath);
-        const config = getConfig();
-        require("./dev")(config);
+
+        require("./dev")(getConfig(), instance);
       })
       .catch(err => console.error("Install dependents error: ", err));
   }

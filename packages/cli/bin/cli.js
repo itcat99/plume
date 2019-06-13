@@ -8,6 +8,16 @@ const modes = require("../constants/modes");
 
 program.version(pkg.version, "-v,--version");
 
+let instance;
+const customConfig = getConfig();
+if (customConfig) {
+  const { mode } = customConfig;
+  if (!mode) throw new Error("Your [plume.config.js] must have 'mode' property.");
+  const Mode = require("../scripts/getMode")(mode);
+  instance = new Mode(process.cwd());
+  instance.registerCli(program);
+}
+
 /* 创建新项目 */
 program
   .command("create <name>")
@@ -63,7 +73,7 @@ program
         },
       ])
       .then(answers => {
-        const { options, mode, cssMode, cssModules, skip: doSkip } = answers;
+        const { options, skip: doSkip, mode, ...args } = answers;
         const flow = options.indexOf("@plume/flow") >= 0;
         const eslint = options.indexOf("eslint") >= 0;
         const jest = options.indexOf("jest") >= 0;
@@ -72,22 +82,20 @@ program
           targetPath = path.join(process.cwd(), customPath);
         }
         targetPath = targetPath || process.cwd();
+
         const projectPath = path.join(targetPath, name);
-        // console.log("projectPath: ", projectPath);
         const opts = {
           name,
-          // targetPath: targetPath || process.cwd(),
           projectPath,
           flow: mode === "lib" ? false : flow,
           eslint,
           jest,
           skip: doSkip || skip,
           mode,
-          cssMode,
-          cssModules,
+          ...args,
         };
 
-        require("./_create")(opts);
+        require("./create")(opts, instance);
       });
   });
 
@@ -108,27 +116,28 @@ program
 //   });
 
 /* 初始化plume */
-program
-  .command("init")
-  .description("初始化plume文件")
-  .option("-c | --config <path>", "指定plume.config.js文件路径")
-  .action(args => {
-    const { config: customConfig, cwd } = args;
-    const config = getConfig(customConfig, cwd);
+// program
+//   .command("init")
+//   .description("初始化plume文件")
+//   .option("-c | --config <path>", "指定plume.config.js文件路径")
+//   .action(args => {
+//     const { config: customConfig, cwd } = args;
+//     const config = getConfig(customConfig, cwd);
 
-    require("./init")(config);
-  });
+//     require("./init")(config);
+//   });
 
 /* 启动开发模式 */
 program
   .command("dev")
   .description("启动开发模式")
   .option("-c | --config <path>", "指定plume.config.js文件路径")
+  .option("--cwd", "设置cwd，当config配置为相对路径时，则从此处搜索，默认为process.cwd()")
   .action(args => {
     const { config: customConfig, cwd } = args;
     const config = getConfig(customConfig, cwd);
 
-    require("./dev")(config);
+    require("./dev")(config, instance);
   });
 
 /* 打包 */
@@ -141,7 +150,7 @@ program
     const { config: customConfig, cwd } = args;
     const config = getConfig(customConfig, cwd);
 
-    require("./build")(config);
+    require("./build")(config, instance);
   });
 
 program

@@ -74,7 +74,7 @@ class Core {
   build(config) {
     this._updateConfig(config);
   }
-  registerCli() {}
+  registerCli(program) {}
   task(...args) {
     return task(...args);
   }

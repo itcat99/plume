@@ -10,7 +10,6 @@ const { task, spawn } = require("@plume/helper");
  */
 module.exports = async opts => {
   const { projectPath, prod, dev } = opts;
-  console.log("opts: ", opts);
   try {
     await task(
       "install dependents",

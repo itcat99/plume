@@ -7,7 +7,7 @@
   ],
   "author": "FreMaNgo <boping2010@gmail.com>",
   "license": "MIT",
-  "main": "_index.js",
+  "main": "index.js",
   "directories": {
     "test": "__tests__"
   },
