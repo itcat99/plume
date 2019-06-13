@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@plume/core",
   "version": "0.0.24",
   "description": "core module",
   "keywords": [
