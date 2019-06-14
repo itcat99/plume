@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const Core = require("@plume/core");
-const { isExist, debounce, deepAssign } = require("@plume/helper");
+const { isExist, debounce, deepAssign, getConfig } = require("@plume/helper");
 const fse = require("fs-extra");
 const mkApp = require("./scripts/mkApp");
 const mkBabelrc = require("./scripts/babelConfig");
@@ -182,11 +182,19 @@ class App extends Core {
 
   registerCli(program) {
     program
-      .command("add <name>", "add a component")
-      .option("-p | --port", "set the server port")
-      .action((cmd, ...args) => {
-        console.log("cmd", cmd);
-        console.log("opts", args);
+      .command("add <name> [path]")
+      .description(
+        "新建模块，<name>指定项目名称，[path]指定新建模块地址，默认在@plume/core的config文件指定地址。",
+      )
+      .option("-c | --config <path>", "指定plume.config.js文件路径")
+      .option("-C | --container", "创建container组件")
+      .option("-P | --page", "创建page页面")
+      .option("-M | --model", "创建model模块")
+      .action((name, targetPath, args) => {
+        const { container, page, model, config: customConfig, cwd } = args;
+        const config = deepAssign(this.config, getConfig(customConfig, cwd));
+
+        require("./scripts/add")({ name, types: { container, page, model }, targetPath, config });
       });
   }
 

@@ -93,42 +93,15 @@ plume_config 为 plume 的配置文件对象，当使用 cli 工具执行`plume-
 
 ### registerCli
 
-方法签名：`() => Commander[]`
+方法签名：`program => void`
 
-Commander 是一个对象，定义了注册 cli 任务的一些属性。具体可以参考`Commander结构`
+program 是`Commander`的实例，具体可以参考[Commander.js 官方教程](https://github.com/tj/commander.js)
 
-`@plume/cli` 依赖[`Commander.js`](https://github.com/tj/commander.js)库，对于下面的配置选项，可以参考使用。
-
-功能： 返回 cli 配置选项
+功能： 处理要注册的 command
 
 备注：
 
 - 默认为空方法
-
-#### Commander 结构
-
-| name    | type             | default | desc                                                                                |
-| ------- | ---------------- | ------- | ----------------------------------------------------------------------------------- |
-| command | null \| object   | null    | 注册的关键词，例如注册了`add`则可以`plume-cli add` 这样使用                         |
-| option  | null \| array    | null    | 与关键词相关的一些选项，例如注册了`port`，则可以`plume-cli add --port 8080`这样使用 |
-| action  | null \| function | null    | 回调函数，当 cli 生效后的回调，做后续处理                                           |
-
-##### command
-
-| name | type   | default | desc       |
-| ---- | ------ | ------- | ---------- |
-| key  | string | ''      | 注册关键字 |
-| desc | string | ''      | 说明       |
-
-##### option
-
-option 数组内，每一项都是一个对象，包含如下属性
-
-| name    | type                       | default | desc       |
-| ------- | -------------------------- | ------- | ---------- |
-| key     | string                     | ''      | 注册关键字 |
-| desc    | string                     | ''      | 说明       |
-| default | null \| string \| function | null    | 默认值     |
 
 ### getConfig
 
