@@ -7,7 +7,7 @@ const isObject = require("./isObject");
  * @return {object}
  */
 const deepAssign = (origin, target) => {
-  const tempObj = origin;
+  const tempObj = Object.assign({}, origin);
 
   for (const key in target) {
     if (isObject(origin[key]) && target[key]) {
