@@ -91,6 +91,9 @@ class App extends Core {
 
   initial(opts) {
     super.initial(opts);
+    const { root, flow } = this.config.paths;
+    this.task("copy templates", this.copyTemp(root, flow));
+
     this.createFiles();
   }
 
@@ -103,7 +106,7 @@ class App extends Core {
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
-    this.task("copy templates", this.copyTemp(root, flow));
+
     this.task("create .plume directory", fse.mkdirSync(plume));
     /* 创建入口文件 index.jsx */
     this.task("create entry file", mkEntry(flow, target, plume));
