@@ -1,6 +1,6 @@
 {
   "name": "@plume/lib",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "> TODO: description",
   "author": "FreMaNgo <boping2010@gmail.com>",
   "homepage": "https://github.com/itcat99/plume#readme",
@@ -34,7 +34,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
-    "@plume/helper": "^1.0.9",
+    "@plume/helper": "^1.0.10",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
