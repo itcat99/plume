@@ -63,9 +63,12 @@ const layout = [],
  * @param {object} info
  */
 const parsePage = info => {
+  console.log("INFO: ", info);
+
   info.forEach(child => {
-    const { isDir, children, layout, author } = child;
-    if (isDir && children) {
+    const { isDir, children, layout, author, component } = child;
+    if (!isDir || (!children && !component)) return true;
+    if (children) {
       const cleanChildren = [];
 
       children.forEach(item => {
@@ -77,12 +80,19 @@ const parsePage = info => {
         }
       });
 
-      console.log("cleanChildren: ", cleanChildren);
+      // console.log("cleanChildren: ", cleanChildren);
       child.children = cleanChildren;
       if (layout && !author) pushToCollection(child, "layout");
       if (author && !layout) pushToCollection(child, "author");
       if (author && layout) pushToCollection(child, "both");
-      if (!author && !layout) pushToCollection(child, "none");
+      if (!author && !layout) cleanChildren.forEach(item => none.push(item));
+    } else {
+      // no children buy has component
+      if (layout) {
+        pushToCollection(child, "layout");
+      } else {
+        none.push(child);
+      }
     }
   });
 };
@@ -91,8 +101,6 @@ const pushToCollection = (item, collectionType) => {
   if (collectionType === "none") none.push(item);
   if (collectionType === "layout") {
     const index = scanSameOne(layout, [{ key: "layout", value: item.layout }]);
-    console.log("Lay ITEM: ", item);
-    console.log("Lay index: ", index);
     if (index >= 0) {
       layout[index].children.push(item);
     } else {
@@ -131,28 +139,19 @@ const pushToCollection = (item, collectionType) => {
 };
 
 const scanSameOne = (collection, querys) => {
-  let start = false;
-  let result = -1;
+  for (let index = 0; index < collection.length; index++) {
+    const item = collection[index];
+    let count = 0;
 
-  for (let i = 0; i < querys.length; i++) {
-    const query = querys[i];
-    const { key, value } = query;
+    querys.forEach(query => {
+      const { key, value } = query;
 
-    for (let index = 0; index < collection.length; index++) {
-      const item = collection[index];
-      if ((item[key] = value)) {
-        if (!start) {
-          start = true;
-          result = index;
-        }
-
-        if (result !== index) {
-          result = -1;
-        }
+      if (item[key] === value) {
+        count += 1;
       }
-    }
+    });
 
-    if (result >= 0) return result;
+    if (count === querys.length) return index;
   }
 
   return -1;
@@ -227,8 +226,7 @@ module.exports = (pagesPath, plumePath) => {
     },
   );
 
-  let glob,
-    pageInfo = [];
+  let glob;
 
   result = result.filter(child => {
     const { title, component } = child;
@@ -257,10 +255,11 @@ module.exports = (pagesPath, plumePath) => {
     parsePage(result);
   }
 
-  console.log("both: ", both);
-  console.log("none: ", none);
-  console.log("layout: ", JSON.stringify(layout, null, 2));
-  console.log("author: ", author);
-
-  fse.writeJsonSync(path.join(plumePath, "_pagesInfo.json"), pageInfo);
+  fse.writeJsonSync(
+    path.join(plumePath, "_pagesInfo.json"),
+    { none, layout, author, both },
+    {
+      spaces: 2,
+    },
+  );
 };

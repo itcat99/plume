@@ -112,8 +112,8 @@ class App extends Core {
     /* 创建入口文件 index.jsx */
     this.task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
-    this.task("create pagesInfo file", createPagesInfo(pages, plume));
-    _createPageInfo(pages, plume);
+    this.task("create pagesInfo file", _createPageInfo(pages, plume));
+    // _createPageInfo(pages, plume);
     /* 如果开启flow模式，则根据配置创建models.js文件 */
     flow && this.task("create models file ", createModels(root, plume));
     /* 创建Router.js文件 */

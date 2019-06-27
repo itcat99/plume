@@ -6,9 +6,8 @@ import Loadable from "react-loadable";
 import pagesInfo from "./_pagesInfo.json";
 
 const getLoadableCmp = info => {
-  const { path: url, component, author, layout, routers } = info;
+  const { path: url, component, author, layout, children } = info;
   let loadableComponent;
-  78;
 
   if (author || layout) {
     const loader = {
@@ -28,10 +27,10 @@ const getLoadableCmp = info => {
         let contentCmp = <Cmp {...props} />;
 
         if (Layout) {
-          contentCmp = routers ? (
+          contentCmp = children ? (
             <Layout {...props}>
               <Switch>
-                {getRoutes(routers)}
+                {getRoutes(children)}
                 {getRoutes([{ path: url === "/" ? url : `${url}/`, component }])}
               </Switch>
             </Layout>
@@ -64,26 +63,35 @@ const getLoadableCmp = info => {
   return loadableComponent;
 };
 
-const getRoutes = info =>
-  info.map((route, index) => {
-    const { path: url, exact } = route;
+const getRoutes = info => {
+  console.log("INFO: ", info);
+  return info.map((route, index) => {
+    const { path: url } = route;
     const loadableComponent = getLoadableCmp(route);
 
-    return (
-      <Route
-        exact={exact}
-        path={url}
-        key={`${url}_${index}`}
-        component={withRouter(loadableComponent)}
-      />
-    );
+    return <Route path={url} key={`${url}_${index}`} component={withRouter(loadableComponent)} />;
   });
+};
+
+const handlePagesInfo = infos => {
+  const keys = Object.keys(infos);
+  let result = [];
+
+  for (const key of keys) {
+    const info = infos[key];
+    const { children } = info;
+    const targetPages = key === "none" ? info : children;
+    if (targetPages && targetPages.length > 0) result = [].concat(result, getRoutes(targetPages));
+  }
+
+  return result;
+};
 
 class SwitchRoute extends PureComponent {
   render() {
     return (
       <Switch>
-        {getRoutes(pagesInfo)}
+        {handlePagesInfo(pagesInfo)}
         <Route
           component={Loadable({
             loader: () => import(`{{errorPages}}/404`),
