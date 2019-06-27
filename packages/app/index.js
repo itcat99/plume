@@ -8,6 +8,7 @@ const mkBabelrc = require("./scripts/babelConfig");
 const mkEntry = require("./scripts/mkEntry");
 const mkRouter = require("./scripts/mkRouter");
 const createPagesInfo = require("./scripts/createPagesInfo");
+const _createPageInfo = require("./scripts/_createPageInfo");
 const createModels = require("./scripts/createModels");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
@@ -112,6 +113,7 @@ class App extends Core {
     this.task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
     this.task("create pagesInfo file", createPagesInfo(pages, plume));
+    _createPageInfo(pages, plume);
     /* 如果开启flow模式，则根据配置创建models.js文件 */
     flow && this.task("create models file ", createModels(root, plume));
     /* 创建Router.js文件 */

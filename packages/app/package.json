@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
+    "@fremango/dir-tree": "^0.0.2",
     "@plume/config": "^1.0.9",
     "@plume/core": "^0.1.0",
     "@plume/helper": "^1.0.10",

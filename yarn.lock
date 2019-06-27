@@ -1128,6 +1128,14 @@
   resolved "https://registry.npm.taobao.org/@emotion/unitless/download/@emotion/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
   integrity sha1-YxCgR/EtIaEDb7AxMXIZiSRAQW8=
 
+"@fremango/dir-tree@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/@fremango/dir-tree/-/dir-tree-0.0.2.tgz#cc56270600e355574eae309e09d684b72586ece6"
+  integrity sha512-aCASe8yUbYzTl1QFGyLpqvOUa9U4rhKQJdowZw4i1++MV3vAOOMxWDMZ8D/tJlouJhehWz3UtjB+FIgKi+KEZg==
+  dependencies:
+    chalk "^2.4.2"
+    commander "^2.20.0"
+
 "@hapi/address@2.x.x":
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
@@ -4607,7 +4615,7 @@ commander@2.17.x:
   resolved "https://registry.npm.taobao.org/commander/download/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha1-vXerfebelCBc6sxy8XFtKfIKd78=
 
-commander@^2.18.0, commander@^2.19.0, commander@^2.8.1, commander@~2.20.0:
+commander@^2.18.0, commander@^2.19.0, commander@^2.20.0, commander@^2.8.1, commander@~2.20.0:
   version "2.20.0"
   resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha1-1YuytcHuj4ew00ACfp6U4iLFpCI=
