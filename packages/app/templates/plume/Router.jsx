@@ -73,25 +73,25 @@ const getRoutes = info => {
   });
 };
 
-const handlePagesInfo = infos => {
-  const keys = Object.keys(infos);
-  let result = [];
+// const handlePagesInfo = infos => {
+//   const keys = Object.keys(infos);
+//   let result = [];
 
-  for (const key of keys) {
-    const info = infos[key];
-    const { children } = info;
-    const targetPages = key === "none" ? info : children;
-    if (targetPages && targetPages.length > 0) result = [].concat(result, getRoutes(targetPages));
-  }
+//   for (const key of keys) {
+//     const info = infos[key];
+//     const { children } = info;
+//     const targetPages = key === "none" ? info : children;
+//     if (targetPages && targetPages.length > 0) result = [].concat(result, getRoutes(targetPages));
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 class SwitchRoute extends PureComponent {
   render() {
     return (
       <Switch>
-        {handlePagesInfo(pagesInfo)}
+        {getRoutes(pagesInfo)}
         <Route
           component={Loadable({
             loader: () => import(`{{errorPages}}/404`),

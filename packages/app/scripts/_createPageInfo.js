@@ -50,6 +50,14 @@ const layout = [],
   both = [],
   none = [];
 
+/* routes 集合
+  如果既没有layout也没有author 放入none
+  否则放入各自相应的layout或author或layout&&author的数组内
+*/
+const routesCollection = {
+  none: [],
+};
+
 /**
  * 处理目录结构
  * 分布到4个不同的数组对象 [layout],[author],[both],[none] 这些都作为 根节点
@@ -63,98 +71,71 @@ const layout = [],
  * @param {object} info
  */
 const parsePage = info => {
-  console.log("INFO: ", info);
+  // console.log("INFO: ", info);
 
   info.forEach(child => {
-    const { isDir, children, layout, author, component } = child;
-    if (!isDir || (!children && !component)) return true;
+    const { children, layout, author, component } = child;
+
+    if (!children && !component) return true;
     if (children) {
       const cleanChildren = [];
 
       children.forEach(item => {
-        const { layout, author, isDir } = item;
+        const { layout, author, isDir, path: url, component } = item;
         if (isDir && (layout || author)) {
           parsePage([item]);
         } else {
-          cleanChildren.push(item);
+          cleanChildren.push({ path: url, component });
         }
       });
 
       // console.log("cleanChildren: ", cleanChildren);
       child.children = cleanChildren;
-      if (layout && !author) pushToCollection(child, "layout");
-      if (author && !layout) pushToCollection(child, "author");
-      if (author && layout) pushToCollection(child, "both");
-      if (!author && !layout) cleanChildren.forEach(item => none.push(item));
-    } else {
-      // no children buy has component
-      if (layout) {
-        pushToCollection(child, "layout");
-      } else {
-        none.push(child);
-      }
     }
+
+    if (layout && !author) pushToCollection(child, "layout");
+    if (author && !layout) pushToCollection(child, "author");
+    if (author && layout) pushToCollection(child, "both");
+    if (!author && !layout) pushToCollection(child, "none");
   });
 };
 
 const pushToCollection = (item, collectionType) => {
-  if (collectionType === "none") none.push(item);
-  if (collectionType === "layout") {
-    const index = scanSameOne(layout, [{ key: "layout", value: item.layout }]);
-    if (index >= 0) {
-      layout[index].children.push(item);
-    } else {
-      layout.push({
-        layout: item.layout,
-        children: [item],
-      });
+  const { path: url, component, children, layout, author } = item;
+  let key,
+    route = { url };
+
+  if (component) route.component = component;
+  if (children) route.children = children;
+
+  switch (collectionType) {
+    case "none":
+      key = collectionType;
+      break;
+    case "layout": {
+      key = `${url}_${layout}`;
+      route.layout = layout;
+      break;
     }
-  }
-  if (collectionType === "author") {
-    const index = scanSameOne(author, [{ key: "author", value: item.author }]);
-    if (index >= 0) {
-      author[index].children.push(item);
-    } else {
-      author.push({
-        author: item.author,
-        children: [item],
-      });
+    case "author": {
+      key = `${url}_${author}`;
+      route.author = author;
+      break;
     }
-  }
-  if (collectionType === "both") {
-    const index = scanSameOne(both, [
-      { key: "author", value: item.author },
-      { key: "layout", value: item.layout },
-    ]);
-    if (index >= 0) {
-      both[index].children.push(item);
-    } else {
-      both.push({
-        author: item.author,
-        layout: item.layout,
-        children: [item],
-      });
+    case "both": {
+      key = `${url}_${author}_${layout}`;
+      route = Object.assign({}, route, { layout, author });
+      break;
     }
-  }
-};
-
-const scanSameOne = (collection, querys) => {
-  for (let index = 0; index < collection.length; index++) {
-    const item = collection[index];
-    let count = 0;
-
-    querys.forEach(query => {
-      const { key, value } = query;
-
-      if (item[key] === value) {
-        count += 1;
-      }
-    });
-
-    if (count === querys.length) return index;
+    default:
+      break;
   }
 
-  return -1;
+  if (routesCollection[key]) {
+    routesCollection[key].push(route);
+  } else {
+    routesCollection[key] = [route];
+  }
 };
 
 module.exports = (pagesPath, plumePath) => {
@@ -226,6 +207,7 @@ module.exports = (pagesPath, plumePath) => {
     },
   );
 
+  console.log("result: ", result);
   let glob;
 
   result = result.filter(child => {
@@ -255,9 +237,16 @@ module.exports = (pagesPath, plumePath) => {
     parsePage(result);
   }
 
+  let pagesInfo = [];
+  for (const key of Object.keys(routesCollection)) {
+    const collection = routesCollection[key];
+    pagesInfo = [].concat(pagesInfo, collection);
+  }
+
   fse.writeJsonSync(
     path.join(plumePath, "_pagesInfo.json"),
-    { none, layout, author, both },
+    // { none, layout, author, both },
+    pagesInfo,
     {
       spaces: 2,
     },
