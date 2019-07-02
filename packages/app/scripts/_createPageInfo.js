@@ -44,12 +44,6 @@ const getDynamicName = name => {
     : name;
 };
 
-/* 不同的route结构集合 */
-const layout = [],
-  author = [],
-  both = [],
-  none = [];
-
 /* routes 集合
   如果既没有layout也没有author 放入none
   否则放入各自相应的layout或author或layout&&author的数组内
@@ -71,26 +65,12 @@ const routesCollection = {
  * @param {object} info
  */
 const parsePage = info => {
-  // console.log("INFO: ", info);
-
   info.forEach(child => {
     const { children, layout, author, component } = child;
 
     if (!children && !component) return true;
     if (children) {
-      const cleanChildren = [];
-
-      children.forEach(item => {
-        const { layout, author, isDir, path: url, component } = item;
-        if (isDir && (layout || author)) {
-          parsePage([item]);
-        } else {
-          cleanChildren.push({ path: url, component });
-        }
-      });
-
-      // console.log("cleanChildren: ", cleanChildren);
-      child.children = cleanChildren;
+      child.children = getCleanChildren(children);
     }
 
     if (layout && !author) pushToCollection(child, "layout");
@@ -100,10 +80,26 @@ const parsePage = info => {
   });
 };
 
+const getCleanChildren = routes => {
+  let cleanChildren = [];
+  routes.map(route => {
+    const { isDir, layout, author, children, component, path: url } = route;
+    if (layout || author) {
+      parsePage([route]);
+    } else if (isDir && children && children.length) {
+      cleanChildren.push({ path: url, component, children: getCleanChildren(children) });
+    } else {
+      cleanChildren.push({ path: url, component });
+    }
+  });
+
+  return cleanChildren;
+};
+
 const pushToCollection = (item, collectionType) => {
   const { path: url, component, children, layout, author } = item;
   let key,
-    route = { url };
+    route = { path: url };
 
   if (component) route.component = component;
   if (children) route.children = children;
@@ -131,11 +127,37 @@ const pushToCollection = (item, collectionType) => {
       break;
   }
 
-  if (routesCollection[key]) {
+  if (collectionType === "none") {
+    const { children } = route;
+    delete route.children;
+
+    if (children) {
+      routesCollection[key] = [].concat(routesCollection[key], [route], children);
+    } else {
+      routesCollection[key].push(route);
+    }
+  } else if (routesCollection[key]) {
     routesCollection[key].push(route);
   } else {
     routesCollection[key] = [route];
   }
+};
+
+const sortRoutes = routes => {
+  routes.sort((a, b) => {
+    let _a = a.path.match(/\/./g);
+    let _b = b.path.match(/\/./g);
+
+    if (a.children) a.children = sortRoutes(a.children);
+    if (b.children) b.children = sortRoutes(b.children);
+
+    _a = _a ? _a.length : _a * 1;
+    _b = _b ? _b.length : _b * 1;
+
+    return _b - _a;
+  });
+
+  return routes;
 };
 
 module.exports = (pagesPath, plumePath) => {
@@ -177,11 +199,19 @@ module.exports = (pagesPath, plumePath) => {
                 const { title } = child;
                 if (!isJsFile(title)) return false;
 
-                if (!layout && isLayoutFile(title)) layout = `${relativePath}/${title}`;
-                if (!author && isAuthorFile(title)) author = `${relativePath}/${title}`;
-                if (!index && isIndexFile(title)) index = `${relativePath}/${title}`;
+                if (!layout && isLayoutFile(title)) {
+                  layout = `${relativePath}/${title}`;
+                  return;
+                }
+                if (!author && isAuthorFile(title)) {
+                  author = `${relativePath}/${title}`;
+                  return;
+                }
+                if (!index && isIndexFile(title)) {
+                  index = `${relativePath}/${title}`;
+                  return;
+                }
 
-                if (layout || author || index) return false;
                 return child;
               }
             }
@@ -207,7 +237,6 @@ module.exports = (pagesPath, plumePath) => {
     },
   );
 
-  console.log("result: ", result);
   let glob;
 
   result = result.filter(child => {
@@ -229,6 +258,7 @@ module.exports = (pagesPath, plumePath) => {
     glob = Object.assign({}, glob, {
       title: "__GLOB__",
       isDir: true,
+      path: "/",
     });
 
     glob.children = result;
@@ -242,6 +272,8 @@ module.exports = (pagesPath, plumePath) => {
     const collection = routesCollection[key];
     pagesInfo = [].concat(pagesInfo, collection);
   }
+
+  pagesInfo = sortRoutes(pagesInfo);
 
   fse.writeJsonSync(
     path.join(plumePath, "_pagesInfo.json"),
