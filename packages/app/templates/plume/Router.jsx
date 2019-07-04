@@ -3,7 +3,7 @@ import React, { PureComponent } from "react";
 import { HashRouter, BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 
 import Loadable from "react-loadable";
-import pagesInfo from "./_pagesInfo.json";
+import pagesInfo from "./pagesInfo.json";
 
 const delay = 200;
 const loading = props => {
@@ -33,22 +33,20 @@ const getLoadableCmp = info => {
       const Cmp = loaded.Cmp ? loaded.Cmp.default : null;
       const { history, location, match, staticContext } = props;
       const routeProps = { history, location, match, staticContext };
-      let contentCmp = Cmp ? <Cmp {...props} /> : null;
+      let resultCmp = null;
 
-      if (Layout) {
-        contentCmp = children ? (
-          <Layout {...props}>
-            <Switch>
-              {getRoutes(children)}
-              {getRoutes([{ path: url === "/" ? url : `${url}/`, component }])}
-            </Switch>
-          </Layout>
-        ) : (
-          <Layout {...props}>{contentCmp}</Layout>
+      if (Cmp) resultCmp = <Cmp {...props} />;
+      if (children)
+        resultCmp = (
+          <Switch>
+            {getRoutes(children)}
+            {getRoutes([{ path: url === "/" ? url : `${url}/`, component }])}
+          </Switch>
         );
-      }
+      if (Layout) resultCmp = <Layout {...props}>{resultCmp}</Layout>;
+      if (Author) resultCmp = <Author {...routeProps}>{resultCmp}</Author>;
 
-      return Author ? <Author {...routeProps}>{contentCmp}</Author> : contentCmp;
+      return resultCmp;
     },
     loading,
     delay,

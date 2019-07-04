@@ -48,7 +48,7 @@ const getDynamicName = name => {
   如果既没有layout也没有author 放入none
   否则放入各自相应的layout或author或layout&&author的数组内
 */
-const routesCollection = {
+let routesCollection = {
   none: [],
 };
 
@@ -173,6 +173,12 @@ module.exports = (pagesPath, plumePath) => {
    *
    * }
    */
+
+  /* clean collecton */
+  routesCollection = {
+    none: [],
+  };
+
   let result = scanDir(
     {
       dir: pagesPath,
@@ -275,12 +281,7 @@ module.exports = (pagesPath, plumePath) => {
 
   pagesInfo = sortRoutes(pagesInfo);
 
-  fse.writeJsonSync(
-    path.join(plumePath, "_pagesInfo.json"),
-    // { none, layout, author, both },
-    pagesInfo,
-    {
-      spaces: 2,
-    },
-  );
+  fse.writeJsonSync(path.join(plumePath, "pagesInfo.json"), pagesInfo, {
+    spaces: 2,
+  });
 };

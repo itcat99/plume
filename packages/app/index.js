@@ -7,8 +7,8 @@ const mkApp = require("./scripts/mkApp");
 const mkBabelrc = require("./scripts/babelConfig");
 const mkEntry = require("./scripts/mkEntry");
 const mkRouter = require("./scripts/mkRouter");
-const createPagesInfo = require("./scripts/createPagesInfo");
-const _createPageInfo = require("./scripts/_createPageInfo");
+// const createPagesInfo = require("./scripts/createPagesInfo");
+const createPageInfo = require("./scripts/createPageInfo");
 const createModels = require("./scripts/createModels");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
@@ -92,7 +92,19 @@ class App extends Core {
 
   initial(opts) {
     super.initial(opts);
-    const { root, flow } = this.config.paths;
+    this.config = deepAssign(this.config, {
+      mode: opts.mode,
+      options: {
+        flow: opts.flow,
+        cssMode: opts.cssMode,
+        cssModules: opts.cssModules,
+        styledComponents: opts.styledComponents,
+      },
+    });
+
+    const { root } = this.config.paths;
+    const { flow } = this.config.options;
+
     this.task("copy templates", this.copyTemp(root, flow));
 
     this.createFiles();
@@ -112,7 +124,7 @@ class App extends Core {
     /* 创建入口文件 index.jsx */
     this.task("create entry file", mkEntry(flow, target, plume));
     /* 创建页面目录的信息文件 pagesInfo.json */
-    this.task("create pagesInfo file", _createPageInfo(pages, plume));
+    this.task("create pagesInfo file", createPageInfo(pages, plume));
     // _createPageInfo(pages, plume);
     /* 如果开启flow模式，则根据配置创建models.js文件 */
     flow && this.task("create models file ", createModels(root, plume));
@@ -148,16 +160,17 @@ class App extends Core {
 
         pageWatcher.on(
           "all",
-          debounce((_event, file) => {
-            if (file.indexOf(pages) >= 0) {
-              const page404Match = file.replace(pages, "").match(/404/);
+          debounce(() => {
+            // debounce((_event, file) => {
+            // if (file.indexOf(pages) >= 0) {
+            //   const page404Match = file.replace(pages, "").match(/404/);
 
-              if (page404Match && page404Match.index === 1) {
-                mkRouter(plume, pages);
-              }
-            }
-
-            createPagesInfo(pages, plume);
+            //   if (page404Match && page404Match.index === 1) {
+            //     mkRouter(plume, pages);
+            //   }
+            // }
+            createPageInfo(pages, plume);
+            mkRouter(plume, pages);
           }, 400),
         );
 
@@ -206,7 +219,7 @@ class App extends Core {
   copyTemp(targetPath, flow) {
     const tempName = flow ? "app-flow" : "app";
     const tempPath = path.resolve(__dirname, "templates", tempName);
-
+    console.log("tempPath: ", tempPath);
     fse.copySync(tempPath, targetPath);
   }
 }

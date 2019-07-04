@@ -6,12 +6,12 @@ export default {
     minus: state => state - 1,
   },
   effect: {
-    plusAsync: async actions => {
+    plusAsync: async (payload, actions) => {
       setTimeout(() => {
         actions.compute.plus();
       }, 300);
     },
-    minusAsync: async actions => {
+    minusAsync: async (payload, actions) => {
       setTimeout(() => {
         actions.compute.minus();
       }, 300);
