@@ -307,6 +307,32 @@ Layout 组件内`props.children`为布局的内容部分。
 
 全局的布局放在`{pages}`的根目录下，文件名为`_Layout.js|jsx`。用法与布局一致
 
+## Wrapper/包裹组件
+
+包裹组件是在`{src}`目录下名为`_Wrapper.jsx`的文件。
+
+如果有`_Wrapper.jsx`，将会替换`{plume}/App.jsx`作为默认的入口模块。
+
+如果需要使用`{plume}/App.jsx`，可以在包裹组件内引用
+
+```jsx
+import React, { Component } from "react";
+import App from "../.plume/App.jsx";
+
+class Main extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Wrapper Component</h1>
+        <App />
+      </div>
+    );
+  }
+}
+
+export default Main;
+```
+
 ## TODOS
 
 - [x] 支持 dev 下，当新建 page 页面时，更新 pageInfo.json 文件

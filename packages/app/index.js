@@ -112,17 +112,21 @@ class App extends Core {
 
   createFiles() {
     const { paths, options } = this.config;
-    const { plume, root, pages } = paths;
+    const { plume, root, pages, src } = paths;
     const { target, hashRouter, flow } = options;
+    let wrapperPath = path.join(src, "_Wrapper.jsx");
 
     /* 创建.plume目录 */
     if (isExist(plume)) {
       fse.removeSync(plume);
     }
+    if (!isExist(wrapperPath)) {
+      wrapperPath = null;
+    }
 
     this.task("create .plume directory", fse.mkdirSync(plume));
     /* 创建入口文件 index.jsx */
-    this.task("create entry file", mkEntry(flow, target, plume));
+    this.task("create entry file", mkEntry(flow, target, plume, wrapperPath));
     /* 创建页面目录的信息文件 pagesInfo.json */
     this.task("create pagesInfo file", createPageInfo(pages, plume));
     // _createPageInfo(pages, plume);

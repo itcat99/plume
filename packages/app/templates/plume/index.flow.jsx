@@ -1,7 +1,7 @@
 import React from "react";
 import Flow from "@plume/flow";
 import models from "./models";
-import App from "./App";
+import App from "{{app}}";
 
 const app = new Flow({
   target: "{{target}}",
