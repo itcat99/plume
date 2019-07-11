@@ -1,47 +1,32 @@
 const path = require("path");
 const appCfg = require("./app");
 const libCfg = require("./lib");
+const { deepAssign } = require("@plume/helper");
 
 const root = process.cwd();
 const src = path.join(root, "src");
-const pages = path.join(src, "pages");
 const output = path.join(root, "dist");
-const plume = path.join(root, ".plume");
 const assets = path.join(output, "assets");
-const components = path.join(src, "components");
-const containers = path.join(src, "containers");
-const modules = path.join(src, "modules");
+
+const commonCfg = {
+  paths: {
+    root,
+    src,
+    output,
+    assets,
+  },
+  options: {
+    entry: null,
+    assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
+    port: 8080,
+    cssMode: "css",
+    cssModules: false,
+  },
+};
 
 module.exports = (mode = "app") => {
   const modeCfg = mode === "app" ? appCfg : libCfg;
+  const { paths, options } = modeCfg(commonCfg);
 
-  const options = Object.assign(
-    {},
-    {
-      entry: null,
-      assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
-      analyzer: false,
-      port: 8080,
-      externals: [],
-      cssMode: "css",
-      cssModules: false,
-    },
-    modeCfg,
-  );
-
-  return {
-    mode: mode,
-    paths: {
-      assets,
-      components,
-      containers,
-      modules,
-      output,
-      pages,
-      plume,
-      root,
-      src,
-    },
-    options,
-  };
+  return deepAssign(commonCfg, { mode, paths, options });
 };

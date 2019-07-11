@@ -2,9 +2,9 @@
 
 ## 安装 nvm
 
-nvm项目地址：[https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+nvm 项目地址：[https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 
-windows环境：[https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows)
+windows 环境：[https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows)
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
@@ -20,7 +20,8 @@ export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
 
-查看当前shell环境
+查看当前 shell 环境
+
 ```bash
 echo $SHELL
 ```

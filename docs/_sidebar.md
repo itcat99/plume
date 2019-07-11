@@ -1,0 +1,35 @@
+- 入门
+  - [介绍](/)
+  - 开始
+    - [安装](start/install)
+    - [创建一个 web 应用](start/create-app)
+    - [创建一个 lib 库](start/create-lib)
+- cli 工具
+  - [介绍](/cli/about)
+  - [通用命令](/cli/command)
+- 构建 web 应用
+  - [介绍](/app/about)
+  - [cli 命令](/app/cli)
+  - [路由](/app/router)
+  - [Layout 布局](/app/layout)
+  - [权限组件](/app/author)
+  - [包裹组件](/app/wrapper)
+  - [404 页面](/app/404)
+  - [静态资源](/app/assets)
+- 构建 前端组件库
+  - [介绍](/lib/about)
+- 数据流方案
+  - [介绍](/flow/about)
+  - [核心概念](/flow/core)
+  - [Model/模型](/flow/model)
+  - [Action/动作](/flow/action)
+  - [API](/flow/api)
+  - [例子 🌰](/flow/example)
+- plume 配置文件
+  - [介绍](/config/about)
+  - [通用配置文件](/config/common)
+  - [app 配置文件](/config/app)
+  - [lib 配置文件](/config/lib)
+- 开发
+  - [开发环境配置](/dev/environment)
+  - [开发前准备](/dev/ready)
