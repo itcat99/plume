@@ -7,6 +7,9 @@
 - cli 工具
   - [介绍](/cli/about)
   - [通用命令](/cli/command)
+- plume 配置文件
+  - [介绍](/config/about)
+  - [通用配置文件](/config/common)
 - 构建 web 应用
   - [介绍](/app/about)
   - [cli 命令](/app/cli)
@@ -14,10 +17,14 @@
   - [Layout 布局](/app/layout)
   - [权限组件](/app/author)
   - [包裹组件](/app/wrapper)
+  - [使用数据流](/app/flow)
   - [404 页面](/app/404)
   - [静态资源](/app/assets)
+  - [app 配置文件](/app/config)
+  - [自定义入口](/app/entry)
 - 构建 前端组件库
   - [介绍](/lib/about)
+  - [lib 配置文件](/lib/config)
 - 数据流方案
   - [介绍](/flow/about)
   - [核心概念](/flow/core)
@@ -25,11 +32,6 @@
   - [Action/动作](/flow/action)
   - [API](/flow/api)
   - [例子 🌰](/flow/example)
-- plume 配置文件
-  - [介绍](/config/about)
-  - [通用配置文件](/config/common)
-  - [app 配置文件](/config/app)
-  - [lib 配置文件](/config/lib)
 - 开发
   - [开发环境配置](/dev/environment)
   - [开发前准备](/dev/ready)

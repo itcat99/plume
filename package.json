@@ -20,7 +20,8 @@
     "clean": "lerna clean",
     "bootstrap": "lerna bootstrap",
     "prettier": "prettier --write 'packages/**' ",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "doc": "docsify serve ./docs -p 3001"
   },
   "husky": {
     "hooks": {
