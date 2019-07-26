@@ -223,7 +223,7 @@ class App extends Core {
   copyTemp(targetPath, flow) {
     const tempName = flow ? "app-flow" : "app";
     const tempPath = path.resolve(__dirname, "templates", tempName);
-    console.log("tempPath: ", tempPath);
+
     fse.copySync(tempPath, targetPath);
   }
 }
