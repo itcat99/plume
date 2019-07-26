@@ -714,13 +714,6 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/redux@^3.6.0":
-  version "3.6.0"
-  resolved "http://193.187.118.183:4873/@types%2fredux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
-  integrity sha1-8evh5UEVGAcuT9/KXHbhbnTBOZo=
-  dependencies:
-    redux "*"
-
 "@webassemblyjs/ast@1.8.3":
   version "1.8.3"
   resolved "http://193.187.118.183:4873/@webassemblyjs%2fast/-/ast-1.8.3.tgz#63a741bd715a6b6783f2ea5c6ab707516aa215eb"
@@ -3529,9 +3522,9 @@ lodash.defaults@^4.2.0:
   integrity sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=
 
 lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3:
-  version "4.17.11"
-  resolved "http://193.187.118.183:4873/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha1-s56mIp72B+zYniyN8SU2iRysm40=
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 loglevel@^1.4.1:
   version "1.6.1"
@@ -4672,7 +4665,12 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-redux@*, redux@^4.0.0, redux@^4.0.1:
+redux-devtools-extension@^2.13.8:
+  version "2.13.8"
+  resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
+  integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
+
+redux@^4.0.0, redux@^4.0.1:
   version "4.0.1"
   resolved "http://193.187.118.183:4873/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
   integrity sha1-Q2yubMQPvkcnaJ18j65EgI8b/vU=
