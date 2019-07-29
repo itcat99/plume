@@ -1,6 +1,6 @@
 {
   "name": "@plume/app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "About the configuration and construction of webApp",
   "keywords": [
     "webapp"
@@ -37,9 +37,9 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.0",
     "@fremango/dir-tree": "^0.0.2",
-    "@plume/config": "^1.0.9",
-    "@plume/core": "^0.1.0",
-    "@plume/helper": "^1.0.10",
+    "@plume/config": "^1.1.0",
+    "@plume/core": "^0.1.1",
+    "@plume/helper": "^1.0.11",
     "autoprefixer": "^9.6.0",
     "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
