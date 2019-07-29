@@ -14,4 +14,6 @@ exports.task = require("./scripts/task");
 
 exports.whichBin = require("./scripts/whichBin");
 exports.makeDirSync = require("./scripts/makeDirSync");
+
 exports.spawn = require("./scripts/spawn");
+exports.spawnSync = require("./scripts/spawnSync");

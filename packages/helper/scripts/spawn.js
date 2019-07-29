@@ -13,7 +13,16 @@ module.exports = (command, args, opts = {}) => {
   let msg = "";
 
   return new Promise((resolve, reject) => {
-    const result = spawn(command, [].concat(args, ["--color"]), options);
+    const result = spawn(
+      command,
+      [].concat(args, ["--color"]),
+      Object.assign(
+        {
+          shell: process.platform === "win32",
+        },
+        options,
+      ),
+    );
     result.stdout.on("data", data => {
       print && process.stdout.write(`${data.toString()}\r`);
     });
