@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 const { isFunc } = require("@plume/helper");
 
 module.exports = config => {

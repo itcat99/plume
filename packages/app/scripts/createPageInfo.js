@@ -1,5 +1,5 @@
 const fse = require("fs-extra");
-const path = require("path");
+const { path } = require("@plume/helper");
 const { scanDir } = require("@fremango/dir-tree");
 
 const isLayoutFile = title => !!title.match(/^_(L|l)ayout\.(js|jsx)$/);

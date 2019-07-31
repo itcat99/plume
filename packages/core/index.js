@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 const { getConfig, task, deepAssign } = require("@plume/helper");
 const createDir = require("./scripts/create.dir");
 const createPackage = require("./scripts/create.package");
@@ -74,7 +74,7 @@ class Core {
   build(config) {
     this._updateConfig(config);
   }
-  registerCli(program) {}
+  // registerCli(program) {}
   task(...args) {
     return task(...args);
   }

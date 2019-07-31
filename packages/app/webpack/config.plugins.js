@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 const htmlPlugin = require("html-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");

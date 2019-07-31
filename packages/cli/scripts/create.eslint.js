@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-const path = require("path");
+const { path } = require("@plume/helper");
 const fse = require("fs-extra");
 
 module.exports = projectPath => {

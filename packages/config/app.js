@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 
 module.exports = commonCfg => {
   const { paths } = commonCfg;

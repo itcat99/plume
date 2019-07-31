@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 const fse = require("fs-extra");
 
 module.exports = (name, projectPath, eslint, jest) => {

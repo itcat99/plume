@@ -1,4 +1,4 @@
-const path = require("path");
+const { path } = require("@plume/helper");
 const fse = require("fs-extra");
 const gulp = require("gulp");
 const ts = require("gulp-typescript");

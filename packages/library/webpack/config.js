@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+const { path } = require("@plume/helper");
 
 module.exports = config => {
   const { paths, options } = config;

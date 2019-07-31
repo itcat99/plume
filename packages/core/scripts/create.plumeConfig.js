@@ -1,5 +1,5 @@
 const fse = require("fs-extra");
-const path = require("path");
+const { path } = require("@plume/helper");
 
 module.exports = opts => {
   const { mode, flow, projectPath, cssMode, cssModules, styledComponents } = opts;

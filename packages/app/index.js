@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-const path = require("path");
+const { path } = require("@plume/helper");
 const Core = require("@plume/core");
 const { isExist, debounce, deepAssign, getConfig } = require("@plume/helper");
 const fse = require("fs-extra");
