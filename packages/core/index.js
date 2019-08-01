@@ -1,4 +1,4 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 const { getConfig, task, deepAssign } = require("@plume/helper");
 const createDir = require("./scripts/create.dir");
 const createPackage = require("./scripts/create.package");

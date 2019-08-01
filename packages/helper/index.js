@@ -17,5 +17,3 @@ exports.makeDirSync = require("./scripts/makeDirSync");
 
 exports.spawn = require("./scripts/spawn");
 exports.spawnSync = require("./scripts/spawnSync");
-
-exports.path = require("./scripts/path");

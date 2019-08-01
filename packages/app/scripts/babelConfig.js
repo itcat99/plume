@@ -1,16 +1,21 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 const fse = require("fs-extra");
 const { isExist } = require("@plume/helper");
 
 const BABELRC = {
-  presets: ["@babel/preset-env", "@babel/preset-react"],
-  plugins: [
-    "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread",
-    "@babel/plugin-transform-runtime",
-    "@babel/plugin-transform-for-of",
-    "@babel/plugin-syntax-dynamic-import",
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: {
+          chrome: "55",
+          ie: "11",
+        },
+      },
+    ],
+    "@babel/preset-react",
   ],
+  plugins: ["@babel/proposal-class-properties", "@babel/plugin-syntax-dynamic-import"],
 };
 
 module.exports = rootPath => {

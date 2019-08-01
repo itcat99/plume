@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-const { path } = require("@plume/helper");
+const path = require("path");
 const fse = require("fs-extra");
 const { isExist, whichBin, spawn } = require("@plume/helper");
 const webpack = require("./webpack");

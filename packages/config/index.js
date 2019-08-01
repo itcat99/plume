@@ -1,4 +1,4 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 const appCfg = require("./app");
 const libCfg = require("./lib");
 const { deepAssign } = require("@plume/helper");

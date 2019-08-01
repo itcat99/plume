@@ -1,5 +1,5 @@
 /* eslint no-console:0 */
-const { path } = require("@plume/helper");
+const path = require("path");
 const Core = require("@plume/core");
 const { isExist, debounce, deepAssign, getConfig } = require("@plume/helper");
 const fse = require("fs-extra");
@@ -54,29 +54,22 @@ class App extends Core {
   dependents(opts) {
     const { dev, prod, sass, less } = super.dependents(opts);
 
-    prod.push(
-      "@babel/runtime",
-      "react",
-      "react-dom",
-      "react-router-dom",
-      "react-loadable",
-      "axios",
-    );
+    prod.push("react", "react-dom", "react-router-dom", "react-loadable", "axios");
 
     dev.push(
       "@babel/core",
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread",
-      "@babel/plugin-transform-for-of",
-      "@babel/plugin-transform-runtime",
       "@babel/preset-env",
       "@babel/preset-react",
       "babel-loader",
+      "core-js",
       "css-loader",
       "file-loader",
       "@babel/plugin-syntax-dynamic-import",
       "happypack",
       "handlebars-loader",
+      "regenerator",
       "style-loader",
       "postcss-loader",
     );

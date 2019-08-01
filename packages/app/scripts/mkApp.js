@@ -1,4 +1,4 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 const template = require("./template");
 const fse = require("fs-extra");
 

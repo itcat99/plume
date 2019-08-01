@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require("commander");
 const inquirer = require("inquirer");
-const { path } = require("@plume/helper");
+const path = require("path");
 const pkg = require("../package.json");
 const { getConfig, spawn, task } = require("@plume/helper");
 const modes = require("../constants/modes");

@@ -1,4 +1,4 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 
 module.exports = (config, isDev) => {
   const { output } = config.paths;

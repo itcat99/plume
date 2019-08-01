@@ -1,4 +1,4 @@
-const { path } = require("@plume/helper");
+const path = require("path");
 const fse = require("fs-extra");
 
 module.exports = projectPath => {

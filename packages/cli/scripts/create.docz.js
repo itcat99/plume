@@ -1,5 +1,5 @@
 const fse = require("fs-extra");
-const { path } = require("@plume/helper");
+const path = require("path");
 
 const getData = plugins => `export default {
   title: "My Lib",

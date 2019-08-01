@@ -21,7 +21,7 @@
   <div id="loader">before loading...</div>
   <div id="root"></div>
   <script>
-    setTimeout(() => {
+    window.setTimeout(function() {
       var $loader = document.getElementById("loader")
       if ($loader) $loader.style.visibility = "visible"
     }, 200);

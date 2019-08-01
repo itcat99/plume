@@ -1,3 +1,6 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import React from "react";
 import Flow from "@plume/flow";
 import models from "./models";

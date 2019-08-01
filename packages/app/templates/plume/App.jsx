@@ -12,7 +12,7 @@ class App extends PureComponent {
   componentDidMount() {
     setTimeout(() => {
       const $loader = document.getElementById("loader");
-      $loader && $loader.remove();
+      $loader && document.body.removeChild($loader);
     }, 200);
   }
 }
