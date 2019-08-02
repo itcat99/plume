@@ -44,7 +44,7 @@ module.exports = (rootPath, outPath) => {
     const models = fse.readdirSync(dirPath);
 
     models.forEach(model => {
-      const modelPath = path.join(dirPath, `${model}`);
+      let modelPath = path.join(dirPath, `${model}`);
       if (isDir(modelPath)) {
         return true;
       }
@@ -58,6 +58,9 @@ module.exports = (rootPath, outPath) => {
         .match(/("|').*("|')/)[0]
         .replace(/("|')/g, "")
         .trim();
+
+      if (process.platform === "win32") modelPath = modelPath.replace(/\\/g, "/");
+
       modelsImport += `import ${name} from "${modelPath}";\n`;
       modelsExport += `${name},`;
     });
