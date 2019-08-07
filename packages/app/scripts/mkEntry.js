@@ -14,9 +14,12 @@ module.exports = (flow, target, plumePath, wrapperPath) => {
     ? path.resolve(__dirname, "../templates/plume", "index.flow.jsx")
     : path.resolve(__dirname, "../templates/plume", "index.jsx");
 
+  let app = wrapperPath ? path.relative(plumePath, wrapperPath) : "./App";
+  if (process.platform === "win32") app.replace(/\\/g, "/");
+
   const data = template(entryAppPath, {
     target,
-    app: wrapperPath ? path.relative(plumePath, wrapperPath) : "./App",
+    app,
   });
 
   fse.writeFileSync(path.join(plumePath, "index.jsx"), data);
