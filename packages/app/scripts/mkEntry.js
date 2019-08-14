@@ -1,6 +1,7 @@
 const path = require("path");
 const template = require("./template");
 const fse = require("fs-extra");
+const { normalizedPath } = require("@plume/helper");
 
 /**
  * 创建入口文件
@@ -15,11 +16,10 @@ module.exports = (flow, target, plumePath, wrapperPath) => {
     : path.resolve(__dirname, "../templates/plume", "index.jsx");
 
   let app = wrapperPath ? path.relative(plumePath, wrapperPath) : "./App";
-  if (process.platform === "win32") app.replace(/\\/g, "/");
 
   const data = template(entryAppPath, {
     target,
-    app,
+    app: normalizedPath(app),
   });
 
   fse.writeFileSync(path.join(plumePath, "index.jsx"), data);

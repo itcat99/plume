@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 const path = require("path");
 const fse = require("fs-extra");
-const { isDir } = require("@plume/helper");
+const { isDir, normalizedPath } = require("@plume/helper");
 
 const IGONRE_DIRS = ["node_modules", ".plume"];
 
@@ -59,9 +59,7 @@ module.exports = (rootPath, outPath) => {
         .replace(/("|')/g, "")
         .trim();
 
-      if (process.platform === "win32") modelPath = modelPath.replace(/\\/g, "/");
-
-      modelsImport += `import ${name} from "${modelPath}";\n`;
+      modelsImport += `import ${name} from "${normalizedPath(modelPath)}";\n`;
       modelsExport += `${name},`;
     });
   });

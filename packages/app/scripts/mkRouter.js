@@ -1,6 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const { isExist } = require("@plume/helper");
+const { isExist, normalizedPath } = require("@plume/helper");
 const template = require("./template");
 
 module.exports = (plume, pages) => {
@@ -9,15 +9,9 @@ module.exports = (plume, pages) => {
 
   let errorPages = path.relative(plume, isExist(path.join(pages, "404")) ? pages : plume);
 
-  // fixed path err in windows
-  if (process.platform === "win32") {
-    relativePath = relativePath.replace(/\\/g, "/");
-    errorPages = errorPages.replace(/\\/g, "/");
-  }
-
   const data = template(path.resolve(__dirname, "../templates/plume", "Router.jsx"), {
-    relativePath: relativePath === "" ? "." : relativePath,
-    errorPages: errorPages === "" ? "." : errorPages,
+    relativePath: relativePath === "" ? "." : normalizedPath(relativePath),
+    errorPages: errorPages === "" ? "." : normalizedPath(errorPages),
   });
 
   fse.writeFileSync(targetFilePath, data);

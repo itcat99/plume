@@ -23,7 +23,7 @@
   <script>
     window.setTimeout(function() {
       var $loader = document.getElementById("loader")
-      if ($loader) $loader.style.visibility = "visible"
+      if ($loader) $loader.style.display = "none"
     }, 200);
   </script>
   {{#if htmlWebpackPlugin.options.dll}}

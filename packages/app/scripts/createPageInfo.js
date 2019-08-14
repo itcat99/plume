@@ -1,6 +1,7 @@
 const fse = require("fs-extra");
 const path = require("path");
 const { scanDir } = require("@fremango/dir-tree");
+const { normalizedPath } = require("@plume/helper");
 
 const isLayoutFile = title => !!title.match(/^_(L|l)ayout\.(js|jsx)$/);
 const isAuthorFile = title => !!title.match(/^_(A|a)uthor\.(js|jsx)$/);
@@ -87,7 +88,11 @@ const getCleanChildren = routes => {
     if (layout || author) {
       parsePage([route]);
     } else if (isDir && children && children.length) {
-      cleanChildren.push({ path: url, component, children: getCleanChildren(children) });
+      cleanChildren.push({
+        path: url,
+        component,
+        children: getCleanChildren(children),
+      });
     } else {
       cleanChildren.push({ path: url, component });
     }
@@ -189,7 +194,11 @@ module.exports = (pagesPath, plumePath) => {
 
       /* 处理相对路径 */
       let relativePath = `/${path.relative(pagesPath, dirPath)}`;
-      result.path = getUrlPath({ path: relativePath, isDir, title });
+      result.path = getUrlPath({
+        path: normalizedPath(relativePath),
+        isDir,
+        title,
+      });
 
       /* 如果是dir 则处理 children&&author&&layout&&component的部分 */
       if (children && children.length > 0) {
@@ -224,9 +233,9 @@ module.exports = (pagesPath, plumePath) => {
           })
           .filter(item => item);
 
-        if (index) result.component = index;
-        if (layout) result.layout = layout;
-        if (author) result.author = author;
+        if (index) result.component = normalizedPath(index);
+        if (layout) result.layout = normalizedPath(layout);
+        if (author) result.author = normalizedPath(author);
 
         if (_children && _children.length > 0) result.children = _children;
       }
@@ -281,7 +290,7 @@ module.exports = (pagesPath, plumePath) => {
 
   pagesInfo = sortRoutes(pagesInfo);
 
-  fse.writeJsonSync(path.join(plumePath, "pagesInfo.json"), pagesInfo, {
+  fse.writeJsonSync(normalizedPath(path.join(plumePath, "pagesInfo.json")), pagesInfo, {
     spaces: 2,
   });
 };

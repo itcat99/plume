@@ -1,6 +1,6 @@
 const path = require("path");
 const fse = require("fs-extra");
-const { task, isExist, makeDirSync } = require("@plume/helper");
+const { task, isExist, makeDirSync, normalizedPath } = require("@plume/helper");
 
 /**
  * 创建模块
@@ -41,7 +41,7 @@ module.exports = opts => {
   const dirPath = model ? targetPath : path.join(targetPath || paths[`${type}s`], name);
 
   if (!isExist(dirPath)) {
-    makeDirSync(dirPath);
+    makeDirSync(normalizedPath(dirPath));
   } else {
     if (!model) throw new Error(`[${name}] directory already exists.`);
     if (isExist(path.join(dirPath, name))) throw new Error(`[${name}] model file already exists.`);
