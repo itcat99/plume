@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const optimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const copyPlugin = require("copy-webpack-plugin");
 const webpackbar = require("webpackbar");
 const webpack = require("webpack");
 const fse = require("fs-extra");
@@ -14,8 +15,8 @@ const plugins = [];
 
 module.exports = (config, isDev) => {
   const { paths, options } = config;
-  const { dll, gzip, analyzer } = options;
-  const { plume, output } = paths;
+  const { dll, gzip, analyzer, assetsIgnore } = options;
+  const { plume, output, srcAssets, assets } = paths;
 
   if (isDev) {
     plugins.push(
@@ -52,6 +53,7 @@ module.exports = (config, isDev) => {
   }
 
   plugins.push(
+    new copyPlugin([{ from: srcAssets, to: assets, ignore: assetsIgnore }]),
     new htmlPlugin({
       template: path.resolve(__dirname, "./index.hbs"),
       title: "production",

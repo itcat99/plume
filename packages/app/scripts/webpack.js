@@ -62,15 +62,20 @@ const run = compiler => {
   });
 };
 
+const setAlias = (config, alias) => {
+  config.resolve.alias = alias;
+};
+
 module.exports = async (config, isDev) => {
   const { paths, options } = config;
-  const { dll, hashRouter, webpack: customWebpack, port, proxy } = options;
+  const { dll, hashRouter, webpack: customWebpack, port, proxy, alias } = options;
   const { output } = paths;
 
   try {
     if (isDev) {
       let webpackConfig = require("../webpack/webpack.config")(config, isDev);
       webpackConfig = customWebpack ? customWebpack(webpackConfig, config) : webpackConfig;
+      setAlias(webpackConfig, alias);
       await dev(webpackConfig, output, port, hashRouter, proxy);
     } else {
       if (dll) {
@@ -79,6 +84,7 @@ module.exports = async (config, isDev) => {
         await run(dllCompiler);
       }
       let webpackConfig = require("../webpack/webpack.config")(config, isDev);
+      setAlias(webpackConfig, alias);
       webpackConfig = customWebpack ? customWebpack(webpackConfig, config) : webpackConfig;
 
       const compiler = webpack(webpackConfig);

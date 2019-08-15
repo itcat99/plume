@@ -24,6 +24,7 @@ class App extends Core {
     const components = path.join(src, "components");
     const containers = path.join(src, "containers");
     const modules = path.join(src, "modules");
+    const srcAssets = path.join(src, "assets");
 
     this.config = deepAssign(this.config, {
       paths: {
@@ -32,6 +33,7 @@ class App extends Core {
         containers,
         pages,
         modules,
+        srcAssets,
       },
       options: {
         entry: null,
@@ -42,11 +44,20 @@ class App extends Core {
         dll: true,
         dllName: "vendor",
         assetsExt: ["jpg", "gif", "png", "ttf", "woff", "eot", "svg", "otf"],
+        assetsIgnore: [],
         dllVendor: ["react", "react-dom", "react-router-dom", "react-loadable"],
         hashRouter: false,
         gzip: true,
         proxy: null,
         externals: [],
+        alias: {
+          _components: components,
+          _plume: plume,
+          _containers: containers,
+          _pages: pages,
+          _modules: modules,
+          _assets: srcAssets,
+        },
       },
     });
   }
