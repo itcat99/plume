@@ -1,6 +1,6 @@
 {
   "name": "@plume/cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "plume cli tool",
   "keywords": [
     "cli"
@@ -32,7 +32,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@plume/app": "^0.1.8",
+    "@plume/app": "^0.1.9",
     "@plume/config": "^1.1.0",
     "@plume/helper": "^1.0.12",
     "@plume/lib": "^0.0.19",
