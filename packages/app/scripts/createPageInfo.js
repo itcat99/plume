@@ -83,7 +83,7 @@ const parsePage = info => {
 
 const getCleanChildren = routes => {
   let cleanChildren = [];
-  routes.map(route => {
+  routes.forEach(route => {
     const { isDir, layout, author, children, component, path: url } = route;
     if (layout || author) {
       parsePage([route]);
@@ -94,7 +94,7 @@ const getCleanChildren = routes => {
         children: getCleanChildren(children),
       });
     } else {
-      cleanChildren.push({ path: url, component });
+      if (component.match(/\.(js|jsx)$/)) cleanChildren.push({ path: url, component });
     }
   });
 

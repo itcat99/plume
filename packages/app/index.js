@@ -63,7 +63,7 @@ class App extends Core {
   }
 
   dependents(opts) {
-    const { dev, prod, sass, less } = super.dependents(opts);
+    const { dev, prod, cssMode } = super.dependents(opts);
 
     prod.push("react", "react-dom", "react-router-dom", "react-loadable", "axios");
 
@@ -85,8 +85,8 @@ class App extends Core {
       "postcss-loader",
     );
 
-    sass && dev.push("sass-loader");
-    less && dev.push("less-loader");
+    cssMode === "sass" && dev.push("sass-loader", "node-sass");
+    cssMode === "less" && dev.push("less-loader", "less");
 
     return {
       prod,
