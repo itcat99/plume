@@ -52,6 +52,7 @@ class App extends Core {
         publicPath: "/",
         title: "production",
         externals: [],
+        basename: "",
         alias: {
           _components: components,
           _plume: plume,
@@ -119,7 +120,7 @@ class App extends Core {
   createFiles() {
     const { paths, options } = this.config;
     const { plume, root, pages, src } = paths;
-    const { target, hashRouter, flow } = options;
+    const { target, hashRouter, flow, basename } = options;
     let wrapperPath = path.join(src, "_Wrapper.jsx");
 
     /* 创建.plume目录 */
@@ -135,13 +136,12 @@ class App extends Core {
     this.task("create entry file", mkEntry(flow, target, plume, wrapperPath));
     /* 创建页面目录的信息文件 pagesInfo.json */
     this.task("create pagesInfo file", createPageInfo(pages, plume));
-    // _createPageInfo(pages, plume);
     /* 如果开启flow模式，则根据配置创建models.js文件 */
     flow && this.task("create models file ", createModels(root, plume));
     /* 创建Router.js文件 */
     this.task("create Router file", mkRouter(plume, pages));
     /* 创建主应用 App.jsx文件 */
-    this.task("create app main file", mkApp(plume, hashRouter));
+    this.task("create app main file", mkApp(plume, hashRouter, basename));
     /* 复制errorpages */
     this.task(
       "copy errorpages",

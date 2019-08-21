@@ -81,13 +81,13 @@ class SwitchRoute extends PureComponent {
   }
 }
 
-const Router = hashRouter =>
+const Router = (hashRouter, basename) =>
   hashRouter === "true" ? (
-    <HashRouter>
+    <HashRouter basename={basename || ""}>
       <SwitchRoute />
     </HashRouter>
   ) : (
-    <BrowserRouter>
+    <BrowserRouter basename={basename || ""}>
       <SwitchRoute />
     </BrowserRouter>
   );

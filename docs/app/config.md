@@ -29,6 +29,7 @@
 | alias        | object                                    | [Alias 默认配置](/app/config?id=alias)                       | 配置 import 引入的别名                                          |
 | title        | string                                    | "production"                                                 | 配置打包后页面的 title                                          |
 | publicPath   | string                                    | /                                                            | 配置打包时资源路径，路径最后需要加'/'                           |
+| basename     | string                                    | ""                                                           | 配置路由的 basename                                             |
 
 ### webpack
 
