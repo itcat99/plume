@@ -15,7 +15,7 @@ const plugins = [];
 
 module.exports = (config, isDev) => {
   const { paths, options } = config;
-  const { dll, gzip, analyzer, assetsIgnore } = options;
+  const { dll, gzip, analyzer, assetsIgnore, publicPath, title } = options;
   const { plume, output, srcAssets, assets } = paths;
 
   if (isDev) {
@@ -56,8 +56,8 @@ module.exports = (config, isDev) => {
     new copyPlugin([{ from: srcAssets, to: assets, ignore: assetsIgnore }]),
     new htmlPlugin({
       template: path.resolve(__dirname, "./index.hbs"),
-      title: "production",
-      dll: dllVendorName,
+      title: title || "production",
+      dll: `${publicPath}/${dllVendorName}`.replace(/\/+/g, "/"),
     }),
     new MiniCssExtractPlugin({
       filename: isDev ? "[name].css" : "[name].[contenthash].css",

@@ -49,6 +49,8 @@ class App extends Core {
         hashRouter: false,
         gzip: true,
         proxy: null,
+        publicPath: "/",
+        title: "production",
         externals: [],
         alias: {
           _components: components,
@@ -169,14 +171,6 @@ class App extends Core {
         pageWatcher.on(
           "all",
           debounce(() => {
-            // debounce((_event, file) => {
-            // if (file.indexOf(pages) >= 0) {
-            //   const page404Match = file.replace(pages, "").match(/404/);
-
-            //   if (page404Match && page404Match.index === 1) {
-            //     mkRouter(plume, pages);
-            //   }
-            // }
             createPageInfo(pages, plume);
             mkRouter(plume, pages);
           }, 400),

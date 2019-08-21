@@ -6,7 +6,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 module.exports = config => {
   const { paths, options } = config;
   const { plume, output } = paths;
-  const { dllVendor: vendor, dllName, gzip } = options;
+  const { dllVendor: vendor, dllName, gzip, publicPath } = options;
 
   const plugins = [
     new CleanPlugin(),
@@ -34,7 +34,7 @@ module.exports = config => {
       path: output,
       library: "[name]_[hash]",
       libraryTarget: "this",
-      publicPath: "/",
+      publicPath,
     },
     resolve: {
       extensions: [".js", ".jsx", ".json"],

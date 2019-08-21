@@ -27,6 +27,8 @@
 | externals    | null \| String \| Array \| Object \| Regx | null                                                         | 配置外部依赖，同 webpack 的 externals 配置                      |
 | assetsIgnore | string[]                                  | []                                                           | 配置打包时不进行拷贝的静态资源                                  |
 | alias        | object                                    | [Alias 默认配置](/app/config?id=alias)                       | 配置 import 引入的别名                                          |
+| title        | string                                    | "production"                                                 | 配置打包后页面的 title                                          |
+| publicPath   | string                                    | /                                                            | 配置打包时资源路径，路径最后需要加'/'                           |
 
 ### webpack
 
