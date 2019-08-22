@@ -70,6 +70,8 @@ const parsePage = info => {
     const { children, layout, author, component } = child;
 
     if (!children && !component) return true;
+    if (!component.match(/\.(js|jsx)$/)) return true;
+
     if (children) {
       child.children = getCleanChildren(children);
     }
@@ -94,7 +96,7 @@ const getCleanChildren = routes => {
         children: getCleanChildren(children),
       });
     } else {
-      if (component.match(/\.(js|jsx)$/)) cleanChildren.push({ path: url, component });
+      cleanChildren.push({ path: url, component });
     }
   });
 
