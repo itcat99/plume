@@ -1,10 +1,10 @@
 - 入门
   - [介绍](/)
   - 开始
-    - [环境准备](start/environment)
-    - [安装](start/install)
-    - [创建一个 web 应用](start/create-app)
-    - [创建一个 lib 库](start/create-lib)
+    - [环境准备](/start/environment)
+    - [安装](/start/install)
+    - [创建一个 web 应用](/start/create-app)
+    - [创建一个 lib 库](/start/create-lib)
 - cli 工具
   - [介绍](/cli/about)
   - [通用命令](/cli/command)
