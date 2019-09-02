@@ -25,8 +25,7 @@ const getUrlPath = info => {
     name = titleArr.join(".");
   }
 
-  name = getDynamicName(name);
-  return `${parentPath}/${name}`;
+  return getDynamicPath(`${parentPath}/${name}`);
 };
 
 /**
@@ -43,6 +42,24 @@ const getDynamicName = name => {
     : name.match(/^[^$].*\$$/)
     ? `:${name.slice(0, -1)}?`
     : name;
+};
+
+/**
+ * 获取动态路由
+ * @param {string} str path路径
+ */
+const getDynamicPath = str => {
+  const nameArr = str
+    .split(/\//g)
+    .filter(item => item)
+    .map(item => {
+      if (item) {
+        return getDynamicName(item);
+      }
+    })
+    .join("/");
+
+  return `/${nameArr}`;
 };
 
 /* routes 集合
@@ -244,10 +261,10 @@ module.exports = (pagesPath, plumePath) => {
 
       /* 处理不为dir时的component路径 */
       if (!isDir) {
-        let parentPath = relativePath.split("/");
+        let parentPath = relativePath.split(path.sep);
         parentPath.pop();
-        parentPath = parentPath.join("/");
-        result.component = `${parentPath}/${result.title}`;
+        parentPath = parentPath.join(path.sep);
+        result.component = normalizedPath(`${parentPath}/${result.title}`);
       }
 
       return result;
